@@ -1,11 +1,18 @@
 # -*- coding: utf-8 -*-
 
+from . import common
 from . import input
 #from .builder import buildCompositeLibrary
 
 def build( _ctx ):
     sourcesSet = set()
     librariesSet = set()
+
+    common.build(
+        _ctx,
+        sourcesSet,
+        librariesSet,
+    )
 
     input.build(
         _ctx,
