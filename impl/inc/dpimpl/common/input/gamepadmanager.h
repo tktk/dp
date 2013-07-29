@@ -11,7 +11,6 @@
 
 #include "dp/input/gamepadmanager.h"
 #include "dpimpl/common/input/gamepadmanagerinfo.h"
-#include "dp/common/primitives.h"
 
 #include <memory>
 #include <mutex>
@@ -44,10 +43,10 @@ namespace dp {
 
     struct GamePadManager
     {
-        GamePadManagerInfoPtr   info;
+        GamePadManagerInfoPtr   infoPtr;
         std::mutex              mutexForConnectEventHandler;
 
-        GamePadManagerImplPtr   impl;
+        GamePadManagerImplPtr   implPtr;
     };
 }
 

@@ -13,30 +13,32 @@ namespace dp {
         const GamePadManagerInfo &  _INFO
     )
     {
-        GamePadManagerPtr   manager( new( std::nothrow )GamePadManager );
-        if( manager.get() == nullptr ) {
+        GamePadManagerPtr   managerPtr( new( std::nothrow )GamePadManager );
+        if( managerPtr.get() == nullptr ) {
             return nullptr;
         }
 
-        GamePadManagerInfoPtr  info( gamePadManagerInfoClone( _INFO ) );
-        if( info.get() == nullptr ) {
+        auto &  manager = *managerPtr;
+
+        GamePadManagerInfoPtr  infoPtr( gamePadManagerInfoClone( _INFO ) );
+        if( infoPtr.get() == nullptr ) {
             return nullptr;
         }
 
-        manager->info = std::move( info );
+        manager.infoPtr = std::move( infoPtr );
 
-        GamePadManagerImplPtr   impl(
+        GamePadManagerImplPtr   implPtr(
             gamePadManagerImplNew(
-                *manager
+                manager
             )
         );
-        if( impl.get() == nullptr ) {
+        if( implPtr.get() == nullptr ) {
             return nullptr;
         }
 
-        manager->impl = std::move( impl );
+        manager.implPtr = std::move( implPtr );
 
-        return manager.release();
+        return managerPtr.release();
     }
 
     void gamePadManagerDelete(
@@ -50,14 +52,14 @@ namespace dp {
         const GamePadManager &  _MANAGER
     )
     {
-        return *( _MANAGER.info );
+        return *( _MANAGER.infoPtr );
     }
 
     GamePadManagerInfo & gamePadManagerGetInfoMutable(
         GamePadManager &    _manager
     )
     {
-        return *( _manager.info );
+        return *( _manager.infoPtr );
     }
 
     std::mutex & gamePadManagerGetMutexForConnectEventHandler(
