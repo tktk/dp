@@ -36,14 +36,6 @@ namespace dp {
         );
     }
 
-    void gamePadManagerInfoCopy(
-        GamePadManagerInfo &            _to
-        , const GamePadManagerInfo &    _FROM
-    )
-    {
-        _to.connectEventHandler = _FROM.connectEventHandler;
-    }
-
     void gamePadManagerInfoDelete(
         GamePadManagerInfo &    _info
     )

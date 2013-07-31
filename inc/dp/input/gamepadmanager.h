@@ -53,11 +53,6 @@ namespace dp {
         GamePadManagerInfo &
     );
 
-    DPEXPORT void gamePadManagerInfoCopy(
-        GamePadManagerInfo &
-        , const GamePadManagerInfo &
-    );
-
     DPEXPORT const GamePadManagerConnectEventHandler & gamePadManagerInfoGetConnectEventHandler(
         const GamePadManagerInfo &
     );
