@@ -338,6 +338,7 @@ namespace dp {
                 }
             )
         );
+        impl.threadJoiner.reset( &( impl.thread ) );
 
         return implPtr.release();
     }
@@ -347,7 +348,6 @@ namespace dp {
     )
     {
         _impl.ended = true;
-        _impl.thread.join();
 
         delete &_impl;
     }
