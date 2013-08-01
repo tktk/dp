@@ -11,10 +11,12 @@ def build(
     sources = {
         'gamepadmanager',
         'gamepadmanagerinfo',
+        'gamepadkey',
     }
 
     osSources = {
         'gamepadmanager',
+        'gamepadkey',
     }
 
     buildPartialLibrary(
