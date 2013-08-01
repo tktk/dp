@@ -7,8 +7,8 @@
 
 namespace dp {
     void initArgs(
-        Args &      _args
-        , char **   _argv
+        Args &          _args
+        , StringChar ** _argv
     )
     {
         initArgsImpl< String >(

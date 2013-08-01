@@ -2,11 +2,12 @@
 #define DP_WINDOWS_CLI_H
 
 #include "dp/common/defmain.h"
+#include "dp/common/primitives.h"
 #include "dp/common/args.h"
 #include "dp/windows/common/args.h"
 
-int wmain(
-    int             _argc
+dp::Int wmain(
+    dp::Int         _argc
     , wchar_t **    _argv
 )
 {

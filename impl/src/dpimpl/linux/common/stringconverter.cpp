@@ -17,10 +17,10 @@ namespace {
     const dp::Utf16Char UTF16_BOM = 0xfeff;
     const dp::Utf32Char UTF32_BOM = 0xfeff;
 
-    const char *    STRING_ENCODE;
-    const char      UTF8_ENCODE[] = "UTF-8";
-    const char      UTF16_ENCODE[] = "UTF-16";
-    const char      UTF32_ENCODE[] = "UTF-32";
+    const dp::StringChar *  STRING_ENCODE;
+    const dp::StringChar    UTF8_ENCODE[] = "UTF-8";
+    const dp::StringChar    UTF16_ENCODE[] = "UTF-16";
+    const dp::StringChar    UTF32_ENCODE[] = "UTF-32";
 
     iconv_t UTF8_TO_STRING;
     iconv_t UTF16_TO_STRING;
@@ -46,9 +46,9 @@ namespace {
         , size_t        _inputSize
     )
     {
-        auto    output = static_cast< char * >( _output );
+        auto    output = static_cast< dp::Byte * >( _output );
 
-        auto    input = static_cast< char * >(
+        auto    input = static_cast< dp::Byte * >(
             const_cast< void * >(
                 _INPUT
             )

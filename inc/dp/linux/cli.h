@@ -2,12 +2,13 @@
 #define DP_LINUX_CLI_H
 
 #include "dp/common/defmain.h"
+#include "dp/common/primitives.h"
 #include "dp/common/args.h"
 #include "dp/linux/common/args.h"
 
-int main(
-    int         _argc
-    , char **   _argv
+dp::Int main(
+    dp::Int             _argc
+    , dp::StringChar ** _argv
 )
 {
     dp::Args    args( _argc );

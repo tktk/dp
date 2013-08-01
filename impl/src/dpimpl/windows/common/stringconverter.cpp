@@ -13,13 +13,13 @@ namespace {
     const auto  UTF8_MAX_CHARACTER_COUNT = 6;   // UTF-8の1文字最大符号数
     const auto  UTF16_MAX_CHARACTER_COUNT = 2;  // UTF-16の1文字最大符号数
 
-    int CODEPAGE;
+    dp::Int CODEPAGE;
 
     template<
-        class   CONVERTER
-        , int   MAX_CHARACTER_COUNT
-        , class OUT_T
-        , class IN_T
+        class       CONVERTER
+        , dp::Int   MAX_CHARACTER_COUNT
+        , class     OUT_T
+        , class     IN_T
     >
     dp::Bool convert(
         OUT_T &         _out
@@ -29,7 +29,7 @@ namespace {
         typedef OUT_T::value_type OUT_CHAR;
         typedef IN_T::value_type IN_CHAR;
 
-        auto    inputLength = _IN.length() + 1;  // +1は末尾のNULL文字の分
+        dp::Int inputLength = _IN.length() + 1;  // +1は末尾のNULL文字の分
 
         auto    outputLength = inputLength * MAX_CHARACTER_COUNT;
 
@@ -53,11 +53,11 @@ namespace {
     }
 
     dp::Bool multiByteToWideChar(
-        int                 _codePage
+        dp::Int             _codePage
         , dp::Utf16Char *   _output
-        , size_t &          _outputLength
+        , dp::Int &         _outputLength
         , const void *      _INPUT
-        , size_t            _inputLength
+        , dp::Int           _inputLength
     )
     {
         _outputLength = MultiByteToWideChar(
@@ -80,9 +80,9 @@ namespace {
     {
         dp::Bool operator()(
             dp::Utf16Char *             _output
-            , size_t &                  _outputLength
+            , dp::Int &                 _outputLength
             , const dp::StringChar *    _INPUT
-            , size_t                    _inputLength
+            , dp::Int                   _inputLength
         )
         {
             return multiByteToWideChar(
@@ -99,9 +99,9 @@ namespace {
     {
         dp::Bool operator()(
             dp::Utf16Char *         _output
-            , size_t &              _outputLength
+            , dp::Int &             _outputLength
             , const dp::Utf8Char *  _INPUT
-            , size_t                _inputLength
+            , dp::Int               _inputLength
         )
         {
             return multiByteToWideChar(
@@ -166,9 +166,9 @@ namespace {
     {
         dp::Bool operator()(
             dp::Utf32Char *         _output
-            , size_t                _outputLength
+            , dp::Int               _outputLength
             , const dp::Utf16Char * _INPUT
-            , size_t                _inputLength
+            , dp::Int               _inputLength
         )
         {
             const auto  END_OF_OUTPUT = _output + _outputLength;
@@ -216,9 +216,9 @@ namespace {
     >
     dp::Bool toUtf32(
         dp::Utf32Char * _output
-        , size_t        _outputLength
+        , dp::Int       _outputLength
         , const IN_T    _INPUT
-        , size_t        _inputLength
+        , dp::Int       _inputLength
     )
     {
         auto    utf16Length = _inputLength * UTF16_MAX_CHARACTER_COUNT;
@@ -252,9 +252,9 @@ namespace {
     {
         dp::Bool operator()(
             dp::Utf32Char *             _output
-            , size_t                    _outputLength
+            , dp::Int                   _outputLength
             , const dp::StringChar *    _INPUT
-            , size_t                    _inputLength
+            , dp::Int                   _inputLength
         )
         {
             return toUtf32< StringToUtf16 >(
@@ -270,9 +270,9 @@ namespace {
     {
         dp::Bool operator()(
             dp::Utf32Char *         _output
-            , size_t                _outputLength
+            , dp::Int               _outputLength
             , const dp::Utf8Char *  _INPUT
-            , size_t                _inputLength
+            , dp::Int               _inputLength
         )
         {
             return toUtf32< Utf8ToUtf16 >(
@@ -306,9 +306,9 @@ namespace {
     {
         dp::Bool operator()(
             dp::Utf16Char *         _output
-            , size_t &              _outputLength
+            , dp::Int &             _outputLength
             , const dp::Utf32Char * _INPUT
-            , size_t                _inputLength
+            , dp::Int               _inputLength
         )
         {
             const auto  END_OF_OUTPUT = _output + _outputLength;
@@ -356,11 +356,11 @@ namespace {
     };
 
     dp::Bool utf16ToMultiByte(
-        int                     _codePage
+        dp::Int                 _codePage
         , void *                _output
-        , size_t                _outputLength
+        , dp::Int               _outputLength
         , const dp::Utf16Char * _INPUT
-        , size_t                _inputLength
+        , dp::Int               _inputLength
     )
     {
         BOOL    usedDefaultChar = FALSE;
@@ -393,9 +393,9 @@ namespace {
     {
         dp::Bool operator()(
             dp::StringChar *        _output
-            , size_t                _outputLength
+            , dp::Int               _outputLength
             , const dp::Utf16Char * _INPUT
-            , size_t                _inputLength
+            , dp::Int               _inputLength
         )
         {
             return utf16ToMultiByte(
@@ -414,9 +414,9 @@ namespace {
     >
     dp::Bool toString(
         dp::StringChar *    _output
-        , size_t            _outputLength
+        , dp::Int           _outputLength
         , const IN_T        _INPUT
-        , size_t            _inputLength
+        , dp::Int           _inputLength
     )
     {
         auto    utf16Length = _inputLength * UTF16_MAX_CHARACTER_COUNT;
@@ -450,9 +450,9 @@ namespace {
     {
         dp::Bool operator()(
             dp::StringChar *        _output
-            , size_t                _outputLength
+            , dp::Int               _outputLength
             , const dp::Utf8Char *  _INPUT
-            , size_t                _inputLength
+            , dp::Int               _inputLength
         )
         {
             return toString< Utf8ToUtf16 >(
@@ -468,9 +468,9 @@ namespace {
     {
         dp::Bool operator()(
             dp::StringChar *        _output
-            , size_t                _outputLength
+            , dp::Int               _outputLength
             , const dp::Utf32Char * _INPUT
-            , size_t                _inputLength
+            , dp::Int               _inputLength
         )
         {
             return toString< Utf32ToUtf16 >(
@@ -504,9 +504,9 @@ namespace {
     {
         dp::Bool operator()(
             dp::Utf8Char *          _output
-            , size_t                _outputLength
+            , dp::Int               _outputLength
             , const dp::Utf16Char * _INPUT
-            , size_t                _inputLength
+            , dp::Int               _inputLength
         )
         {
             return utf16ToMultiByte(
@@ -525,9 +525,9 @@ namespace {
     >
     dp::Bool toUtf8(
         dp::Utf8Char *  _output
-        , size_t        _outputLength
+        , dp::Int       _outputLength
         , const IN_T    _INPUT
-        , size_t        _inputLength
+        , dp::Int       _inputLength
     )
     {
         auto    utf16Length = _inputLength * UTF16_MAX_CHARACTER_COUNT;
@@ -561,9 +561,9 @@ namespace {
     {
         dp::Bool operator()(
             dp::Utf8Char *              _output
-            , size_t                    _outputLength
+            , dp::Int                   _outputLength
             , const dp::StringChar *    _INPUT
-            , size_t                    _inputLength
+            , dp::Int                   _inputLength
         )
         {
             return toUtf8< StringToUtf16 >(
@@ -579,9 +579,9 @@ namespace {
     {
         dp::Bool operator()(
             dp::Utf8Char *          _output
-            , size_t                _outputLength
+            , dp::Int               _outputLength
             , const dp::Utf32Char * _INPUT
-            , size_t                _inputLength
+            , dp::Int               _inputLength
         )
         {
             return toUtf8< Utf32ToUtf16 >(

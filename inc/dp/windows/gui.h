@@ -2,16 +2,17 @@
 #define DP_WINDOWS_GUI_H
 
 #include "dp/common/defmain.h"
+#include "dp/common/primitives.h"
 #include "dp/common/args.h"
 #include "dp/windows/common/args.h"
 
 #include <windows.h>
 
-int WINAPI wWinMain(
+dp::Int WINAPI wWinMain(
     HINSTANCE
     , HINSTANCE
     , LPWSTR
-    , int
+    , dp::Int
 )
 {
     dp::Args    args( __argc );
