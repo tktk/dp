@@ -11,11 +11,19 @@
 
 #include "dp/input/gamepadmanager.h"
 #include "dpimpl/common/input/gamepadmanagerinfo.h"
+#include "dp/input/gamepadkey.h"
+#include "dp/common/primitives.h"
 
 #include <memory>
 #include <mutex>
 
 namespace dp {
+    void gamePadManagerCallConnectEventHandler(
+        GamePadManager &
+        , const GamePadKey &
+        , Bool
+    );
+
     struct GamePadManagerImpl;
 
     GamePadManagerImpl * gamePadManagerImplNew(

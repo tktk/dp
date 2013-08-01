@@ -2,6 +2,7 @@
 #include "dp/input/gamepadmanager.h"
 
 #include "dpimpl/common/input/gamepadmanager.h"
+#include "dp/input/gamepadkey.h"
 #include "dp/common/primitives.h"
 
 #include <mutex>
@@ -67,5 +68,23 @@ namespace dp {
     )
     {
         return _manager.mutexForConnectEventHandler;
+    }
+
+    void gamePadManagerCallConnectEventHandler(
+        GamePadManager &        _manager
+        , const GamePadKey &    _KEY
+        , Bool                  _connected
+    )
+    {
+        std::unique_lock< decltype( _manager.mutexForConnectEventHandler ) > lock( _manager.mutexForConnectEventHandler );
+
+        const auto &    EVENT_HANDLER = _manager.infoPtr->connectEventHandler;
+        if( EVENT_HANDLER != nullptr ) {
+            EVENT_HANDLER(
+                _manager
+                , _KEY
+                , _connected
+            );
+        }
     }
 }
