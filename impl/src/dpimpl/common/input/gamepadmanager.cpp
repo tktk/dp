@@ -7,7 +7,6 @@
 
 #include <mutex>
 #include <new>
-#include <utility>
 
 namespace dp {
     GamePadManager * gamePadManagerNew(
@@ -21,14 +20,18 @@ namespace dp {
 
         auto &  manager = *managerPtr;
 
-        GamePadManagerInfoPtr  infoPtr( gamePadManagerInfoClone( _INFO ) );
+        auto &  infoPtr = manager.infoPtr;
+        infoPtr.reset(
+            gamePadManagerInfoClone(
+                _INFO
+            )
+        );
         if( infoPtr.get() == nullptr ) {
             return nullptr;
         }
 
-        manager.infoPtr = std::move( infoPtr );
-
-        GamePadManagerImplPtr   implPtr(
+        auto &  implPtr = manager.implPtr;
+        implPtr.reset(
             gamePadManagerImplNew(
                 manager
             )
@@ -36,8 +39,6 @@ namespace dp {
         if( implPtr.get() == nullptr ) {
             return nullptr;
         }
-
-        manager.implPtr = std::move( implPtr );
 
         return managerPtr.release();
     }
