@@ -4,11 +4,17 @@
 #include "dpimpl/linux/input/gamepadkey.h"
 #include "dp/input/gamepadkey.h"
 #include "dp/common/primitives.h"
+#include "dp/common/thread.h"
+#include "dpimpl/linux/common/thread.h"
 
 #include <libudev.h>
+#include <poll.h>
 #include <new>
 #include <thread>
 #include <memory>
+#include <vector>
+#include <mutex>
+#include <condition_variable>
 #include <utility>
 #include <cstring>
 
@@ -96,6 +102,8 @@ namespace {
         udev_device
         , UdevDeviceDeleter
     > UdevDevicePtr;
+
+    typedef std::vector< UdevDevicePtr > UdevDevicePtrs;
 
     struct UdevEnumerateDeleter
     {
@@ -264,14 +272,167 @@ namespace {
         }
     }
 
+    void monitorGamePadsEventLoop(
+        dp::GamePadManagerImpl &    _impl
+        , udev_monitor &            _monitor
+        , UdevDevicePtrs &          _devicePtrs
+    )
+    {
+        auto &  mutex = _impl.mutex;
+        auto &  cond = _impl.cond;
+
+        pollfd  fd;
+        fd.fd = udev_monitor_get_fd( &_monitor );
+        fd.events = POLLIN;
+
+        while( 1 ) {
+            errno = 0;
+            while( poll( &fd, 1, -1 ) <= 0 ) {
+                if( errno == EINTR ) {
+                    errno = 0;
+                } else {
+                    return;
+                }
+            }
+
+            UdevDevicePtr   devicePtr(
+                udev_monitor_receive_device( &_monitor )
+            );
+            if( devicePtr.get() == nullptr ) {
+                continue;
+            }
+
+            std::unique_lock< std::mutex >  lock( mutex );
+
+            _devicePtrs.push_back( std::move( devicePtr ) );
+
+            cond.notify_one();
+        }
+    }
+
+    void monitorGamePadsManageLoopMainProc(
+        dp::GamePadManager &        _manager
+        , const UdevDevicePtrs &    _DEVICE_PTRS
+    )
+    {
+        for( auto & devicePtr : _DEVICE_PTRS ) {
+            if( devicePtr.get() == nullptr ) {
+                continue;
+            }
+
+            auto &  device = *devicePtr;
+
+            const auto  PATH = udev_device_get_devnode( &device );
+            if( PATH == nullptr ) {
+                continue;
+            }
+
+            if( isGamePadPath( PATH ) == false ) {
+                continue;
+            }
+
+            const auto  ACTION = udev_device_get_action( &device );
+            if( ACTION == nullptr ) {
+                continue;
+            }
+
+            if( std::strcmp(
+                ACTION
+                , "add"
+            ) == 0 ) {
+                callConnectEventHandler(
+                    _manager
+                    , PATH
+                );
+            } else if( std::strcmp(
+                ACTION
+                , "remove"
+            ) == 0 ) {
+                callDisconnectEventHandler(
+                    _manager
+                    , PATH
+                );
+            }
+        }
+    }
+
+    void monitorGamePadsManageLoop(
+        dp::GamePadManager &        _manager
+        , dp::GamePadManagerImpl &  _impl
+        , UdevDevicePtrs &          _devicePtrsForEventLoop
+    )
+    {
+        auto &  mutex = _impl.mutex;
+        auto &  cond = _impl.cond;
+        auto &  ended = _impl.ended;
+
+        while( 1 ) {
+            UdevDevicePtrs  devicePtrs;
+
+            {
+                std::unique_lock< std::mutex >  lock( mutex );
+
+                cond.wait(
+                    lock
+                    , [
+                        &ended
+                        , &_devicePtrsForEventLoop
+                    ]
+                    {
+                        return
+                            ended == true ||
+                            _devicePtrsForEventLoop.empty() == false
+                        ;
+                    }
+                );
+
+                if( ended ) {
+                    break;
+                }
+
+                std::swap(
+                    devicePtrs
+                    , _devicePtrsForEventLoop
+                );
+            }
+
+            monitorGamePadsManageLoopMainProc(
+                _manager
+                , devicePtrs
+            );
+        }
+    }
+
     void monitorGamePads(
         dp::GamePadManager &        _manager
         , dp::GamePadManagerImpl &  _impl
-        , udev &                    _udev
         , udev_monitor &            _monitor
     )
     {
-        //TODO
+        UdevDevicePtrs  devicePtrs;
+
+        std::thread eventThread(
+            [
+                &_impl
+                , &_monitor
+                , &devicePtrs
+            ]
+            {
+                monitorGamePadsEventLoop(
+                    _impl
+                    , _monitor
+                    , devicePtrs
+                );
+            }
+        );
+        dp::ThreadJoinPtr   threadJoiner( &eventThread );
+        dp::ThreadCancelPtr threadCanceller( &eventThread );
+
+        monitorGamePadsManageLoop(
+            _manager
+            , _impl
+            , devicePtrs
+        );
     }
 
     void threadProc(
@@ -305,9 +466,21 @@ namespace {
         monitorGamePads(
             _manager
             , _impl
-            , udev
             , monitor
         );
+    }
+
+    void setEnd(
+        dp::GamePadManagerImpl &    _impl
+    )
+    {
+        auto &  mutex = _impl.mutex;
+
+        std::unique_lock< std::mutex >  lock( mutex );
+
+        _impl.ended = true;
+
+        _impl.cond.notify_one();
     }
 }
 
@@ -347,7 +520,9 @@ namespace dp {
         GamePadManagerImpl &    _impl
     )
     {
-        _impl.ended = true;
+        setEnd(
+            _impl
+        );
 
         delete &_impl;
     }
