@@ -14,34 +14,34 @@ namespace dp {
         const GamePadManagerInfo &  _INFO
     )
     {
-        GamePadManagerPtr   managerPtr( new( std::nothrow )GamePadManager );
-        if( managerPtr.get() == nullptr ) {
+        GamePadManagerUnique    managerUnique( new( std::nothrow )GamePadManager );
+        if( managerUnique.get() == nullptr ) {
             return nullptr;
         }
 
-        auto &  manager = *managerPtr;
+        auto &  manager = *managerUnique;
 
-        auto &  infoPtr = manager.infoPtr;
-        infoPtr.reset(
+        auto &  infoUnique = manager.infoUnique;
+        infoUnique.reset(
             gamePadManagerInfoClone(
                 _INFO
             )
         );
-        if( infoPtr.get() == nullptr ) {
+        if( infoUnique.get() == nullptr ) {
             return nullptr;
         }
 
-        auto &  implPtr = manager.implPtr;
-        implPtr.reset(
+        auto &  implUnique = manager.implUnique;
+        implUnique.reset(
             gamePadManagerImplNew(
                 manager
             )
         );
-        if( implPtr.get() == nullptr ) {
+        if( implUnique.get() == nullptr ) {
             return nullptr;
         }
 
-        return managerPtr.release();
+        return managerUnique.release();
     }
 
     void gamePadManagerDelete(
@@ -55,14 +55,14 @@ namespace dp {
         const GamePadManager &  _MANAGER
     )
     {
-        return *( _MANAGER.infoPtr );
+        return *( _MANAGER.infoUnique );
     }
 
     GamePadManagerInfo & gamePadManagerGetInfoMutable(
         GamePadManager &    _manager
     )
     {
-        return *( _manager.infoPtr );
+        return *( _manager.infoUnique );
     }
 
     std::mutex & gamePadManagerGetMutexForConnectEventHandler(
@@ -80,7 +80,7 @@ namespace dp {
     {
         std::unique_lock< decltype( _manager.mutexForConnectEventHandler ) > lock( _manager.mutexForConnectEventHandler );
 
-        const auto &    EVENT_HANDLER = _manager.infoPtr->connectEventHandler;
+        const auto &    EVENT_HANDLER = _manager.infoUnique->connectEventHandler;
         if( EVENT_HANDLER != nullptr ) {
             EVENT_HANDLER(
                 _manager

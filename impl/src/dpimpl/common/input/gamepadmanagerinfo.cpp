@@ -10,16 +10,16 @@ namespace {
         const dp::GamePadManagerConnectEventHandler &   _CONNECT_EVENT_HANDLER
     )
     {
-        dp::GamePadManagerInfoPtr   infoPtr( new( std::nothrow )dp::GamePadManagerInfo );
-        if( infoPtr.get() == nullptr ) {
+        dp::GamePadManagerInfoUnique    infoUnique( new( std::nothrow )dp::GamePadManagerInfo );
+        if( infoUnique.get() == nullptr ) {
             return nullptr;
         }
 
-        auto &  info = *infoPtr;
+        auto &  info = *infoUnique;
 
         info.connectEventHandler = _CONNECT_EVENT_HANDLER;
 
-        return infoPtr.release();
+        return infoUnique.release();
     }
 }
 

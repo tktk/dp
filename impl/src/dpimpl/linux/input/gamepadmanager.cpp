@@ -34,7 +34,7 @@ namespace {
     typedef std::unique_ptr<
         udev
         , UdevDeleter
-    > UdevPtr;
+    > UdevUnique;
 
     udev * udevNew(
     )
@@ -55,23 +55,23 @@ namespace {
     typedef std::unique_ptr<
         udev_monitor
         , UdevMonitorDeleter
-    > UdevMonitorPtr;
+    > UdevMonitorUnique;
 
     udev_monitor * udevMonitorNew(
         udev &  _udev
     )
     {
-        UdevMonitorPtr  monitorPtr(
+        UdevMonitorUnique   monitorUnique(
             udev_monitor_new_from_netlink(
                 &_udev
                 , "udev"
             )
         );
-        if( monitorPtr.get() == nullptr ) {
+        if( monitorUnique.get() == nullptr ) {
             return nullptr;
         }
 
-        auto &  monitor = *monitorPtr;
+        auto &  monitor = *monitorUnique;
 
         if( udev_monitor_filter_add_match_subsystem_devtype(
             &monitor
@@ -85,7 +85,7 @@ namespace {
             return nullptr;
         }
 
-        return monitorPtr.release();
+        return monitorUnique.release();
     }
 
     struct UdevDeviceDeleter
@@ -101,9 +101,9 @@ namespace {
     typedef std::unique_ptr<
         udev_device
         , UdevDeviceDeleter
-    > UdevDevicePtr;
+    > UdevDeviceUnique;
 
-    typedef std::vector< UdevDevicePtr > UdevDevicePtrs;
+    typedef std::vector< UdevDeviceUnique > UdevDeviceUniques;
 
     struct UdevEnumerateDeleter
     {
@@ -118,20 +118,20 @@ namespace {
     typedef std::unique_ptr<
         udev_enumerate
         , UdevEnumerateDeleter
-    > UdevEnumeratePtr;
+    > UdevEnumerateUnique;
 
     udev_enumerate * udevEnumerateNew(
         udev &  _udev
     )
     {
-        UdevEnumeratePtr    enumeratePtr(
+        UdevEnumerateUnique enumerateUnique(
             udev_enumerate_new( &_udev )
         );
-        if( enumeratePtr.get() == nullptr ) {
+        if( enumerateUnique.get() == nullptr ) {
             return nullptr;
         }
 
-        auto &  enumerate = *enumeratePtr;
+        auto &  enumerate = *enumerateUnique;
 
         if( udev_enumerate_add_match_subsystem(
             &enumerate
@@ -144,7 +144,7 @@ namespace {
             return nullptr;
         }
 
-        return enumeratePtr.release();
+        return enumerateUnique.release();
     }
 
     void callConnectEventHandlerCommon(
@@ -222,16 +222,16 @@ namespace {
         , udev &                _udev
     )
     {
-        UdevEnumeratePtr    enumeratePtr(
+        UdevEnumerateUnique enumerateUnique(
             udevEnumerateNew(
                 _udev
             )
         );
-        if( enumeratePtr.get() == nullptr ) {
+        if( enumerateUnique.get() == nullptr ) {
             return;
         }
 
-        auto &  enumerate = *enumeratePtr;
+        auto &  enumerate = *enumerateUnique;
 
         auto    list = udev_enumerate_get_list_entry( &enumerate );
 
@@ -242,17 +242,17 @@ namespace {
                 continue;
             }
 
-            UdevDevicePtr   devicePtr(
+            UdevDeviceUnique    deviceUnique(
                 udev_device_new_from_syspath(
                     &_udev
                     , SYSPATH
                 )
             );
-            if( devicePtr.get() == nullptr ) {
+            if( deviceUnique.get() == nullptr ) {
                 continue;
             }
 
-            auto &  device = *devicePtr;
+            auto &  device = *deviceUnique;
 
             const auto  PATH = udev_device_get_devnode( &device );
             if( PATH == nullptr ) {
@@ -273,7 +273,7 @@ namespace {
     void monitorGamePadsEventLoop(
         dp::GamePadManagerImpl &    _impl
         , udev_monitor &            _monitor
-        , UdevDevicePtrs &          _devicePtrs
+        , UdevDeviceUniques &       _deviceUniques
     )
     {
         auto &  mutex = _impl.mutex;
@@ -293,16 +293,16 @@ namespace {
                 }
             }
 
-            UdevDevicePtr   devicePtr(
+            UdevDeviceUnique    deviceUnique(
                 udev_monitor_receive_device( &_monitor )
             );
-            if( devicePtr.get() == nullptr ) {
+            if( deviceUnique.get() == nullptr ) {
                 continue;
             }
 
             std::unique_lock< std::mutex >  lock( mutex );
 
-            _devicePtrs.push_back( std::move( devicePtr ) );
+            _deviceUniques.push_back( std::move( deviceUnique ) );
 
             cond.notify_one();
         }
@@ -310,15 +310,15 @@ namespace {
 
     void monitorGamePadsManageLoopMainProc(
         dp::GamePadManager &        _manager
-        , const UdevDevicePtrs &    _DEVICE_PTRS
+        , const UdevDeviceUniques & _DEVICE_PTRS
     )
     {
-        for( auto & devicePtr : _DEVICE_PTRS ) {
-            if( devicePtr.get() == nullptr ) {
+        for( auto & deviceUnique : _DEVICE_PTRS ) {
+            if( deviceUnique.get() == nullptr ) {
                 continue;
             }
 
-            auto &  device = *devicePtr;
+            auto &  device = *deviceUnique;
 
             const auto  PATH = udev_device_get_devnode( &device );
             if( PATH == nullptr ) {
@@ -357,7 +357,7 @@ namespace {
     void monitorGamePadsManageLoop(
         dp::GamePadManager &        _manager
         , dp::GamePadManagerImpl &  _impl
-        , UdevDevicePtrs &          _devicePtrsForEventLoop
+        , UdevDeviceUniques &       _deviceUniquesForEventLoop
     )
     {
         auto &  mutex = _impl.mutex;
@@ -365,7 +365,7 @@ namespace {
         auto &  ended = _impl.ended;
 
         while( 1 ) {
-            UdevDevicePtrs  devicePtrs;
+            UdevDeviceUniques  deviceUniques;
 
             {
                 std::unique_lock< std::mutex >  lock( mutex );
@@ -374,12 +374,12 @@ namespace {
                     lock
                     , [
                         &ended
-                        , &_devicePtrsForEventLoop
+                        , &_deviceUniquesForEventLoop
                     ]
                     {
                         return
                             ended == true ||
-                            _devicePtrsForEventLoop.empty() == false
+                            _deviceUniquesForEventLoop.empty() == false
                         ;
                     }
                 );
@@ -389,14 +389,14 @@ namespace {
                 }
 
                 std::swap(
-                    devicePtrs
-                    , _devicePtrsForEventLoop
+                    deviceUniques
+                    , _deviceUniquesForEventLoop
                 );
             }
 
             monitorGamePadsManageLoopMainProc(
                 _manager
-                , devicePtrs
+                , deviceUniques
             );
         }
     }
@@ -407,19 +407,19 @@ namespace {
         , udev_monitor &            _monitor
     )
     {
-        UdevDevicePtrs  devicePtrs;
+        UdevDeviceUniques   deviceUniques;
 
         std::thread eventThread(
             [
                 &_impl
                 , &_monitor
-                , &devicePtrs
+                , &deviceUniques
             ]
             {
                 monitorGamePadsEventLoop(
                     _impl
                     , _monitor
-                    , devicePtrs
+                    , deviceUniques
                 );
             }
         );
@@ -429,7 +429,7 @@ namespace {
         monitorGamePadsManageLoop(
             _manager
             , _impl
-            , devicePtrs
+            , deviceUniques
         );
     }
 
@@ -438,23 +438,23 @@ namespace {
         , dp::GamePadManagerImpl &  _impl
     )
     {
-        UdevPtr udevPtr( udevNew() );
-        if( udevPtr.get() == nullptr ) {
+        UdevUnique  udevUnique( udevNew() );
+        if( udevUnique.get() == nullptr ) {
             return;
         }
 
-        auto &  udev = *udevPtr;
+        auto &  udev = *udevUnique;
 
-        UdevMonitorPtr  monitorPtr(
+        UdevMonitorUnique   monitorUnique(
             udevMonitorNew(
                 udev
             )
         );
-        if( monitorPtr.get() == nullptr ) {
+        if( monitorUnique.get() == nullptr ) {
             return;
         }
 
-        auto &  monitor = *monitorPtr;
+        auto &  monitor = *monitorUnique;
 
         initGamePads(
             _manager
@@ -487,12 +487,12 @@ namespace dp {
         GamePadManager &    _manager
     )
     {
-        GamePadManagerImplPtr   implPtr( new( std::nothrow )GamePadManagerImpl );
-        if( implPtr.get() == nullptr ) {
+        GamePadManagerImplUnique    implUnique( new( std::nothrow )GamePadManagerImpl );
+        if( implUnique.get() == nullptr ) {
             return nullptr;
         }
 
-        auto &  impl = *implPtr;
+        auto &  impl = *implUnique;
 
         impl.ended = false;
         impl.thread = std::move(
@@ -511,7 +511,7 @@ namespace dp {
         );
         impl.threadJoiner.reset( &( impl.thread ) );
 
-        return implPtr.release();
+        return implUnique.release();
     }
 
     void gamePadManagerImplDelete(

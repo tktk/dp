@@ -75,7 +75,21 @@ namespace dp {
     typedef std::unique_ptr<
         GamePadManager
         , GamePadManagerDeleter
-    > GamePadManagerPtr;
+    > GamePadManagerUnique;
+
+    typedef std::shared_ptr< GamePadManager > GamePadManagerShared;
+
+    inline GamePadManagerShared gamePadManagerShared(
+        GamePadManager &    _manager
+    )
+    {
+        return GamePadManagerShared(
+            &_manager
+            , GamePadManagerDeleter()
+        );
+    }
+
+    typedef std::weak_ptr< GamePadManager > GamePadManagerWeak;
 
     struct GamePadManagerInfoDeleter
     {
@@ -90,7 +104,21 @@ namespace dp {
     typedef std::unique_ptr<
         GamePadManagerInfo
         , GamePadManagerInfoDeleter
-    > GamePadManagerInfoPtr;
+    > GamePadManagerInfoUnique;
+
+    typedef std::shared_ptr< GamePadManagerInfo > GamePadManagerInfoShared;
+
+    inline GamePadManagerInfoShared gamePadManagerInfoShared(
+        GamePadManagerInfo &    _info
+    )
+    {
+        return GamePadManagerInfoShared(
+            &_info
+            , GamePadManagerInfoDeleter()
+        );
+    }
+
+    typedef std::weak_ptr< GamePadManagerInfo > GamePadManagerInfoWeak;
 }
 
 #endif  // DP_INPUT_GAMEPADMANAGER_H

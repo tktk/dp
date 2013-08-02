@@ -47,14 +47,14 @@ namespace dp {
     typedef std::unique_ptr<
         GamePadManagerImpl
         , GamePadManagerImplDeleter
-    > GamePadManagerImplPtr;
+    > GamePadManagerImplUnique;
 
     struct GamePadManager
     {
-        GamePadManagerInfoPtr   infoPtr;
-        std::mutex              mutexForConnectEventHandler;
+        GamePadManagerInfoUnique    infoUnique;
+        std::mutex                  mutexForConnectEventHandler;
 
-        GamePadManagerImplPtr   implPtr;
+        GamePadManagerImplUnique    implUnique;
     };
 }
 
