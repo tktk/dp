@@ -162,11 +162,9 @@ namespace {
             return;
         }
 
-        const auto &    KEY = *keyPtr;
-
         dp::gamePadManagerCallConnectEventHandler(
             _manager
-            , KEY
+            , std::move( keyPtr )
             , _connected
         );
     }

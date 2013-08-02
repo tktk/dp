@@ -20,7 +20,7 @@
 namespace dp {
     void gamePadManagerCallConnectEventHandler(
         GamePadManager &
-        , const GamePadKey &
+        , GamePadKeyPtr &&
         , Bool
     );
 

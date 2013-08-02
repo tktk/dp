@@ -17,7 +17,7 @@ namespace dp {
     typedef std::function<
         void(
             GamePadManager &
-            , const GamePadKey &
+            , GamePadKeyPtr &&
             , Bool
         )
     > GamePadManagerConnectEventHandler;

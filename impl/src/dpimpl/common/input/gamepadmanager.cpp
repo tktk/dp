@@ -7,6 +7,7 @@
 
 #include <mutex>
 #include <new>
+#include <utility>
 
 namespace dp {
     GamePadManager * gamePadManagerNew(
@@ -73,7 +74,7 @@ namespace dp {
 
     void gamePadManagerCallConnectEventHandler(
         GamePadManager &        _manager
-        , const GamePadKey &    _KEY
+        , GamePadKeyPtr &&      _keyPtr
         , Bool                  _connected
     )
     {
@@ -83,7 +84,7 @@ namespace dp {
         if( EVENT_HANDLER != nullptr ) {
             EVENT_HANDLER(
                 _manager
-                , _KEY
+                , std::move( _keyPtr )
                 , _connected
             );
         }
