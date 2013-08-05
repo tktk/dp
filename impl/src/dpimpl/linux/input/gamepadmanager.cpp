@@ -21,7 +21,7 @@
 namespace {
     const auto  SUBSYSTEM = "input";
 
-    struct UdevDeleter
+    struct UdevDelete
     {
         void operator()(
             udev *  _udev
@@ -33,7 +33,7 @@ namespace {
 
     typedef std::unique_ptr<
         udev
-        , UdevDeleter
+        , UdevDelete
     > UdevUnique;
 
     udev * udevNew(
@@ -42,7 +42,7 @@ namespace {
         return udev_new();
     }
 
-    struct UdevMonitorDeleter
+    struct UdevMonitorDelete
     {
         void operator()(
             udev_monitor *  _monitor
@@ -54,7 +54,7 @@ namespace {
 
     typedef std::unique_ptr<
         udev_monitor
-        , UdevMonitorDeleter
+        , UdevMonitorDelete
     > UdevMonitorUnique;
 
     udev_monitor * udevMonitorNew(
@@ -88,7 +88,7 @@ namespace {
         return monitorUnique.release();
     }
 
-    struct UdevDeviceDeleter
+    struct UdevDeviceDelete
     {
         void operator()(
             udev_device *   _device
@@ -100,12 +100,12 @@ namespace {
 
     typedef std::unique_ptr<
         udev_device
-        , UdevDeviceDeleter
+        , UdevDeviceDelete
     > UdevDeviceUnique;
 
     typedef std::vector< UdevDeviceUnique > UdevDeviceUniques;
 
-    struct UdevEnumerateDeleter
+    struct UdevEnumerateDelete
     {
         void operator()(
             udev_enumerate *    _enumerate
@@ -117,7 +117,7 @@ namespace {
 
     typedef std::unique_ptr<
         udev_enumerate
-        , UdevEnumerateDeleter
+        , UdevEnumerateDelete
     > UdevEnumerateUnique;
 
     udev_enumerate * udevEnumerateNew(
@@ -423,8 +423,8 @@ namespace {
                 );
             }
         );
-        dp::ThreadJoinPtr   threadJoiner( &eventThread );
-        dp::ThreadCancelPtr threadCanceller( &eventThread );
+        dp::ThreadJoiner    threadJoiner( &eventThread );
+        dp::ThreadCanceller threadCanceller( &eventThread );
 
         monitorGamePadsManageLoop(
             _manager

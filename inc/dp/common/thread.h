@@ -5,7 +5,7 @@
 #include <memory>
 
 namespace dp {
-    struct ThreadJoiner
+    struct ThreadJoin
     {
         void operator()(
             std::thread *   _thread
@@ -17,10 +17,10 @@ namespace dp {
 
     typedef std::unique_ptr<
         std::thread
-        , ThreadJoiner
-    > ThreadJoinPtr;
+        , ThreadJoin
+    > ThreadJoiner;
 
-    struct ThreadDetacher
+    struct ThreadDetach
     {
         void operator()(
             std::thread *   _thread
@@ -32,8 +32,8 @@ namespace dp {
 
     typedef std::unique_ptr<
         std::thread
-        , ThreadDetacher
-    > ThreadDetachPtr;
+        , ThreadDetach
+    > ThreadDetacher;
 }
 
 #endif  // DP_COMMON_THREAD_H

@@ -16,7 +16,7 @@ namespace dp {
         Bool                    ended;
 
         std::thread     thread;
-        ThreadJoinPtr   threadJoiner;
+        ThreadJoiner    threadJoiner;
     };
 }
 

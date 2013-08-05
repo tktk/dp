@@ -27,7 +27,7 @@ namespace dp {
         , const GamePadKey &
     );
 
-    struct GamePadKeyDeleter
+    struct GamePadKeyDelete
     {
         void operator()(
             GamePadKey *    _key
@@ -39,7 +39,7 @@ namespace dp {
 
     typedef std::unique_ptr<
         GamePadKey
-        , GamePadKeyDeleter
+        , GamePadKeyDelete
     > GamePadKeyUnique;
 
     typedef std::shared_ptr< GamePadKey > GamePadKeyShared;
@@ -50,7 +50,7 @@ namespace dp {
     {
         return GamePadKeyShared(
             &_key
-            , GamePadKeyDeleter()
+            , GamePadKeyDelete()
         );
     }
 

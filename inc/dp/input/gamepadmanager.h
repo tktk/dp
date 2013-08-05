@@ -62,7 +62,7 @@ namespace dp {
         , const GamePadManagerConnectEventHandler &
     );
 
-    struct GamePadManagerDeleter
+    struct GamePadManagerDelete
     {
         void operator()(
             GamePadManager *    _manager
@@ -74,7 +74,7 @@ namespace dp {
 
     typedef std::unique_ptr<
         GamePadManager
-        , GamePadManagerDeleter
+        , GamePadManagerDelete
     > GamePadManagerUnique;
 
     typedef std::shared_ptr< GamePadManager > GamePadManagerShared;
@@ -85,13 +85,13 @@ namespace dp {
     {
         return GamePadManagerShared(
             &_manager
-            , GamePadManagerDeleter()
+            , GamePadManagerDelete()
         );
     }
 
     typedef std::weak_ptr< GamePadManager > GamePadManagerWeak;
 
-    struct GamePadManagerInfoDeleter
+    struct GamePadManagerInfoDelete
     {
         void operator()(
             GamePadManagerInfo *    _info
@@ -103,7 +103,7 @@ namespace dp {
 
     typedef std::unique_ptr<
         GamePadManagerInfo
-        , GamePadManagerInfoDeleter
+        , GamePadManagerInfoDelete
     > GamePadManagerInfoUnique;
 
     typedef std::shared_ptr< GamePadManagerInfo > GamePadManagerInfoShared;
@@ -114,7 +114,7 @@ namespace dp {
     {
         return GamePadManagerInfoShared(
             &_info
-            , GamePadManagerInfoDeleter()
+            , GamePadManagerInfoDelete()
         );
     }
 

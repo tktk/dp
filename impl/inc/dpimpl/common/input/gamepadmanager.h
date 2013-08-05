@@ -34,7 +34,7 @@ namespace dp {
         GamePadManagerImpl &
     );
 
-    struct GamePadManagerImplDeleter
+    struct GamePadManagerImplDelete
     {
         void operator()(
             GamePadManagerImpl *    _impl
@@ -46,7 +46,7 @@ namespace dp {
 
     typedef std::unique_ptr<
         GamePadManagerImpl
-        , GamePadManagerImplDeleter
+        , GamePadManagerImplDelete
     > GamePadManagerImplUnique;
 
     struct GamePadManager

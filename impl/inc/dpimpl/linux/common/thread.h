@@ -6,7 +6,7 @@
 #include <memory>
 
 namespace dp {
-    struct ThreadCanceller
+    struct ThreadCancel
     {
         void operator()(
             std::thread *   _thread
@@ -18,8 +18,8 @@ namespace dp {
 
     typedef std::unique_ptr<
         std::thread
-        , ThreadCanceller
-    > ThreadCancelPtr;
+        , ThreadCancel
+    > ThreadCanceller;
 }
 
 #endif  // DPIMPL_LINUX_COMMON_THREAD_H
