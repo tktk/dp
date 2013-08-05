@@ -12,11 +12,14 @@ def build(
         'gamepadmanager',
         'gamepadmanagerinfo',
         'gamepadkey',
+        'gamepad',
+        'gamepadinfo',
     }
 
     osSources = {
         'gamepadmanager',
         'gamepadkey',
+        'gamepad',
     }
 
     libraries = set()
