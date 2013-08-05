@@ -9,7 +9,7 @@ namespace dp {
     {
         void operator()(
             std::thread *   _thread
-        )
+        ) const
         {
             _thread->join();
         }
@@ -24,7 +24,7 @@ namespace dp {
     {
         void operator()(
             std::thread *   _thread
-        )
+        ) const
         {
             _thread->detach();
         }

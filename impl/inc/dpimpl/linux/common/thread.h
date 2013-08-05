@@ -10,7 +10,7 @@ namespace dp {
     {
         void operator()(
             std::thread *   _thread
-        )
+        ) const
         {
             pthread_cancel( _thread->native_handle() );
         }

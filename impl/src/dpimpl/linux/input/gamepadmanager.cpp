@@ -25,7 +25,7 @@ namespace {
     {
         void operator()(
             udev *  _udev
-        )
+        ) const
         {
             udev_unref( _udev );
         }
@@ -46,7 +46,7 @@ namespace {
     {
         void operator()(
             udev_monitor *  _monitor
-        )
+        ) const
         {
             udev_monitor_unref( _monitor );
         }
@@ -92,7 +92,7 @@ namespace {
     {
         void operator()(
             udev_device *   _device
-        )
+        ) const
         {
             udev_device_unref( _device );
         }
@@ -109,7 +109,7 @@ namespace {
     {
         void operator()(
             udev_enumerate *    _enumerate
-        )
+        ) const
         {
             udev_enumerate_unref( _enumerate );
         }
@@ -153,18 +153,18 @@ namespace {
         , dp::Bool                  _connected
     )
     {
-        dp::GamePadKeyPtr   keyPtr(
+        dp::GamePadKeyUnique    keyUnique(
             dp::gamePadKeyNew(
                 _PATH
             )
         );
-        if( keyPtr.get() == nullptr ) {
+        if( keyUnique.get() == nullptr ) {
             return;
         }
 
         dp::gamePadManagerCallConnectEventHandler(
             _manager
-            , std::move( keyPtr )
+            , std::move( keyUnique )
             , _connected
         );
     }

@@ -74,7 +74,7 @@ namespace dp {
 
     void gamePadManagerCallConnectEventHandler(
         GamePadManager &        _manager
-        , GamePadKeyPtr &&      _keyPtr
+        , GamePadKeyUnique &&   _keyUnique
         , Bool                  _connected
     )
     {
@@ -84,7 +84,7 @@ namespace dp {
         if( EVENT_HANDLER != nullptr ) {
             EVENT_HANDLER(
                 _manager
-                , std::move( _keyPtr )
+                , std::move( _keyUnique )
                 , _connected
             );
         }

@@ -20,7 +20,7 @@
 namespace dp {
     void gamePadManagerCallConnectEventHandler(
         GamePadManager &
-        , GamePadKeyPtr &&
+        , GamePadKeyUnique &&
         , Bool
     );
 
@@ -38,7 +38,7 @@ namespace dp {
     {
         void operator()(
             GamePadManagerImpl *    _impl
-        )
+        ) const
         {
             gamePadManagerImplDelete( *_impl );
         }

@@ -11,16 +11,16 @@ namespace {
         const dp::String &  _PATH
     )
     {
-        dp::GamePadKeyPtr   keyPtr( new( std::nothrow )dp::GamePadKey );
-        if( keyPtr.get() == nullptr ) {
+        dp::GamePadKeyUnique    keyUnique( new( std::nothrow )dp::GamePadKey );
+        if( keyUnique.get() == nullptr ) {
             return nullptr;
         }
 
-        auto &  key = *keyPtr;
+        auto &  key = *keyUnique;
 
         key.path.assign( _PATH );
 
-        return keyPtr.release();
+        return keyUnique.release();
     }
 }
 

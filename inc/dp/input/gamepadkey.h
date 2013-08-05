@@ -31,7 +31,7 @@ namespace dp {
     {
         void operator()(
             GamePadKey *    _key
-        )
+        ) const
         {
             gamePadKeyDelete( *_key );
         }
@@ -40,18 +40,33 @@ namespace dp {
     typedef std::unique_ptr<
         GamePadKey
         , GamePadKeyDeleter
-    > GamePadKeyPtr;
+    > GamePadKeyUnique;
 
-    struct GamePadKeyPtrComparer
+    typedef std::shared_ptr< GamePadKey > GamePadKeyShared;
+
+    inline GamePadKeyShared gamePadKeyShared(
+        GamePadKey &    _key
+    )
+    {
+        return GamePadKeyShared(
+            &_key
+            , GamePadKeyDeleter()
+        );
+    }
+
+    typedef std::weak_ptr< GamePadKey > GamePadKeyWeak;
+
+    template< typename T >
+    struct GamePadKeyLess
     {
         Bool operator()(
-            const GamePadKeyPtr &   _PTR1
-            , const GamePadKeyPtr & _PTR2
-        )
+            const T &   _KEY1
+            , const T & _KEY2
+        ) const
         {
             return gamePadKeyLess(
-                *_PTR1
-                , *_PTR2
+                *_KEY1
+                , *_KEY2
             );
         }
     };

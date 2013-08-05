@@ -83,7 +83,7 @@ namespace {
             , dp::Int &                 _outputLength
             , const dp::StringChar *    _INPUT
             , dp::Int                   _inputLength
-        )
+        ) const
         {
             return multiByteToWideChar(
                 CODEPAGE
@@ -102,7 +102,7 @@ namespace {
             , dp::Int &             _outputLength
             , const dp::Utf8Char *  _INPUT
             , dp::Int               _inputLength
-        )
+        ) const
         {
             return multiByteToWideChar(
                 CP_UTF8
@@ -169,7 +169,7 @@ namespace {
             , dp::Int               _outputLength
             , const dp::Utf16Char * _INPUT
             , dp::Int               _inputLength
-        )
+        ) const
         {
             const auto  END_OF_OUTPUT = _output + _outputLength;
             const auto  END_OF_INPUT = _INPUT + _inputLength;
@@ -255,7 +255,7 @@ namespace {
             , dp::Int                   _outputLength
             , const dp::StringChar *    _INPUT
             , dp::Int                   _inputLength
-        )
+        ) const
         {
             return toUtf32< StringToUtf16 >(
                 _output
@@ -273,7 +273,7 @@ namespace {
             , dp::Int               _outputLength
             , const dp::Utf8Char *  _INPUT
             , dp::Int               _inputLength
-        )
+        ) const
         {
             return toUtf32< Utf8ToUtf16 >(
                 _output
@@ -309,7 +309,7 @@ namespace {
             , dp::Int &             _outputLength
             , const dp::Utf32Char * _INPUT
             , dp::Int               _inputLength
-        )
+        ) const
         {
             const auto  END_OF_OUTPUT = _output + _outputLength;
             const auto  END_OF_INPUT = _INPUT + _inputLength;
@@ -396,7 +396,7 @@ namespace {
             , dp::Int               _outputLength
             , const dp::Utf16Char * _INPUT
             , dp::Int               _inputLength
-        )
+        ) const
         {
             return utf16ToMultiByte(
                 CODEPAGE
@@ -453,7 +453,7 @@ namespace {
             , dp::Int               _outputLength
             , const dp::Utf8Char *  _INPUT
             , dp::Int               _inputLength
-        )
+        ) const
         {
             return toString< Utf8ToUtf16 >(
                 _output
@@ -471,7 +471,7 @@ namespace {
             , dp::Int               _outputLength
             , const dp::Utf32Char * _INPUT
             , dp::Int               _inputLength
-        )
+        ) const
         {
             return toString< Utf32ToUtf16 >(
                 _output
@@ -507,7 +507,7 @@ namespace {
             , dp::Int               _outputLength
             , const dp::Utf16Char * _INPUT
             , dp::Int               _inputLength
-        )
+        ) const
         {
             return utf16ToMultiByte(
                 CP_UTF8
@@ -564,7 +564,7 @@ namespace {
             , dp::Int                   _outputLength
             , const dp::StringChar *    _INPUT
             , dp::Int                   _inputLength
-        )
+        ) const
         {
             return toUtf8< StringToUtf16 >(
                 _output
@@ -582,7 +582,7 @@ namespace {
             , dp::Int               _outputLength
             , const dp::Utf32Char * _INPUT
             , dp::Int               _inputLength
-        )
+        ) const
         {
             return toUtf8< Utf32ToUtf16 >(
                 _output

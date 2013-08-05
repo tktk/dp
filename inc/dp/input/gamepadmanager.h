@@ -17,7 +17,7 @@ namespace dp {
     typedef std::function<
         void(
             GamePadManager &
-            , GamePadKeyPtr &&
+            , GamePadKeyUnique &&
             , Bool
         )
     > GamePadManagerConnectEventHandler;
@@ -66,7 +66,7 @@ namespace dp {
     {
         void operator()(
             GamePadManager *    _manager
-        )
+        ) const
         {
             gamePadManagerDelete( *_manager );
         }
@@ -95,7 +95,7 @@ namespace dp {
     {
         void operator()(
             GamePadManagerInfo *    _info
-        )
+        ) const
         {
             gamePadManagerInfoDelete( *_info );
         }
