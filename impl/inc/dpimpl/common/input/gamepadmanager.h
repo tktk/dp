@@ -10,7 +10,6 @@
 #endif  // OS
 
 #include "dp/input/gamepadmanager.h"
-#include "dpimpl/common/input/gamepadmanagerinfo.h"
 #include "dp/input/gamepadkey.h"
 #include "dp/common/primitives.h"
 

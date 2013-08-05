@@ -7,8 +7,8 @@
 
 namespace dp {
     GamePad * gamePadNew(
-        const GamePadKey &
-        , const GamePadInfo &
+        const GamePadKey &      _KEY
+        , const GamePadInfo &   _INFO
     )
     {
         GamePadUnique   gamePadUnique( new( std::nothrow )GamePad );
@@ -16,7 +16,28 @@ namespace dp {
             return nullptr;
         }
 
-        //TODO
+        auto &  gamePad = *gamePadUnique;
+
+        auto &  infoUnique = gamePad.infoUnique;
+        infoUnique.reset(
+            gamePadInfoClone(
+                _INFO
+            )
+        );
+        if( infoUnique.get() == nullptr ) {
+            return nullptr;
+        }
+
+        auto &  implUnique = gamePad.implUnique;
+        implUnique.reset(
+            gamePadImplNew(
+                gamePad
+                , _KEY
+            )
+        );
+        if( implUnique.get() == nullptr ) {
+            return nullptr;
+        }
 
         return gamePadUnique.release();
     }
@@ -26,33 +47,6 @@ namespace dp {
     )
     {
         delete &_gamePad;
-    }
-
-    Bool gamePadGetName(
-        const GamePad &
-        , Utf32 &
-    )
-    {
-        //TODO
-        return false;
-    }
-
-    Bool gamePadGetButtons(
-        const GamePad &
-        , ULong &
-    )
-    {
-        //TODO
-        return false;
-    }
-
-    Bool gamePadGetAxes(
-        const GamePad &
-        , ULong &
-    )
-    {
-        //TODO
-        return false;
     }
 
     const GamePadInfo & gamePadGetInfo(
