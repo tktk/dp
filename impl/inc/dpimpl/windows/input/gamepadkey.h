@@ -1,6 +1,17 @@
 ﻿#ifndef DPIMPL_WINDOWS_INPUT_GAMEPADKEY_H
 #define DPIMPL_WINDOWS_INPUT_GAMEPADKEY_H
 
-//TODO
+#include "dp/input/gamepadkey.h"
+
+namespace dp {
+    struct GamePadKey
+    {
+        //TODO
+    };
+
+    GamePadKey * gamePadKeyNew(
+        //TODO
+    );
+}
 
 #endif  // DPIMPL_WINDOWS_INPUT_GAMEPADKEY_H
