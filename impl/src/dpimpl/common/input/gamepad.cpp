@@ -2,6 +2,7 @@
 #include "dp/input/gamepad.h"
 
 #include "dpimpl/common/input/gamepad.h"
+#include "dpimpl/common/input/gamepadinfo.h"
 
 #include <new>
 
@@ -75,5 +76,41 @@ namespace dp {
     )
     {
         return _gamePad.mutexForAxisEventHandler;
+    }
+
+    void gamePadCallButtonEventHandler(
+        GamePad &   _gamePad
+        , ULong     _index
+        , Bool      _pressed
+    )
+    {
+        std::unique_lock< decltype( _gamePad.mutexForButtonEventHandler ) > lock( _gamePad.mutexForButtonEventHandler );
+
+        const auto &    EVENT_HANDLER = _gamePad.infoUnique->buttonEventHandler;
+        if( EVENT_HANDLER != nullptr ) {
+            EVENT_HANDLER(
+                _gamePad
+                , _index
+                , _pressed
+            );
+        }
+    }
+
+    void gamePadCallAxisEventHandler(
+        GamePad &   _gamePad
+        , ULong     _index
+        , Long      _value
+    )
+    {
+        std::unique_lock< decltype( _gamePad.mutexForAxisEventHandler ) >   lock( _gamePad.mutexForAxisEventHandler );
+
+        const auto &    EVENT_HANDLER = _gamePad.infoUnique->axisEventHandler;
+        if( EVENT_HANDLER != nullptr ) {
+            EVENT_HANDLER(
+                _gamePad
+                , _index
+                , _value
+            );
+        }
     }
 }

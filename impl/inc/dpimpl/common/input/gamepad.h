@@ -17,6 +17,18 @@
 #include <mutex>
 
 namespace dp {
+    void gamePadCallButtonEventHandler(
+        GamePad &
+        , ULong
+        , Bool
+    );
+
+    void gamePadCallAxisEventHandler(
+        GamePad &
+        , ULong
+        , Long
+    );
+
     struct GamePadImpl;
 
     GamePadImpl * gamePadImplNew(
