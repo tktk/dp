@@ -495,6 +495,7 @@ namespace dp {
         auto &  impl = *implUnique;
 
         impl.ended = false;
+
         impl.thread = std::move(
             std::thread(
                 [

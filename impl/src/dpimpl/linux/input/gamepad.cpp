@@ -7,6 +7,18 @@
 #include "dp/common/primitives.h"
 
 #include <new>
+#include <fcntl.h>
+#include <utility>
+
+namespace {
+    void threadProc(
+        dp::GamePad &       _gamePad
+        , dp::GamePadImpl & _impl
+    )
+    {
+        //TODO
+    }
+}
 
 namespace dp {
     Bool gamePadGetName(
@@ -37,8 +49,8 @@ namespace dp {
     }
 
     GamePadImpl * gamePadImplNew(
-        GamePad &
-        , const GamePadKey &
+        GamePad &               _gamePad
+        , const GamePadKey &    _KEY
     )
     {
         GamePadImplUnique   implUnique( new( std::nothrow )GamePadImpl );
@@ -46,7 +58,35 @@ namespace dp {
             return nullptr;
         }
 
-        //TODO
+        auto &  impl = *implUnique;
+
+        impl.ended = false;
+
+        impl.descriptor = open(
+            _KEY.path.c_str()
+            , O_RDONLY
+            , 0
+        );
+        if( impl.descriptor == -1 ) {
+            return nullptr;
+        }
+        impl.descriptorCloser.reset( &( impl.descriptor ) );
+
+        impl.thread = std::move(
+            std::thread(
+                [
+                    &_gamePad
+                    , &impl
+                ]
+                {
+                    threadProc(
+                        _gamePad
+                        , impl
+                    );
+                }
+            )
+        );
+        impl.threadJoiner.reset( &( impl.thread ) );
 
         return implUnique.release();
     }
