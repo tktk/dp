@@ -2,6 +2,7 @@
 
 from . import common
 from . import input
+from . import display
 #from .builder import buildCompositeLibrary
 
 def build( _ctx ):
@@ -15,6 +16,12 @@ def build( _ctx ):
     )
 
     input.build(
+        _ctx,
+        sourcesSet,
+        librariesSet,
+    )
+
+    display.build(
         _ctx,
         sourcesSet,
         librariesSet,
