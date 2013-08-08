@@ -58,11 +58,4 @@ namespace dp {
             String( _PATH )
         );
     }
-
-    const String & gamePadKeyGetPath(
-        const GamePadKey &  _KEY
-    )
-    {
-        return _KEY.path;
-    }
 }

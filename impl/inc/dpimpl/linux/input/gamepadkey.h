@@ -13,10 +13,6 @@ namespace dp {
     GamePadKey * gamePadKeyNew(
         const StringChar *
     );
-
-    const String & gamePadKeyGetPath(
-        const GamePadKey &
-    );
 }
 
 #endif  // DPIMPL_LINUX_INPUT_GAMEPADKEY_H
