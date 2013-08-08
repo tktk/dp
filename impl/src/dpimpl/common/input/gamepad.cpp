@@ -3,6 +3,8 @@
 
 #include "dpimpl/common/input/gamepad.h"
 #include "dpimpl/common/input/gamepadinfo.h"
+#include "dp/input/gamepadkey.h"
+#include "dp/common/primitives.h"
 
 #include <new>
 
