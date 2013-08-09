@@ -11,11 +11,21 @@ def build(
     sources = {
         'displaymanager',
         'displaymanagerinfo',
+        'displaykey',
     }
 
     osSources = {
         'displaymanager',
+        'displaykey',
     }
+
+    libraries = set()
+    if _ctx.osName == common.LINUX:
+        libraries |= {
+            'pthread',
+            'X11',
+            'Xrandr',
+        }
 
     buildPartialLibrary(
         _ctx,
@@ -24,4 +34,5 @@ def build(
         'display',
         sources = sources,
         osSources = osSources,
+        libraries = libraries,
     )
