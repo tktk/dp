@@ -4,16 +4,31 @@
 #include "dp/common/primitives.h"
 #include "dp/common/thread.h"
 
-#include <mutex>
-#include <condition_variable>
+#include "dpimpl/linux/common/xlib.h"
 #include <thread>
 
 namespace dp {
+    struct X11DisplayDelete
+    {
+        void operator()(
+            ::Display * _display
+        )
+        {
+            XCloseDisplay( _display );
+        }
+    };
+
+    typedef std::unique_ptr<
+        ::Display
+        , X11DisplayDelete
+    > X11DisplayUnique;
+
     struct DisplayManagerImpl
     {
-        std::mutex              mutex;
-        std::condition_variable cond;
-        Bool                    ended;
+        Bool    ended;
+
+        X11DisplayUnique    x11DisplayUnique;
+        ::Window            x11Window;
 
         std::thread     thread;
         ThreadJoiner    threadJoiner;

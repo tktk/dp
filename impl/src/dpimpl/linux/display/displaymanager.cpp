@@ -4,28 +4,16 @@
 #include "dpimpl/linux/display/displaykey.h"
 #include "dp/display/displaykey.h"
 #include "dp/common/primitives.h"
+#include "dp/common/thread.h"
+#include "dpimpl/linux/common/thread.h"
 
-#include "dpimpl/linux/display/xlib.h"
+#include "dpimpl/linux/common/xlib.h"
 #include "dpimpl/linux/display/xrandr.h"
 #include <new>
 #include <memory>
+#include <vector>
 
 namespace {
-    struct X11DisplayDelete
-    {
-        void operator()(
-            ::Display * _display
-        )
-        {
-            XCloseDisplay( _display );
-        }
-    };
-
-    typedef std::unique_ptr<
-        ::Display
-        , X11DisplayDelete
-    > X11DisplayUnique;
-
     ::Display * x11DisplayNew(
     )
     {
@@ -136,14 +124,14 @@ namespace {
 
     void initDisplays(
         dp::DisplayManager &    _manager
-        , ::Display &           _display
-        , ::Window &            _window
+        , ::Display &           _x11Display
+        , ::Window &            _x11Window
     )
     {
         ScreenResourcesUnique   screenResourcesUnique(
             screenResourcesNew(
-                _display
-                , _window
+                _x11Display
+                , _x11Window
             )
         );
         if( screenResourcesUnique.get() == nullptr ) {
@@ -158,7 +146,7 @@ namespace {
             const auto &    CRTC = screenResources.crtcs[ i ];
 
             if( isConnectedDisplay(
-                _display
+                _x11Display
                 , screenResources
                 , CRTC
             ) == false ) {
@@ -173,11 +161,81 @@ namespace {
         }
     }
 
-    void monitorDisplays(
-        //TODO
+    void eventProcCrtcChange(
+        dp::DisplayManager &        _manager
+        , const XRRNotifyEvent &    _NOTIFY_EVENT
     )
     {
-        //TODO
+        const auto &    EVENT = reinterpret_cast< const XRRCrtcChangeNotifyEvent & >( _NOTIFY_EVENT );
+
+        const auto  CONNECTED = EVENT.mode != None;
+
+        callConnectEventHandler(
+            _manager
+            , EVENT.crtc
+            , CONNECTED
+        );
+    }
+
+    void eventProc(
+        dp::DisplayManager &        _manager
+        , const XRRNotifyEvent &    _NOTIFY_EVENT
+    )
+    {
+        switch( _NOTIFY_EVENT.subtype ) {
+        case RRNotify_CrtcChange:
+            eventProcCrtcChange(
+                _manager
+                , _NOTIFY_EVENT
+            );
+            break;
+
+        default:
+            // ここに到達することはない
+            break;
+        }
+    }
+
+    void monitorDisplays(
+        dp::DisplayManager &        _manager
+        , dp::DisplayManagerImpl &  _impl
+        , ::Display &               _x11Display
+    )
+    {
+        const auto &    ENDED = _impl.ended;
+
+        dp::Int eventBase;
+        dp::Int errorBase;
+        if( XRRQueryExtension(
+            &_x11Display
+            , &eventBase
+            , &errorBase
+        ) != True ) {
+            return;
+        }
+
+        XEvent          event;
+        const auto &    NOTIFY_EVENT = reinterpret_cast< const XRRNotifyEvent & >( event );
+
+        while( 1 ) {
+            XNextEvent(
+                &_x11Display
+                , &event
+            );
+
+            if( ENDED ) {
+                break;
+            }
+
+            if( event.type - eventBase != RRNotify ) {
+                continue;
+            }
+
+            eventProc(
+                _manager
+                , NOTIFY_EVENT
+            );
+        }
     }
 
     void threadProc(
@@ -185,29 +243,26 @@ namespace {
         , dp::DisplayManagerImpl &  _impl
     )
     {
-        X11DisplayUnique    displayUnique( x11DisplayNew() );
-        if( displayUnique.get() == nullptr ) {
-            return;
-        }
+        auto &  x11Display = *( _impl.x11DisplayUnique );
 
-        auto &  display = *displayUnique;
-
-        auto    window = DefaultRootWindow( &display );
+        auto &  x11Window = _impl.x11Window;
 
         XRRSelectInput(
-            &display
-            , window
+            &x11Display
+            , x11Window
             , RRCrtcChangeNotifyMask
         );
 
         initDisplays(
             _manager
-            , display
-            , window
+            , x11Display
+            , x11Window
         );
 
         monitorDisplays(
-            //TODO
+            _manager
+            , _impl
+            , x11Display
         );
     }
 
@@ -215,13 +270,25 @@ namespace {
         dp::DisplayManagerImpl &    _impl
     )
     {
-        auto &  mutex = _impl.mutex;
-
-        std::unique_lock< std::mutex >  lock( mutex );
-
         _impl.ended = true;
 
-        _impl.cond.notify_one();
+        auto &  x11Display = *( _impl.x11DisplayUnique );
+        auto &  x11Window = _impl.x11Window;
+
+        XEvent  event;
+        event.type = ClientMessage;
+        event.xclient.display = &x11Display;
+        event.xclient.window = x11Window;
+        event.xclient.format = 8;
+
+        XSendEvent(
+            &x11Display
+            , x11Window
+            , False
+            , StructureNotifyMask
+            , &event
+        );
+        XFlush( &x11Display );
     }
 }
 
@@ -236,6 +303,25 @@ namespace dp {
         }
 
         auto &  impl = *implUnique;
+
+        auto &  x11DisplayUnique = impl.x11DisplayUnique;
+        x11DisplayUnique.reset( x11DisplayNew() );
+        if( x11DisplayUnique.get() == nullptr ) {
+            return nullptr;
+        }
+
+        auto &  x11Display = *x11DisplayUnique;
+
+        auto &  x11Window = impl.x11Window;
+
+        x11Window = DefaultRootWindow( &x11Display );
+
+        // スレッド終了イベント用にStructureNotifyMaskを許可
+        XSelectInput(
+            &x11Display
+            , x11Window
+            , StructureNotifyMask
+        );
 
         impl.ended = false;
 
@@ -255,7 +341,7 @@ namespace dp {
         );
         impl.threadJoiner.reset( &( impl.thread ) );
 
-        return nullptr;
+        return implUnique.release();
     }
 
     void displayManagerImplDelete(

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from wscripts import common
 from .builder import buildPartialLibrary
 
 def build(
@@ -16,6 +17,16 @@ def build(
         'stringconverter',
         'args',
     }
+    if _ctx.osName == common.LINUX:
+        osSources |= {
+            'x11',
+        }
+
+    libraries = set()
+    if _ctx.osName == common.LINUX:
+        libraries |= {
+            'X11',
+        }
 
     buildPartialLibrary(
         _ctx,
@@ -24,4 +35,5 @@ def build(
         'common',
         setupSources = setupSources,
         osSources = osSources,
+        libraries = libraries,
     )
