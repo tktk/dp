@@ -12,7 +12,6 @@ def build(
     }
 
     osSources = {
-        'common',
         'stringconverter',
         'args',
     }
