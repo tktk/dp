@@ -12,11 +12,17 @@ def build(
         'displaymanager',
         'displaymanagerinfo',
         'displaykey',
+        'display',
+        'displaymodekey',
+        'displaymode',
     }
 
     osSources = {
         'displaymanager',
         'displaykey',
+        'display',
+        'displaymodekey',
+        'displaymode',
     }
 
     libraries = set()
