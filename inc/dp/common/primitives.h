@@ -15,6 +15,9 @@ namespace dp {
     typedef long long Long;
     typedef unsigned long long ULong;
 
+    typedef float Float;
+    typedef double Double;
+
     typedef Byte StringChar;
     typedef UByte Utf8Char;
     typedef UShort Utf16Char;

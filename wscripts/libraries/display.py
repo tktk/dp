@@ -8,13 +8,27 @@ def build(
     _sourcesSet,
     _librariesSet,
 ):
-    setupSources = {
-        'common_setup',
+    setupSources = set()
+    if _ctx.osName == common.LINUX:
+        setupSources |= {
+            'display_setup',
+        }
+
+    sources = {
+        'displaymanager',
+        'displaymanagerinfo',
+        'displaykey',
+        'display',
+        'displaymodekey',
+        'displaymode',
     }
 
     osSources = {
-        'stringconverter',
-        'args',
+        'displaymanager',
+        'displaykey',
+        'display',
+        'displaymodekey',
+        'displaymode',
     }
     if _ctx.osName == common.LINUX:
         osSources |= {
@@ -24,15 +38,18 @@ def build(
     libraries = set()
     if _ctx.osName == common.LINUX:
         libraries |= {
+            'pthread',
             'X11',
+            'Xrandr',
         }
 
     buildPartialLibrary(
         _ctx,
         _sourcesSet,
         _librariesSet,
-        'common',
+        'display',
         setupSources = setupSources,
+        sources = sources,
         osSources = osSources,
         libraries = libraries,
     )
