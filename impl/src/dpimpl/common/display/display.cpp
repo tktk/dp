@@ -4,6 +4,7 @@
 #include "dpimpl/common/display/display.h"
 #include "dp/display/displaymodekey.h"
 #include "dpimpl/common/display/displaymodekey.h"
+#include "dpimpl/common/display/displaymode.h"
 #include "dp/display/displayrotate.h"
 #include "dp/common/primitives.h"
 
@@ -64,7 +65,7 @@ namespace dp {
 
         auto &  display = *displayUnique;
 
-        if( displayModeKeyGetWidthAndHeight(
+        if( displayModeGetWidthAndHeightFromModeKey(
             *( display.modeKeyUnique )
             , display.width
             , display.height
@@ -132,7 +133,7 @@ namespace dp {
         , const DisplayModeKey &    _MODE_KEY
     )
     {
-        if( displayModeKeyGetWidthAndHeight(
+        if( displayModeGetWidthAndHeightFromModeKey(
             _MODE_KEY
             , _display.width
             , _display.height

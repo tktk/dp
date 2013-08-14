@@ -11,4 +11,14 @@ namespace dp {
         //TODO
         return nullptr;
     }
+
+    Bool displayModeGetWidthAndHeightFromModeKey(
+        const DisplayModeKey &
+        , ULong &
+        , ULong &
+    )
+    {
+        //TODO
+        return false;
+    }
 }

@@ -1,6 +1,7 @@
 ﻿#ifndef DPIMPL_LINUX_DISPLAY_DISPLAYMANAGER_H
 #define DPIMPL_LINUX_DISPLAY_DISPLAYMANAGER_H
 
+#include "dpimpl/linux/display/x11.h"
 #include "dp/common/primitives.h"
 #include "dp/common/thread.h"
 
@@ -8,21 +9,6 @@
 #include <thread>
 
 namespace dp {
-    struct X11DisplayDelete
-    {
-        void operator()(
-            ::Display * _display
-        )
-        {
-            XCloseDisplay( _display );
-        }
-    };
-
-    typedef std::unique_ptr<
-        ::Display
-        , X11DisplayDelete
-    > X11DisplayUnique;
-
     struct DisplayManagerImpl
     {
         Bool    ended;

@@ -3,14 +3,16 @@
 
 #include "dp/display/displaymodekey.h"
 
+#include "dpimpl/linux/display/xrandr.h"
+
 namespace dp {
     struct DisplayModeKey
     {
-        //TODO
+        RRMode  mode;
     };
 
     DisplayModeKey * displayModeKeyNew(
-        //TODO
+        const RRMode &
     );
 }
 

@@ -1,42 +1,62 @@
 ﻿#include "dpimpl/util/export.h"
 #include "dp/display/displaymodekey.h"
 
+#include "dpimpl/linux/display/displaymodekey.h"
 #include "dp/common/primitives.h"
+
+#include "dpimpl/linux/display/xrandr.h"
+#include <new>
+
+namespace {
+    dp::DisplayModeKey * displayModeKeyNew(
+        const RRMode &  _MODE
+    )
+    {
+        dp::DisplayModeKeyUnique    keyUnique( new( std::nothrow )dp::DisplayModeKey );
+        if( keyUnique.get() == nullptr ) {
+            return nullptr;
+        }
+
+        auto &  key = *keyUnique;
+
+        key.mode = _MODE;
+
+        return keyUnique.release();
+    }
+}
 
 namespace dp {
     DisplayModeKey * displayModeKeyClone(
-        const DisplayModeKey &
+        const DisplayModeKey &  _KEY
     )
     {
-        //TODO
-        return nullptr;
+        return ::displayModeKeyNew(
+            _KEY.mode
+        );
     }
 
     Bool displayModeKeyEquals(
-        const DisplayModeKey &
-        , const DisplayModeKey &
+        const DisplayModeKey &      _KEY1
+        , const DisplayModeKey &    _KEY2
     )
     {
-        //TODO
-        return false;
+        return _KEY1.mode == _KEY2.mode;
     }
 
     Bool displayModeKeyLess(
-        const DisplayModeKey &
-        , const DisplayModeKey &
+        const DisplayModeKey &      _KEY1
+        , const DisplayModeKey &    _KEY2
     )
     {
-        //TODO
-        return false;
+        return _KEY1.mode < _KEY2.mode;
     }
 
-    Bool displayModeKeyGetWidthAndHeight(
-        const DisplayModeKey &
-        , ULong &
-        , ULong &
+    DisplayModeKey * displayModeKeyNew(
+        const RRMode &  _MODE
     )
     {
-        //TODO
-        return false;
+        return ::displayModeKeyNew(
+            _MODE
+        );
     }
 }

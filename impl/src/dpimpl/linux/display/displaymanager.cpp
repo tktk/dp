@@ -10,70 +10,9 @@
 #include "dpimpl/linux/common/xlib.h"
 #include "dpimpl/linux/display/xrandr.h"
 #include <new>
-#include <memory>
 #include <vector>
 
 namespace {
-    ::Display * x11DisplayNew(
-    )
-    {
-        return XOpenDisplay( nullptr );
-    }
-
-    struct ScreenResourcesDelete
-    {
-        void operator()(
-            XRRScreenResources *    _screenResources
-        )
-        {
-            XRRFreeScreenResources( _screenResources );
-        }
-    };
-
-    typedef std::unique_ptr<
-        XRRScreenResources
-        , ScreenResourcesDelete
-    > ScreenResourcesUnique;
-
-    XRRScreenResources * screenResourcesNew(
-        ::Display &     _display
-        , ::Window &    _window
-    )
-    {
-        return XRRGetScreenResources(
-            &_display
-            , _window
-        );
-    }
-
-    struct CrtcInfoDelete
-    {
-        void operator()(
-            XRRCrtcInfo *   _info
-        )
-        {
-            XRRFreeCrtcInfo( _info );
-        }
-    };
-
-    typedef std::unique_ptr<
-        XRRCrtcInfo
-        , CrtcInfoDelete
-    > CrtcInfoUnique;
-
-    XRRCrtcInfo * crtcInfoNew(
-        ::Display &             _display
-        , XRRScreenResources &  _screenResources
-        , const RRCrtc &        _CRTC
-    )
-    {
-        return XRRGetCrtcInfo(
-            &_display
-            , &_screenResources
-            , _CRTC
-        );
-    }
-
     void callConnectEventHandler(
         dp::DisplayManager &    _manager
         , const RRCrtc &        _CRTC
@@ -97,14 +36,14 @@ namespace {
     }
 
     dp::Bool isConnectedDisplay(
-        ::Display &             _display
+        ::Display &             _x11Display
         , XRRScreenResources &  _screenResources
         , const RRCrtc &        _CRTC
     )
     {
-        CrtcInfoUnique  crtcInfoUnique(
-            crtcInfoNew(
-                _display
+        dp::CrtcInfoUnique  crtcInfoUnique(
+            dp::crtcInfoNew(
+                _x11Display
                 , _screenResources
                 , _CRTC
             )
@@ -128,8 +67,8 @@ namespace {
         , ::Window &            _x11Window
     )
     {
-        ScreenResourcesUnique   screenResourcesUnique(
-            screenResourcesNew(
+        dp::ScreenResourcesUnique   screenResourcesUnique(
+            dp::screenResourcesNew(
                 _x11Display
                 , _x11Window
             )
