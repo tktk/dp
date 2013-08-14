@@ -1,10 +1,12 @@
 ﻿#ifndef DP_DISPLAY_DISPLAYMODEKEY_H
 #define DP_DISPLAY_DISPLAYMODEKEY_H
 
+#include "dp/display/displaykey.h"
 #include "dp/common/primitives.h"
 #include "dp/util/import.h"
 
 #include <memory>
+#include <vector>
 
 namespace dp {
     struct DisplayModeKey;
@@ -70,6 +72,13 @@ namespace dp {
             );
         }
     };
+
+    typedef std::vector< DisplayModeKeyUnique > DisplayModeKeyUniques;
+
+    DPEXPORT Bool displayModeKeyEnumUniques(
+        const DisplayKey &
+        , DisplayModeKeyUniques &
+    );
 }
 
 #endif  // DP_DISPLAY_DISPLAYMODEKEY_H

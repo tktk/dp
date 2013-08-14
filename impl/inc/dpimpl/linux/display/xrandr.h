@@ -63,6 +63,34 @@ namespace dp {
             , _CRTC
         );
     }
+
+    struct OutputInfoDelete
+    {
+        void operator()(
+            XRROutputInfo * _info
+        )
+        {
+            XRRFreeOutputInfo( _info );
+        }
+    };
+
+    typedef std::unique_ptr<
+        XRROutputInfo
+        , OutputInfoDelete
+    > OutputInfoUnique;
+
+    inline XRROutputInfo * outputInfoNew(
+        ::Display &             _x11Display
+        , XRRScreenResources &  _screenResources
+        , const RROutput &      _OUTPUT
+    )
+    {
+        return XRRGetOutputInfo(
+            &_x11Display
+            , &_screenResources
+            , _OUTPUT
+        );
+    }
 }
 
 #endif  // DPIMPL_LINUX_DISPLAY_XRANDR_H

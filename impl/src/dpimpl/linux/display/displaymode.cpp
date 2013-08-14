@@ -81,12 +81,39 @@ namespace dp {
     }
 
     Bool displayModeGetWidthAndHeightFromModeKey(
-        const DisplayModeKey &
-        , ULong &
-        , ULong &
+        const DisplayModeKey &  _MODE_KEY
+        , ULong &               _width
+        , ULong &               _height
     )
     {
-        //TODO
-        return false;
+        auto &  x11Display = getX11Display();
+        auto &  x11Window = getX11Window();
+
+        ScreenResourcesUnique   screenResourcesUnique(
+            screenResourcesNew(
+                x11Display
+                , x11Window
+            )
+        );
+        if( screenResourcesUnique.get() == nullptr ) {
+            return false;
+        }
+
+        const auto &    SCREEN_RESOURCES = *screenResourcesUnique;
+
+        const auto  MODE_INFO_PTR = getXRRModeInfo(
+            SCREEN_RESOURCES
+            , _MODE_KEY.mode
+        );
+        if( MODE_INFO_PTR == nullptr ) {
+            return false;
+        }
+
+        const auto &    MODE_INFO = *MODE_INFO_PTR;
+
+        _width = MODE_INFO.width;
+        _height = MODE_INFO.height;
+
+        return true;
     }
 }
