@@ -43,6 +43,36 @@ namespace {
 
         return true;
     }
+
+    dp::Bool displayRotateToRotation(
+        Rotation &          _rotation
+        , dp::DisplayRotate _rotate
+    )
+    {
+        switch( _rotate ) {
+        case dp::DisplayRotate::NORMAL:
+            _rotation = RR_Rotate_0;
+            break;
+
+        case dp::DisplayRotate::LEFT:
+            _rotation = RR_Rotate_90;
+            break;
+
+        case dp::DisplayRotate::INVERTED:
+            _rotation = RR_Rotate_180;
+            break;
+
+        case dp::DisplayRotate::RIGHT:
+            _rotation = RR_Rotate_270;
+            break;
+
+        default:
+            return false;
+            break;
+        }
+
+        return true;
+    }
 }
 
 namespace dp {
@@ -111,5 +141,70 @@ namespace dp {
         display.height = CRTC_INFO.height;
 
         return displayUnique.release();
+    }
+
+    Bool displayApply(
+        const DisplayKey &  _KEY
+        , const Display &   _DISPLAY
+    )
+    {
+        auto &  x11Display = getX11Display();
+        auto &  x11Window = getX11Window();
+
+        ScreenResourcesUnique   screenResourcesUnique(
+            screenResourcesNew(
+                x11Display
+                , x11Window
+            )
+        );
+        if( screenResourcesUnique.get() == nullptr ) {
+            return false;
+        }
+
+        auto &  screenResources = *screenResourcesUnique;
+
+        const auto &    CRTC = _KEY.crtc;
+
+        CrtcInfoUnique  crtcInfoUnique(
+            crtcInfoNew(
+                x11Display
+                , screenResources
+                , CRTC
+            )
+        );
+        if( crtcInfoUnique.get() == nullptr ) {
+            return false;
+        }
+
+        const auto &    CRTC_INFO = *crtcInfoUnique;
+
+        if( CRTC_INFO.mode == None ) {
+            return false;
+        }
+
+        Rotation    rotation;
+        if( displayRotateToRotation(
+            rotation
+            , _DISPLAY.rotate
+        ) == false ) {
+            return false;
+        }
+
+        if( XRRSetCrtcConfig(
+            &x11Display
+            , &screenResources
+            , CRTC
+            , CurrentTime
+            , _DISPLAY.x
+            , _DISPLAY.y
+            , displayGetModeKey( _DISPLAY ).mode
+            , rotation
+            , CRTC_INFO.outputs
+            , CRTC_INFO.noutput
+        ) != 0 ) {
+            return false;
+        }
+
+        return true;
     }
 }

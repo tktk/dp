@@ -13,4 +13,13 @@ namespace dp {
         //TODO
         return nullptr;
     }
+
+    Bool displayApply(
+        const DisplayKey &
+        , const Display &
+    )
+    {
+        //TODO
+        return false;
+    }
 }
