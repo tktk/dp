@@ -1,6 +1,7 @@
 ﻿#ifndef DP_INPUT_GAMEPADKEY_H
 #define DP_INPUT_GAMEPADKEY_H
 
+#include "dp/common/functional.h"
 #include "dp/common/primitives.h"
 #include "dp/util/import.h"
 
@@ -9,67 +10,32 @@
 namespace dp {
     struct GamePadKey;
 
-    DPEXPORT GamePadKey * gamePadKeyClone(
+    DPEXPORT GamePadKey * clone(
         const GamePadKey &
     );
 
-    DPEXPORT void gamePadKeyDelete(
+    DPEXPORT void free(
         GamePadKey &
     );
 
-    DPEXPORT Bool gamePadKeyEquals(
+    DPEXPORT Bool equals(
         const GamePadKey &
         , const GamePadKey &
     );
 
-    DPEXPORT Bool gamePadKeyLess(
+    DPEXPORT Bool less(
         const GamePadKey &
         , const GamePadKey &
     );
-
-    struct GamePadKeyDelete
-    {
-        void operator()(
-            GamePadKey *    _key
-        ) const
-        {
-            gamePadKeyDelete( *_key );
-        }
-    };
 
     typedef std::unique_ptr<
         GamePadKey
-        , GamePadKeyDelete
+        , Free< GamePadKey >
     > GamePadKeyUnique;
 
     typedef std::shared_ptr< GamePadKey > GamePadKeyShared;
 
-    inline GamePadKeyShared gamePadKeyShared(
-        GamePadKey &    _key
-    )
-    {
-        return GamePadKeyShared(
-            &_key
-            , GamePadKeyDelete()
-        );
-    }
-
     typedef std::weak_ptr< GamePadKey > GamePadKeyWeak;
-
-    template< typename T >
-    struct GamePadKeyLess
-    {
-        Bool operator()(
-            const T &   _KEY1
-            , const T & _KEY2
-        ) const
-        {
-            return gamePadKeyLess(
-                *_KEY1
-                , *_KEY2
-            );
-        }
-    };
 }
 
 #endif  // DP_INPUT_GAMEPADKEY_H

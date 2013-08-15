@@ -7,7 +7,7 @@
 #include <new>
 
 namespace {
-    dp::GamePadKey * gamePadKeyNew(
+    dp::GamePadKey * newGamePadKey(
         //TODO
     )
     {
@@ -23,16 +23,16 @@ namespace {
 }
 
 namespace dp {
-    GamePadKey * gamePadKeyClone(
+    GamePadKey * clone(
         const GamePadKey &  _OTHER
     )
     {
-        return ::gamePadKeyNew(
+        return ::newGamePadKey(
             //TODO
         );
     }
 
-    Bool gamePadKeyEquals(
+    Bool equals(
         const GamePadKey &      _KEY1
         , const GamePadKey &    _KEY2
     )
@@ -41,7 +41,7 @@ namespace dp {
         return false;
     }
 
-    Bool gamePadKeyLess(
+    Bool less(
         const GamePadKey &      _KEY1
         , const GamePadKey &    _KEY2
     )
@@ -50,11 +50,11 @@ namespace dp {
         return false;
     }
 
-    GamePadKey * gamePadKeyNew(
+    GamePadKey * newGamePadKey(
         //TODO
     )
     {
-        return ::gamePadKeyNew(
+        return ::newGamePadKey(
             //TODO
         );
     }

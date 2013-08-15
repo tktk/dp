@@ -1,6 +1,7 @@
 ﻿#ifndef DP_INPUT_GAMEPADMANAGER_H
 #define DP_INPUT_GAMEPADMANAGER_H
 
+#include "dp/common/functional.h"
 #include "dp/common/primitives.h"
 #include "dp/input/gamepadkey.h"
 #include "dp/util/import.h"
@@ -22,101 +23,61 @@ namespace dp {
         )
     > GamePadManagerConnectEventHandler;
 
-    DPEXPORT GamePadManager * gamePadManagerNew(
+    DPEXPORT GamePadManager * newGamePadManager(
         const GamePadManagerInfo &
     );
 
-    DPEXPORT void gamePadManagerDelete(
+    DPEXPORT void free(
         GamePadManager &
     );
 
-    DPEXPORT const GamePadManagerInfo & gamePadManagerGetInfo(
+    DPEXPORT const GamePadManagerInfo & getInfo(
         const GamePadManager &
     );
 
-    DPEXPORT GamePadManagerInfo & gamePadManagerGetInfoMutable(
+    DPEXPORT GamePadManagerInfo & getInfoMutable(
         GamePadManager &
     );
 
-    DPEXPORT std::mutex & gamePadManagerGetMutexForConnectEventHandler(
+    DPEXPORT std::mutex & getMutexForConnectEventHandler(
         GamePadManager &
     );
 
-    DPEXPORT GamePadManagerInfo * gamePadManagerInfoNew(
+    DPEXPORT GamePadManagerInfo * newGamePadManagerInfo(
     );
 
-    DPEXPORT GamePadManagerInfo * gamePadManagerInfoClone(
+    DPEXPORT GamePadManagerInfo * clone(
         const GamePadManagerInfo &
     );
 
-    DPEXPORT void gamePadManagerInfoDelete(
+    DPEXPORT void free(
         GamePadManagerInfo &
     );
 
-    DPEXPORT const GamePadManagerConnectEventHandler & gamePadManagerInfoGetConnectEventHandler(
+    DPEXPORT const GamePadManagerConnectEventHandler & getConnectEventHandler(
         const GamePadManagerInfo &
     );
 
-    DPEXPORT void gamePadManagerInfoSetConnectEventHandler(
+    DPEXPORT void setConnectEventHandler(
         GamePadManagerInfo &
         , const GamePadManagerConnectEventHandler &
     );
 
-    struct GamePadManagerDelete
-    {
-        void operator()(
-            GamePadManager *    _manager
-        ) const
-        {
-            gamePadManagerDelete( *_manager );
-        }
-    };
-
     typedef std::unique_ptr<
         GamePadManager
-        , GamePadManagerDelete
+        , Free< GamePadManager >
     > GamePadManagerUnique;
 
     typedef std::shared_ptr< GamePadManager > GamePadManagerShared;
 
-    inline GamePadManagerShared gamePadManagerShared(
-        GamePadManager &    _manager
-    )
-    {
-        return GamePadManagerShared(
-            &_manager
-            , GamePadManagerDelete()
-        );
-    }
-
     typedef std::weak_ptr< GamePadManager > GamePadManagerWeak;
-
-    struct GamePadManagerInfoDelete
-    {
-        void operator()(
-            GamePadManagerInfo *    _info
-        ) const
-        {
-            gamePadManagerInfoDelete( *_info );
-        }
-    };
 
     typedef std::unique_ptr<
         GamePadManagerInfo
-        , GamePadManagerInfoDelete
+        , Free< GamePadManagerInfo >
     > GamePadManagerInfoUnique;
 
     typedef std::shared_ptr< GamePadManagerInfo > GamePadManagerInfoShared;
-
-    inline GamePadManagerInfoShared gamePadManagerInfoShared(
-        GamePadManagerInfo &    _info
-    )
-    {
-        return GamePadManagerInfoShared(
-            &_info
-            , GamePadManagerInfoDelete()
-        );
-    }
 
     typedef std::weak_ptr< GamePadManagerInfo > GamePadManagerInfoWeak;
 }

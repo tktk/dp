@@ -4,7 +4,7 @@
 #include "dpimpl/common/input/gamepadkey.h"
 
 namespace dp {
-    void gamePadKeyDelete(
+    void free(
         GamePadKey &    _key
     )
     {

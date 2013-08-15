@@ -3,7 +3,7 @@
 #include "dp/input/gamepadmanager.h"
 
 namespace dp {
-    GamePadManagerImpl * gamePadManagerImplNew(
+    GamePadManagerImpl * newGamePadManagerImpl(
         GamePadManager &
     )
     {
@@ -12,7 +12,7 @@ namespace dp {
         return nullptr;
     }
 
-    void gamePadManagerImplDelete(
+    void free(
         GamePadManagerImpl &
     )
     {

@@ -10,7 +10,7 @@ namespace dp {
         String  path;
     };
 
-    GamePadKey * gamePadKeyNew(
+    GamePadKey * newGamePadKey(
         const StringChar *
     );
 }

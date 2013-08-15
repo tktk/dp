@@ -21,7 +21,7 @@
 namespace {
     const auto  SUBSYSTEM = "input";
 
-    struct UdevDelete
+    struct DeleteUdev
     {
         void operator()(
             udev *  _udev
@@ -33,16 +33,16 @@ namespace {
 
     typedef std::unique_ptr<
         udev
-        , UdevDelete
+        , DeleteUdev
     > UdevUnique;
 
-    udev * udevNew(
+    udev * newUdev(
     )
     {
         return udev_new();
     }
 
-    struct UdevMonitorDelete
+    struct DeleteUdevMonitor
     {
         void operator()(
             udev_monitor *  _monitor
@@ -54,10 +54,10 @@ namespace {
 
     typedef std::unique_ptr<
         udev_monitor
-        , UdevMonitorDelete
+        , DeleteUdevMonitor
     > UdevMonitorUnique;
 
-    udev_monitor * udevMonitorNew(
+    udev_monitor * newUdevMonitor(
         udev &  _udev
     )
     {
@@ -88,7 +88,7 @@ namespace {
         return monitorUnique.release();
     }
 
-    struct UdevDeviceDelete
+    struct DeleteUdevDevice
     {
         void operator()(
             udev_device *   _device
@@ -100,12 +100,12 @@ namespace {
 
     typedef std::unique_ptr<
         udev_device
-        , UdevDeviceDelete
+        , DeleteUdevDevice
     > UdevDeviceUnique;
 
     typedef std::vector< UdevDeviceUnique > UdevDeviceUniques;
 
-    struct UdevEnumerateDelete
+    struct DeleteUdevEnumerate
     {
         void operator()(
             udev_enumerate *    _enumerate
@@ -117,10 +117,10 @@ namespace {
 
     typedef std::unique_ptr<
         udev_enumerate
-        , UdevEnumerateDelete
+        , DeleteUdevEnumerate
     > UdevEnumerateUnique;
 
-    udev_enumerate * udevEnumerateNew(
+    udev_enumerate * newUdevEnumerate(
         udev &  _udev
     )
     {
@@ -154,7 +154,7 @@ namespace {
     )
     {
         dp::GamePadKeyUnique    keyUnique(
-            dp::gamePadKeyNew(
+            dp::newGamePadKey(
                 _PATH
             )
         );
@@ -162,7 +162,7 @@ namespace {
             return;
         }
 
-        dp::gamePadManagerCallConnectEventHandler(
+        dp::callConnectEventHandler(
             _manager
             , std::move( keyUnique )
             , _connected
@@ -223,7 +223,7 @@ namespace {
     )
     {
         UdevEnumerateUnique enumerateUnique(
-            udevEnumerateNew(
+            newUdevEnumerate(
                 _udev
             )
         );
@@ -438,7 +438,7 @@ namespace {
         , dp::GamePadManagerImpl &  _impl
     )
     {
-        UdevUnique  udevUnique( udevNew() );
+        UdevUnique  udevUnique( newUdev() );
         if( udevUnique.get() == nullptr ) {
             return;
         }
@@ -446,7 +446,7 @@ namespace {
         auto &  udev = *udevUnique;
 
         UdevMonitorUnique   monitorUnique(
-            udevMonitorNew(
+            newUdevMonitor(
                 udev
             )
         );
@@ -483,7 +483,7 @@ namespace {
 }
 
 namespace dp {
-    GamePadManagerImpl * gamePadManagerImplNew(
+    GamePadManagerImpl * newGamePadManagerImpl(
         GamePadManager &    _manager
     )
     {
@@ -515,7 +515,7 @@ namespace dp {
         return implUnique.release();
     }
 
-    void gamePadManagerImplDelete(
+    void free(
         GamePadManagerImpl &    _impl
     )
     {

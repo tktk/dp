@@ -9,7 +9,7 @@ namespace dp {
         //TODO
     };
 
-    GamePadKey * gamePadKeyNew(
+    GamePadKey * newGamePadKey(
         //TODO
     );
 }

@@ -11,13 +11,14 @@
 
 #include "dp/input/gamepadmanager.h"
 #include "dp/input/gamepadkey.h"
+#include "dp/common/functional.h"
 #include "dp/common/primitives.h"
 
 #include <memory>
 #include <mutex>
 
 namespace dp {
-    void gamePadManagerCallConnectEventHandler(
+    void callConnectEventHandler(
         GamePadManager &
         , GamePadKeyUnique &&
         , Bool
@@ -25,27 +26,17 @@ namespace dp {
 
     struct GamePadManagerImpl;
 
-    GamePadManagerImpl * gamePadManagerImplNew(
+    GamePadManagerImpl * newGamePadManagerImpl(
         GamePadManager &
     );
 
-    void gamePadManagerImplDelete(
+    void free(
         GamePadManagerImpl &
     );
 
-    struct GamePadManagerImplDelete
-    {
-        void operator()(
-            GamePadManagerImpl *    _impl
-        ) const
-        {
-            gamePadManagerImplDelete( *_impl );
-        }
-    };
-
     typedef std::unique_ptr<
         GamePadManagerImpl
-        , GamePadManagerImplDelete
+        , Free< GamePadManagerImpl >
     > GamePadManagerImplUnique;
 
     struct GamePadManager

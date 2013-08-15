@@ -11,7 +11,7 @@
 #include <utility>
 
 namespace dp {
-    GamePadManager * gamePadManagerNew(
+    GamePadManager * newGamePadManager(
         const GamePadManagerInfo &  _INFO
     )
     {
@@ -24,7 +24,7 @@ namespace dp {
 
         auto &  infoUnique = manager.infoUnique;
         infoUnique.reset(
-            gamePadManagerInfoClone(
+            clone(
                 _INFO
             )
         );
@@ -34,7 +34,7 @@ namespace dp {
 
         auto &  implUnique = manager.implUnique;
         implUnique.reset(
-            gamePadManagerImplNew(
+            newGamePadManagerImpl(
                 manager
             )
         );
@@ -45,35 +45,35 @@ namespace dp {
         return managerUnique.release();
     }
 
-    void gamePadManagerDelete(
+    void free(
         GamePadManager &  _manager
     )
     {
         delete &_manager;
     }
 
-    const GamePadManagerInfo & gamePadManagerGetInfo(
+    const GamePadManagerInfo & getInfo(
         const GamePadManager &  _MANAGER
     )
     {
         return *( _MANAGER.infoUnique );
     }
 
-    GamePadManagerInfo & gamePadManagerGetInfoMutable(
+    GamePadManagerInfo & getInfoMutable(
         GamePadManager &    _manager
     )
     {
         return *( _manager.infoUnique );
     }
 
-    std::mutex & gamePadManagerGetMutexForConnectEventHandler(
+    std::mutex & getMutexForConnectEventHandler(
         GamePadManager &    _manager
     )
     {
         return _manager.mutexForConnectEventHandler;
     }
 
-    void gamePadManagerCallConnectEventHandler(
+    void callConnectEventHandler(
         GamePadManager &        _manager
         , GamePadKeyUnique &&   _keyUnique
         , Bool                  _connected

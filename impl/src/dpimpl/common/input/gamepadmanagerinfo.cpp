@@ -6,7 +6,7 @@
 #include <new>
 
 namespace {
-    dp::GamePadManagerInfo * gamePadManagerInfoNew(
+    dp::GamePadManagerInfo * newGamePadManagerInfo(
         const dp::GamePadManagerConnectEventHandler &   _CONNECT_EVENT_HANDLER
     )
     {
@@ -24,38 +24,38 @@ namespace {
 }
 
 namespace dp {
-    GamePadManagerInfo * gamePadManagerInfoNew(
+    GamePadManagerInfo * newGamePadManagerInfo(
     )
     {
-        return ::gamePadManagerInfoNew(
+        return ::newGamePadManagerInfo(
             nullptr
         );
     }
 
-    GamePadManagerInfo * gamePadManagerInfoClone(
+    GamePadManagerInfo * clone(
         const GamePadManagerInfo &  _OTHER
     )
     {
-        return ::gamePadManagerInfoNew(
+        return ::newGamePadManagerInfo(
             _OTHER.connectEventHandler
         );
     }
 
-    void gamePadManagerInfoDelete(
+    void free(
         GamePadManagerInfo &    _info
     )
     {
         delete &_info;
     }
 
-    const GamePadManagerConnectEventHandler & gamePadManagerInfoGetConnectEventHandler(
+    const GamePadManagerConnectEventHandler & getConnectEventHandler(
         const GamePadManagerInfo &  _INFO
     )
     {
         return _INFO.connectEventHandler;
     }
 
-    void gamePadManagerInfoSetConnectEventHandler(
+    void setConnectEventHandler(
         GamePadManagerInfo &                        _info
         , const GamePadManagerConnectEventHandler & _EVENT_HANDLER
     )
