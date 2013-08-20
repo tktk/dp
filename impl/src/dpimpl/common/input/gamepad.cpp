@@ -9,7 +9,7 @@
 #include <new>
 
 namespace dp {
-    GamePad * gamePadNew(
+    GamePad * newGamePad(
         const GamePadKey &      _KEY
         , const GamePadInfo &   _INFO
     )
@@ -23,7 +23,7 @@ namespace dp {
 
         auto &  infoUnique = gamePad.infoUnique;
         infoUnique.reset(
-            gamePadInfoClone(
+            clone(
                 _INFO
             )
         );
@@ -33,7 +33,7 @@ namespace dp {
 
         auto &  implUnique = gamePad.implUnique;
         implUnique.reset(
-            gamePadImplNew(
+            newGamePadImpl(
                 gamePad
                 , _KEY
             )
@@ -45,42 +45,42 @@ namespace dp {
         return gamePadUnique.release();
     }
 
-    void gamePadDelete(
+    void free(
         GamePad &   _gamePad
     )
     {
         delete &_gamePad;
     }
 
-    const GamePadInfo & gamePadGetInfo(
+    const GamePadInfo & getInfo(
         const GamePad & _GAME_PAD
     )
     {
         return *( _GAME_PAD.infoUnique );
     }
 
-    GamePadInfo & gamePadGetInfoMutable(
+    GamePadInfo & getInfoMutable(
         GamePad &   _gamePad
     )
     {
         return *( _gamePad.infoUnique );
     }
 
-    std::mutex & gamePadGetMutexForButtonEventHandler(
+    std::mutex & getMutexForButtonEventHandler(
         GamePad &   _gamePad
     )
     {
         return _gamePad.mutexForButtonEventHandler;
     }
 
-    std::mutex & gamePadGetMutexForAxisEventHandler(
+    std::mutex & getMutexForAxisEventHandler(
         GamePad &   _gamePad
     )
     {
         return _gamePad.mutexForAxisEventHandler;
     }
 
-    void gamePadCallButtonEventHandler(
+    void callButtonEventHandler(
         GamePad &   _gamePad
         , ULong     _index
         , Bool      _pressed
@@ -98,7 +98,7 @@ namespace dp {
         }
     }
 
-    void gamePadCallAxisEventHandler(
+    void callAxisEventHandler(
         GamePad &   _gamePad
         , ULong     _index
         , Long      _value

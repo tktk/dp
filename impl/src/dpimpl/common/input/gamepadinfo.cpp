@@ -6,7 +6,7 @@
 #include <new>
 
 namespace {
-    dp::GamePadInfo * gamePadInfoNew(
+    dp::GamePadInfo * newGamePadInfo(
         dp::GamePadButtonEventHandler   _buttonEventHandler
         , dp::GamePadAxisEventHandler   _axisEventHandler
     )
@@ -26,40 +26,40 @@ namespace {
 }
 
 namespace dp {
-    GamePadInfo * gamePadInfoNew(
+    GamePadInfo * newGamePadInfo(
     )
     {
-        return ::gamePadInfoNew(
+        return ::newGamePadInfo(
             nullptr
             , nullptr
         );
     }
 
-    GamePadInfo * gamePadInfoClone(
+    GamePadInfo * clone(
         const GamePadInfo & _OTHER
     )
     {
-        return ::gamePadInfoNew(
+        return ::newGamePadInfo(
             _OTHER.buttonEventHandler
             , _OTHER.axisEventHandler
         );
     }
 
-    void gamePadInfoDelete(
+    void free(
         GamePadInfo &   _info
     )
     {
         delete &_info;
     }
 
-    const GamePadButtonEventHandler & gamePadInfoGetButtonEventHandler(
+    const GamePadButtonEventHandler & getButtonEventHandler(
         const GamePadInfo & _INFO
     )
     {
         return _INFO.buttonEventHandler;
     }
 
-    void gamePadInfoSetButtonEventHandler(
+    void setButtonEventHandler(
         GamePadInfo &                       _info
         , const GamePadButtonEventHandler & _EVENT_HANDLER
     )
@@ -67,14 +67,14 @@ namespace dp {
         _info.buttonEventHandler = _EVENT_HANDLER;
     }
 
-    const GamePadAxisEventHandler & gamePadInfoGetAxisEventHandler(
+    const GamePadAxisEventHandler & getAxisEventHandler(
         const GamePadInfo & _INFO
     )
     {
         return _INFO.axisEventHandler;
     }
 
-    void gamePadInfoSetAxisEventHandler(
+    void setAxisEventHandler(
         GamePadInfo &                       _info
         , const GamePadAxisEventHandler &   _EVENT_HANDLER
     )

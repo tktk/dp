@@ -111,7 +111,7 @@ namespace {
     {
         const auto  PRESSED = _value != 0;
 
-        gamePadCallButtonEventHandler(
+        dp::callButtonEventHandler(
             _gamePad
             , _index
             , PRESSED
@@ -124,7 +124,7 @@ namespace {
         , dp::Short     _value
     )
     {
-        gamePadCallAxisEventHandler(
+        dp::callAxisEventHandler(
             _gamePad
             , _index
             , _value
@@ -300,7 +300,7 @@ namespace {
 }
 
 namespace dp {
-    Bool gamePadGetName(
+    Bool getName(
         const GamePad & _GAME_PAD
         , Utf32 &       _name
     )
@@ -311,7 +311,7 @@ namespace dp {
         );
     }
 
-    Bool gamePadGetButtons(
+    Bool getButtons(
         const GamePad & _GAME_PAD
         , ULong &       _buttons
     )
@@ -323,7 +323,7 @@ namespace dp {
         );
     }
 
-    Bool gamePadGetAxes(
+    Bool getAxes(
         const GamePad & _GAME_PAD
         , ULong &       _axes
     )
@@ -335,7 +335,7 @@ namespace dp {
         );
     }
 
-    GamePadImpl * gamePadImplNew(
+    GamePadImpl * newGamePadImpl(
         GamePad &               _gamePad
         , const GamePadKey &    _KEY
     )
@@ -378,7 +378,7 @@ namespace dp {
         return implUnique.release();
     }
 
-    void gamePadImplDelete(
+    void free(
         GamePadImpl &   _impl
     )
     {

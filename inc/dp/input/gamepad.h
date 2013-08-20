@@ -2,6 +2,7 @@
 #define DP_INPUT_GAMEPAD_H
 
 #include "dp/input/gamepadkey.h"
+#include "dp/common/functional.h"
 #include "dp/common/primitives.h"
 #include "dp/util/import.h"
 
@@ -30,130 +31,90 @@ namespace dp {
         )
     > GamePadAxisEventHandler;
 
-    DPEXPORT GamePad * gamePadNew(
+    DPEXPORT GamePad * newGamePad(
         const GamePadKey &
         , const GamePadInfo &
     );
 
-    DPEXPORT void gamePadDelete(
+    DPEXPORT void free(
         GamePad &
     );
 
-    DPEXPORT Bool gamePadGetName(
+    DPEXPORT Bool getName(
         const GamePad &
         , Utf32 &
     );
 
-    DPEXPORT Bool gamePadGetButtons(
+    DPEXPORT Bool getButtons(
         const GamePad &
         , ULong &
     );
 
-    DPEXPORT Bool gamePadGetAxes(
+    DPEXPORT Bool getAxes(
         const GamePad &
         , ULong &
     );
 
-    DPEXPORT const GamePadInfo & gamePadGetInfo(
+    DPEXPORT const GamePadInfo & getInfo(
         const GamePad &
     );
 
-    DPEXPORT GamePadInfo & gamePadGetInfoMutable(
+    DPEXPORT GamePadInfo & getInfoMutable(
         GamePad &
     );
 
-    DPEXPORT std::mutex & gamePadGetMutexForButtonEventHandler(
+    DPEXPORT std::mutex & getMutexForButtonEventHandler(
         GamePad &
     );
 
-    DPEXPORT std::mutex & gamePadGetMutexForAxisEventHandler(
+    DPEXPORT std::mutex & getMutexForAxisEventHandler(
         GamePad &
     );
 
-    DPEXPORT GamePadInfo * gamePadInfoNew(
+    DPEXPORT GamePadInfo * newGamePadInfo(
     );
 
-    DPEXPORT GamePadInfo * gamePadInfoClone(
+    DPEXPORT GamePadInfo * clone(
         const GamePadInfo &
     );
 
-    DPEXPORT void gamePadInfoDelete(
+    DPEXPORT void free(
         GamePadInfo &
     );
 
-    DPEXPORT const GamePadButtonEventHandler & gamePadInfoGetButtonEventHandler(
+    DPEXPORT const GamePadButtonEventHandler & getButtonEventHandler(
         const GamePadInfo &
     );
 
-    DPEXPORT void gamePadInfoSetButtonEventHandler(
+    DPEXPORT void setButtonEventHandler(
         GamePadInfo &
         , const GamePadButtonEventHandler &
     );
 
-    DPEXPORT const GamePadAxisEventHandler & gamePadInfoGetAxisEventHandler(
+    DPEXPORT const GamePadAxisEventHandler & getAxisEventHandler(
         const GamePadInfo &
     );
 
-    DPEXPORT void gamePadInfoSetAxisEventHandler(
+    DPEXPORT void setAxisEventHandler(
         GamePadInfo &
         , const GamePadAxisEventHandler &
     );
 
-    struct GamePadDelete
-    {
-        void operator()(
-            GamePad *   _gamePad
-        ) const
-        {
-            gamePadDelete( *_gamePad );
-        }
-    };
-
     typedef std::unique_ptr<
         GamePad
-        , GamePadDelete
+        , Free< GamePad >
     > GamePadUnique;
 
     typedef std::shared_ptr< GamePad > GamePadShared;
 
-    inline GamePadShared gamePadShared(
-        GamePad &   _gamePad
-    )
-    {
-        return GamePadShared(
-            &_gamePad
-            , GamePadDelete()
-        );
-    }
-
     typedef std::weak_ptr< GamePad > GamePadWeak;
-
-    struct GamePadInfoDelete
-    {
-        void operator()(
-            GamePadInfo *   _info
-        ) const
-        {
-            gamePadInfoDelete( *_info );
-        }
-    };
 
     typedef std::unique_ptr<
         GamePadInfo
-        , GamePadInfoDelete
+        , Free< GamePadInfo >
     > GamePadInfoUnique;
 
     typedef std::shared_ptr< GamePadInfo > GamePadInfoShared;
-
-    inline GamePadInfoShared gamePadInfoShared(
-        GamePadInfo &   _info
-    )
-    {
-        return GamePadInfoShared(
-            &_info
-            , GamePadInfoDelete()
-        );
-    }
 
     typedef std::weak_ptr< GamePadInfo > GamePadInfoWeak;
 }

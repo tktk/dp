@@ -9,7 +9,7 @@
 #include <new>
 
 namespace dp {
-    Bool gamePadGetName(
+    Bool getName(
         const GamePad & _GAME_PAD
         , Utf32 &       _name
     )
@@ -18,7 +18,7 @@ namespace dp {
         return false;
     }
 
-    Bool gamePadGetButtons(
+    Bool getButtons(
         const GamePad & _GAME_PAD
         , ULong &       _buttons
     )
@@ -27,7 +27,7 @@ namespace dp {
         return false;
     }
 
-    Bool gamePadGetAxes(
+    Bool getAxes(
         const GamePad & _GAME_PAD
         , ULong &       _axes
     )
@@ -36,7 +36,7 @@ namespace dp {
         return false;
     }
 
-    GamePadImpl * gamePadImplNew(
+    GamePadImpl * newGamePadImpl(
         GamePad &
         , const GamePadKey &
     )
@@ -51,7 +51,7 @@ namespace dp {
         return implUnique.release();
     }
 
-    void gamePadImplDelete(
+    void free(
         GamePadImpl &   _impl
     )
     {

@@ -11,19 +11,20 @@
 
 #include "dp/input/gamepad.h"
 #include "dp/input/gamepadkey.h"
+#include "dp/common/functional.h"
 #include "dp/common/primitives.h"
 
 #include <memory>
 #include <mutex>
 
 namespace dp {
-    void gamePadCallButtonEventHandler(
+    void callButtonEventHandler(
         GamePad &
         , ULong
         , Bool
     );
 
-    void gamePadCallAxisEventHandler(
+    void callAxisEventHandler(
         GamePad &
         , ULong
         , Long
@@ -31,28 +32,18 @@ namespace dp {
 
     struct GamePadImpl;
 
-    GamePadImpl * gamePadImplNew(
+    GamePadImpl * newGamePadImpl(
         GamePad &
         , const GamePadKey &
     );
 
-    void gamePadImplDelete(
+    void free(
         GamePadImpl &
     );
 
-    struct GamePadImplDelete
-    {
-        void operator()(
-            GamePadImpl *   _impl
-        ) const
-        {
-            gamePadImplDelete( *_impl );
-        }
-    };
-
     typedef std::unique_ptr<
         GamePadImpl
-        , GamePadImplDelete
+        , Free< GamePadImpl >
     > GamePadImplUnique;
 
     struct GamePad
