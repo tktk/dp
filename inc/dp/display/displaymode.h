@@ -2,6 +2,7 @@
 #define DP_DISPLAY_DISPLAYMODE_H
 
 #include "dp/display/displaymodekey.h"
+#include "dp/common/functional.h"
 #include "dp/common/primitives.h"
 #include "dp/util/import.h"
 
@@ -10,52 +11,32 @@
 namespace dp {
     struct DisplayMode;
 
-    DPEXPORT DisplayMode * displayModeNew(
+    DPEXPORT DisplayMode * newDisplayMode(
         const DisplayModeKey &
     );
 
-    DPEXPORT void displayModeDelete(
+    DPEXPORT void free(
         DisplayMode &
     );
 
-    DPEXPORT ULong displayModeGetWidth(
+    DPEXPORT ULong getWidth(
         const DisplayMode &
     );
 
-    DPEXPORT ULong displayModeGetHeight(
+    DPEXPORT ULong getHeight(
         const DisplayMode &
     );
 
-    DPEXPORT Float displayModeGetRefreshRate(
+    DPEXPORT Float getRefreshRate(
         const DisplayMode &
     );
-
-    struct DisplayModeDelete
-    {
-        void operator()(
-            DisplayMode *   _mode
-        ) const
-        {
-            displayModeDelete( *_mode );
-        }
-    };
 
     typedef std::unique_ptr<
         DisplayMode
-        , DisplayModeDelete
+        , Free< DisplayMode >
     > DisplayModeUnique;
 
     typedef std::shared_ptr< DisplayMode > DisplayModeShared;
-
-    inline DisplayModeShared displayModeShared(
-        DisplayMode &   _mode
-    )
-    {
-        return DisplayModeShared(
-            &_mode
-            , DisplayModeDelete()
-        );
-    }
 
     typedef std::weak_ptr< DisplayMode > DisplayModeWeak;
 }

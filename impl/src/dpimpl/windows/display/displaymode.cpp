@@ -4,7 +4,7 @@
 #include "dp/display/displaymodekey.h"
 
 namespace dp {
-    DisplayMode * displayModeNew(
+    DisplayMode * newDisplayMode(
         const DisplayModeKey &  _MODE_KEY
     )
     {
@@ -12,10 +12,10 @@ namespace dp {
         return nullptr;
     }
 
-    Bool displayModeGetWidthAndHeightFromModeKey(
-        const DisplayModeKey &
+    Bool getWidthAndHeightFromModeKey(
+        ULong &
         , ULong &
-        , ULong &
+        , const DisplayModeKey &
     )
     {
         //TODO

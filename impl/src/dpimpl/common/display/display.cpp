@@ -65,10 +65,10 @@ namespace dp {
 
         auto &  display = *displayUnique;
 
-        if( displayModeGetWidthAndHeightFromModeKey(
-            *( display.modeKeyUnique )
-            , display.width
+        if( getWidthAndHeightFromModeKey(
+            display.width
             , display.height
+            , *( display.modeKeyUnique )
         ) == false ) {
             return nullptr;
         }
@@ -133,10 +133,10 @@ namespace dp {
         , const DisplayModeKey &    _MODE_KEY
     )
     {
-        if( displayModeGetWidthAndHeightFromModeKey(
-            _MODE_KEY
-            , _display.width
+        if( getWidthAndHeightFromModeKey(
+            _display.width
             , _display.height
+            , _MODE_KEY
         ) == false ) {
             return false;
         }

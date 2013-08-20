@@ -5,10 +5,10 @@
 #include "dp/common/primitives.h"
 
 namespace dp {
-    Bool displayModeGetWidthAndHeightFromModeKey(
-        const DisplayModeKey &
+    Bool getWidthAndHeightFromModeKey(
+        ULong &
         , ULong &
-        , ULong &
+        , const DisplayModeKey &
     );
 
     struct DisplayMode

@@ -32,7 +32,7 @@ namespace {
 }
 
 namespace dp {
-    DisplayMode * displayModeNew(
+    DisplayMode * newDisplayMode(
         const DisplayModeKey &  _MODE_KEY
     )
     {
@@ -80,10 +80,10 @@ namespace dp {
         return modeUnique.release();
     }
 
-    Bool displayModeGetWidthAndHeightFromModeKey(
-        const DisplayModeKey &  _MODE_KEY
-        , ULong &               _width
-        , ULong &               _height
+    Bool getWidthAndHeightFromModeKey(
+        ULong &                     _width
+        , ULong &                   _height
+        , const DisplayModeKey &    _MODE_KEY
     )
     {
         auto &  x11Display = getX11Display();

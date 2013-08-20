@@ -5,28 +5,28 @@
 #include "dp/common/primitives.h"
 
 namespace dp {
-    void displayModeDelete(
+    void free(
         DisplayMode &   _mode
     )
     {
         delete &_mode;
     }
 
-    ULong displayModeGetWidth(
+    ULong getWidth(
         const DisplayMode & _MODE
     )
     {
         return _MODE.width;
     }
 
-    ULong displayModeGetHeight(
+    ULong getHeight(
         const DisplayMode & _MODE
     )
     {
         return _MODE.height;
     }
 
-    Float displayModeGetRefreshRate(
+    Float getRefreshRate(
         const DisplayMode & _MODE
     )
     {
