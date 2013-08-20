@@ -20,7 +20,7 @@ namespace {
     )
     {
         dp::DisplayKeyUnique    keyUnique(
-            dp::displayKeyNew(
+            dp::newDisplayKey(
                 _CRTC
             )
         );

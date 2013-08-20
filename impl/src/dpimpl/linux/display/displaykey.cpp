@@ -8,7 +8,7 @@
 #include <new>
 
 namespace {
-    dp::DisplayKey * displayKeyNew(
+    dp::DisplayKey * newDisplayKey(
         const RRCrtc &  _CRTC
     )
     {
@@ -26,16 +26,16 @@ namespace {
 }
 
 namespace dp {
-    DisplayKey * displayKeyClone(
+    DisplayKey * clone(
         const DisplayKey &  _OTHER
     )
     {
-        return ::displayKeyNew(
+        return ::newDisplayKey(
             _OTHER.crtc
         );
     }
 
-    Bool displayKeyEquals(
+    Bool equals(
         const DisplayKey &      _KEY1
         , const DisplayKey &    _KEY2
     )
@@ -43,7 +43,7 @@ namespace dp {
         return _KEY1.crtc == _KEY2.crtc;
     }
 
-    Bool displayKeyLess(
+    Bool less(
         const DisplayKey &      _KEY1
         , const DisplayKey &    _KEY2
     )
@@ -51,11 +51,11 @@ namespace dp {
         return _KEY1.crtc < _KEY2.crtc;
     }
 
-    DisplayKey * displayKeyNew(
+    DisplayKey * newDisplayKey(
         const RRCrtc &  _CRTC
     )
     {
-        return ::displayKeyNew(
+        return ::newDisplayKey(
             _CRTC
         );
     }

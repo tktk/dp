@@ -4,7 +4,7 @@
 #include "dpimpl/common/display/displaykey.h"
 
 namespace dp {
-    void displayKeyDelete(
+    void free(
         DisplayKey &    _key
     )
     {

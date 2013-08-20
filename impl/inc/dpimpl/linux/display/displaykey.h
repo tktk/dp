@@ -11,7 +11,7 @@ namespace dp {
         RRCrtc  crtc;
     };
 
-    DisplayKey * displayKeyNew(
+    DisplayKey * newDisplayKey(
         const RRCrtc &
     );
 }

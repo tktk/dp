@@ -7,7 +7,7 @@
 #include <new>
 
 namespace {
-    dp::DisplayKey * displayKeyNew(
+    dp::DisplayKey * newDisplayKey(
         //TODO
     )
     {
@@ -25,16 +25,16 @@ namespace {
 }
 
 namespace dp {
-    DisplayKey * displayKeyClone(
+    DisplayKey * clone(
         const DisplayKey &  _OTHER
     )
     {
-        return ::displayKeyNew(
+        return ::newDisplayKey(
             //TODO
         );
     }
 
-    Bool displayKeyEquals(
+    Bool equals(
         const DisplayKey &      _KEY1
         , const DisplayKey &    _KEY2
     )
@@ -43,7 +43,7 @@ namespace dp {
         return false;
     }
 
-    Bool displayKeyLess(
+    Bool less(
         const DisplayKey &      _KEY1
         , const DisplayKey &    _KEY2
     )
@@ -52,11 +52,11 @@ namespace dp {
         return false;
     }
 
-    DisplayKey * displayKeyNew(
+    DisplayKey * newDisplayKey(
         //TODO
     )
     {
-        return ::displayKeyNew(
+        return ::newDisplayKey(
             //TODO
         );
     }
