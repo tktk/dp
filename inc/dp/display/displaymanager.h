@@ -1,6 +1,7 @@
 ﻿#ifndef DP_DISPLAY_DISPLAYMANAGER_H
 #define DP_DISPLAY_DISPLAYMANAGER_H
 
+#include "dp/common/functional.h"
 #include "dp/common/primitives.h"
 #include "dp/display/displaykey.h"
 #include "dp/util/import.h"
@@ -22,101 +23,61 @@ namespace dp {
         )
     > DisplayManagerConnectEventHandler;
 
-    DPEXPORT DisplayManager * displayManagerNew(
+    DPEXPORT DisplayManager * newDisplayManager(
         const DisplayManagerInfo &
     );
 
-    DPEXPORT void displayManagerDelete(
+    DPEXPORT void free(
         DisplayManager &
     );
 
-    DPEXPORT const DisplayManagerInfo & displayManagerGetInfo(
+    DPEXPORT const DisplayManagerInfo & getInfo(
         const DisplayManager &
     );
 
-    DPEXPORT DisplayManagerInfo & displayManagerGetInfoMutable(
+    DPEXPORT DisplayManagerInfo & getInfoMutable(
         DisplayManager &
     );
 
-    DPEXPORT std::mutex & displayManagerGetMutexForConnectEventHandler(
+    DPEXPORT std::mutex & getMutexForConnectEventHandler(
         DisplayManager &
     );
 
-    DPEXPORT DisplayManagerInfo * displayManagerInfoNew(
+    DPEXPORT DisplayManagerInfo * newDisplayManagerInfo(
     );
 
-    DPEXPORT DisplayManagerInfo * displayManagerInfoClone(
+    DPEXPORT DisplayManagerInfo * clone(
         const DisplayManagerInfo &
     );
 
-    DPEXPORT void displayManagerInfoDelete(
+    DPEXPORT void free(
         DisplayManagerInfo &
     );
 
-    DPEXPORT const DisplayManagerConnectEventHandler & displayManagerInfoGetConnectEventHandler(
+    DPEXPORT const DisplayManagerConnectEventHandler & getConnectEventHandler(
         const DisplayManagerInfo &
     );
 
-    DPEXPORT void displayManagerInfoSetConnectEventHandler(
+    DPEXPORT void setConnectEventHandler(
         DisplayManagerInfo &
         , const DisplayManagerConnectEventHandler &
     );
 
-    struct DisplayManagerDelete
-    {
-        void operator()(
-            DisplayManager *    _manager
-        ) const
-        {
-            displayManagerDelete( *_manager );
-        }
-    };
-
     typedef std::unique_ptr<
         DisplayManager
-        , DisplayManagerDelete
+        , Free< DisplayManager >
     > DisplayManagerUnique;
 
     typedef std::shared_ptr< DisplayManager > DisplayManagerShared;
 
-    inline DisplayManagerShared displayManagerShared(
-        DisplayManager &    _manager
-    )
-    {
-        return DisplayManagerShared(
-            &_manager
-            , DisplayManagerDelete()
-        );
-    }
-
     typedef std::weak_ptr< DisplayManager > DisplayManagerWeak;
-
-    struct DisplayManagerInfoDelete
-    {
-        void operator()(
-            DisplayManagerInfo *    _info
-        ) const
-        {
-            displayManagerInfoDelete( *_info );
-        }
-    };
 
     typedef std::unique_ptr<
         DisplayManagerInfo
-        , DisplayManagerInfoDelete
+        , Free< DisplayManagerInfo >
     > DisplayManagerInfoUnique;
 
     typedef std::shared_ptr< DisplayManagerInfo > DisplayManagerInfoShared;
-
-    inline DisplayManagerInfoShared displayManagerInfoShared(
-        DisplayManagerInfo &    _info
-    )
-    {
-        return DisplayManagerInfoShared(
-            &_info
-            , DisplayManagerInfoDelete()
-        );
-    }
 
     typedef std::weak_ptr< DisplayManagerInfo > DisplayManagerInfoWeak;
 }

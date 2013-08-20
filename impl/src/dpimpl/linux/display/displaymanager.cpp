@@ -28,7 +28,7 @@ namespace {
             return;
         }
 
-        dp::displayManagerCallConnectEventHandler(
+        dp::callConnectEventHandler(
             _manager
             , std::move( keyUnique )
             , _connected
@@ -232,7 +232,7 @@ namespace {
 }
 
 namespace dp {
-    DisplayManagerImpl * displayManagerImplNew(
+    DisplayManagerImpl * newDisplayManagerImpl(
         DisplayManager &    _manager
     )
     {
@@ -283,7 +283,7 @@ namespace dp {
         return implUnique.release();
     }
 
-    void displayManagerImplDelete(
+    void free(
         DisplayManagerImpl &    _impl
     )
     {

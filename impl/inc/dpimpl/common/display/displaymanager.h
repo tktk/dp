@@ -11,13 +11,14 @@
 
 #include "dp/display/displaymanager.h"
 #include "dp/display/displaykey.h"
+#include "dp/common/functional.h"
 #include "dp/common/primitives.h"
 
 #include <memory>
 #include <mutex>
 
 namespace dp {
-    void displayManagerCallConnectEventHandler(
+    void callConnectEventHandler(
         DisplayManager &
         , DisplayKeyUnique &&
         , Bool
@@ -25,27 +26,17 @@ namespace dp {
 
     struct DisplayManagerImpl;
 
-    DisplayManagerImpl * displayManagerImplNew(
+    DisplayManagerImpl * newDisplayManagerImpl(
         DisplayManager &
     );
 
-    void displayManagerImplDelete(
+    void free(
         DisplayManagerImpl &
     );
 
-    struct DisplayManagerImplDelete
-    {
-        void operator()(
-            DisplayManagerImpl *    _impl
-        ) const
-        {
-            displayManagerImplDelete( *_impl );
-        }
-    };
-
     typedef std::unique_ptr<
         DisplayManagerImpl
-        , DisplayManagerImplDelete
+        , Free< DisplayManagerImpl >
     > DisplayManagerImplUnique;
 
     struct DisplayManager

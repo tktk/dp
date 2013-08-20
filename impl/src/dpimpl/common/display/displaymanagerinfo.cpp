@@ -6,7 +6,7 @@
 #include <new>
 
 namespace {
-    dp::DisplayManagerInfo * displayManagerInfoNew(
+    dp::DisplayManagerInfo * newDisplayManagerInfo(
         const dp::DisplayManagerConnectEventHandler &   _CONNECT_EVENT_HANDLER
     )
     {
@@ -24,38 +24,38 @@ namespace {
 }
 
 namespace dp {
-    DisplayManagerInfo * displayManagerInfoNew(
+    DisplayManagerInfo * newDisplayManagerInfo(
     )
     {
-        return ::displayManagerInfoNew(
+        return ::newDisplayManagerInfo(
             nullptr
         );
     }
 
-    DisplayManagerInfo * displayManagerInfoClone(
+    DisplayManagerInfo * clone(
         const DisplayManagerInfo &  _OTHER
     )
     {
-        return ::displayManagerInfoNew(
+        return ::newDisplayManagerInfo(
             _OTHER.connectEventHandler
         );
     }
 
-    void displayManagerInfoDelete(
+    void free(
         DisplayManagerInfo &    _info
     )
     {
         delete &_info;
     }
 
-    const DisplayManagerConnectEventHandler & displayManagerInfoGetConnectEventHandler(
+    const DisplayManagerConnectEventHandler & getConnectEventHandler(
         const DisplayManagerInfo &  _INFO
     )
     {
         return _INFO.connectEventHandler;
     }
 
-    void displayManagerInfoSetConnectEventHandler(
+    void setConnectEventHandler(
         DisplayManagerInfo &                        _info
         , const DisplayManagerConnectEventHandler & _EVENT_HANDLER
     )

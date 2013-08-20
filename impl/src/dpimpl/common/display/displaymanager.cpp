@@ -11,7 +11,7 @@
 #include <utility>
 
 namespace dp {
-    DisplayManager * displayManagerNew(
+    DisplayManager * newDisplayManager(
         const DisplayManagerInfo &  _INFO
     )
     {
@@ -24,7 +24,7 @@ namespace dp {
 
         auto &  infoUnique = manager.infoUnique;
         infoUnique.reset(
-            displayManagerInfoClone(
+            clone(
                 _INFO
             )
         );
@@ -34,7 +34,7 @@ namespace dp {
 
         auto &  implUnique = manager.implUnique;
         implUnique.reset(
-            displayManagerImplNew(
+            newDisplayManagerImpl(
                 manager
             )
         );
@@ -45,35 +45,35 @@ namespace dp {
         return managerUnique.release();
     }
 
-    void displayManagerDelete(
+    void free(
         DisplayManager &    _manager
     )
     {
         delete &_manager;
     }
 
-    const DisplayManagerInfo & displayManagerGetInfo(
+    const DisplayManagerInfo & getInfo(
         const DisplayManager &  _MANAGER
     )
     {
         return *( _MANAGER.infoUnique );
     }
 
-    DisplayManagerInfo & displayManagerGetInfoMutable(
+    DisplayManagerInfo & getInfoMutable(
         DisplayManager &    _manager
     )
     {
         return *( _manager.infoUnique );
     }
 
-    std::mutex & displayManagerGetMutexForConnectEventHandler(
+    std::mutex & getMutexForConnectEventHandler(
         DisplayManager &    _manager
     )
     {
         return _manager.mutexForConnectEventHandler;
     }
 
-    void displayManagerCallConnectEventHandler(
+    void callConnectEventHandler(
         DisplayManager &        _manager
         , DisplayKeyUnique &&   _keyUnique
         , Bool                  _connected

@@ -3,7 +3,7 @@
 #include "dp/display/displaymanager.h"
 
 namespace dp {
-    DisplayManagerImpl * displayManagerImplNew(
+    DisplayManagerImpl * newDisplayManagerImpl(
         DisplayManager &
     )
     {
@@ -12,7 +12,7 @@ namespace dp {
         return nullptr;
     }
 
-    void displayManagerImplDelete(
+    void free(
         DisplayManagerImpl &
     )
     {
