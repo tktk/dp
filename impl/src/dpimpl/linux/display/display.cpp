@@ -118,7 +118,7 @@ namespace dp {
         auto &  modeKeyUnique = display.modeKeyUnique;
 
         modeKeyUnique.reset(
-            displayModeKeyNew(
+            newDisplayModeKey(
                 CRTC_INFO.mode
             )
         );

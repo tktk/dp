@@ -11,7 +11,7 @@
 #include <algorithm>
 
 namespace {
-    dp::DisplayModeKey * displayModeKeyNew(
+    dp::DisplayModeKey * newDisplayModeKey(
         const RRMode &  _MODE
     )
     {
@@ -74,7 +74,7 @@ namespace {
 
             _modeKeyUniques.push_back(
                 dp::DisplayModeKeyUnique(
-                    dp::displayModeKeyNew(
+                    dp::newDisplayModeKey(
                         MODE
                     )
                 )
@@ -86,16 +86,16 @@ namespace {
 }
 
 namespace dp {
-    DisplayModeKey * displayModeKeyClone(
+    DisplayModeKey * clone(
         const DisplayModeKey &  _KEY
     )
     {
-        return ::displayModeKeyNew(
+        return ::newDisplayModeKey(
             _KEY.mode
         );
     }
 
-    Bool displayModeKeyEquals(
+    Bool equals(
         const DisplayModeKey &      _KEY1
         , const DisplayModeKey &    _KEY2
     )
@@ -103,7 +103,7 @@ namespace dp {
         return _KEY1.mode == _KEY2.mode;
     }
 
-    Bool displayModeKeyLess(
+    Bool less(
         const DisplayModeKey &      _KEY1
         , const DisplayModeKey &    _KEY2
     )
@@ -111,7 +111,7 @@ namespace dp {
         return _KEY1.mode < _KEY2.mode;
     }
 
-    Bool displayModeKeyEnumUniques(
+    Bool enumDisplayModeKeyUniques(
         const DisplayKey &          _KEY
         , DisplayModeKeyUniques &   _modeKeyUniques
     )
@@ -162,17 +162,17 @@ namespace dp {
         std::sort(
             _modeKeyUniques.begin()
             , _modeKeyUniques.end()
-            , DisplayModeKeyLess< DisplayModeKeyUnique >()
+            , Less< DisplayModeKeyUnique >()
         );
 
         return true;
     }
 
-    DisplayModeKey * displayModeKeyNew(
+    DisplayModeKey * newDisplayModeKey(
         const RRMode &  _MODE
     )
     {
-        return ::displayModeKeyNew(
+        return ::newDisplayModeKey(
             _MODE
         );
     }

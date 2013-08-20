@@ -9,7 +9,7 @@ namespace dp {
         //TODO
     };
 
-    DisplayModeKey * displayModeKeyNew(
+    DisplayModeKey * newDisplayModeKey(
         //TODO
     );
 }

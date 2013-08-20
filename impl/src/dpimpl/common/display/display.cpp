@@ -27,7 +27,7 @@ namespace {
 
         auto &  modeKeyUnique = display.modeKeyUnique;
         modeKeyUnique.reset(
-            dp::displayModeKeyClone(
+            dp::clone(
                 _MODE_KEY
             )
         );
@@ -142,7 +142,7 @@ namespace dp {
         }
 
         DisplayModeKeyUnique    modeKeyUnique(
-            displayModeKeyClone(
+            clone(
                 _MODE_KEY
             )
         );

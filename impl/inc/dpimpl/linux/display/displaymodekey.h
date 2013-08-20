@@ -11,7 +11,7 @@ namespace dp {
         RRMode  mode;
     };
 
-    DisplayModeKey * displayModeKeyNew(
+    DisplayModeKey * newDisplayModeKey(
         const RRMode &
     );
 }

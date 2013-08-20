@@ -5,7 +5,7 @@
 #include "dp/common/primitives.h"
 
 namespace dp {
-    DisplayModeKey * displayModeKeyClone(
+    DisplayModeKey * clone(
         const DisplayModeKey &
     )
     {
@@ -13,7 +13,7 @@ namespace dp {
         return nullptr;
     }
 
-    Bool displayModeKeyEquals(
+    Bool equals(
         const DisplayModeKey &
         , const DisplayModeKey &
     )
@@ -22,7 +22,7 @@ namespace dp {
         return false;
     }
 
-    Bool displayModeKeyLess(
+    Bool less(
         const DisplayModeKey &
         , const DisplayModeKey &
     )
@@ -31,7 +31,7 @@ namespace dp {
         return false;
     }
 
-    Bool displayModeKeyEnumUniques(
+    Bool enumDisplayModeKeyUniques(
         const DisplayKey &
         , DisplayModeKeyUniques &
     )

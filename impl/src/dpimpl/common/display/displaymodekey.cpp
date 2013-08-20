@@ -4,7 +4,7 @@
 #include "dpimpl/common/display/displaymodekey.h"
 
 namespace dp {
-    void displayModeKeyDelete(
+    void free(
         DisplayModeKey &    _modeKey
     )
     {

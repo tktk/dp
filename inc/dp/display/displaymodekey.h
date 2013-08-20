@@ -2,6 +2,7 @@
 #define DP_DISPLAY_DISPLAYMODEKEY_H
 
 #include "dp/display/displaykey.h"
+#include "dp/common/functional.h"
 #include "dp/common/primitives.h"
 #include "dp/util/import.h"
 
@@ -11,71 +12,36 @@
 namespace dp {
     struct DisplayModeKey;
 
-    DPEXPORT DisplayModeKey * displayModeKeyClone(
+    DPEXPORT DisplayModeKey * clone(
         const DisplayModeKey &
     );
 
-    DPEXPORT void displayModeKeyDelete(
+    DPEXPORT void free(
         DisplayModeKey &
     );
 
-    DPEXPORT Bool displayModeKeyEquals(
+    DPEXPORT Bool equals(
         const DisplayModeKey &
         , const DisplayModeKey &
     );
 
-    DPEXPORT Bool displayModeKeyLess(
+    DPEXPORT Bool less(
         const DisplayModeKey &
         , const DisplayModeKey &
     );
-
-    struct DisplayModeKeyDelete
-    {
-        void operator()(
-            DisplayModeKey *    _key
-        ) const
-        {
-            displayModeKeyDelete( *_key );
-        }
-    };
 
     typedef std::unique_ptr<
         DisplayModeKey
-        , DisplayModeKeyDelete
+        , Free< DisplayModeKey >
     > DisplayModeKeyUnique;
 
     typedef std::shared_ptr< DisplayModeKey > DisplayModeKeyShared;
 
-    inline DisplayModeKeyShared displayModeKeyShared(
-        DisplayModeKey &    _key
-    )
-    {
-        return DisplayModeKeyShared(
-            &_key
-            , DisplayModeKeyDelete()
-        );
-    }
-
     typedef std::weak_ptr< DisplayModeKey > DisplayModeKeyWeak;
-
-    template< typename T >
-    struct DisplayModeKeyLess
-    {
-        Bool operator()(
-            const T &   _KEY1
-            , const T & _KEY2
-        ) const
-        {
-            return displayModeKeyLess(
-                *_KEY1
-                , *_KEY2
-            );
-        }
-    };
 
     typedef std::vector< DisplayModeKeyUnique > DisplayModeKeyUniques;
 
-    DPEXPORT Bool displayModeKeyEnumUniques(
+    DPEXPORT Bool enumDisplayModeKeyUniques(
         const DisplayKey &
         , DisplayModeKeyUniques &
     );
