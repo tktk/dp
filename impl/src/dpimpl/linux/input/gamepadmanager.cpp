@@ -21,7 +21,7 @@
 namespace {
     const auto  SUBSYSTEM = "input";
 
-    struct DeleteUdev
+    struct FreeUdev
     {
         void operator()(
             udev *  _udev
@@ -33,7 +33,7 @@ namespace {
 
     typedef std::unique_ptr<
         udev
-        , DeleteUdev
+        , FreeUdev
     > UdevUnique;
 
     udev * newUdev(
@@ -42,7 +42,7 @@ namespace {
         return udev_new();
     }
 
-    struct DeleteUdevMonitor
+    struct FreeUdevMonitor
     {
         void operator()(
             udev_monitor *  _monitor
@@ -54,7 +54,7 @@ namespace {
 
     typedef std::unique_ptr<
         udev_monitor
-        , DeleteUdevMonitor
+        , FreeUdevMonitor
     > UdevMonitorUnique;
 
     udev_monitor * newUdevMonitor(
@@ -88,7 +88,7 @@ namespace {
         return monitorUnique.release();
     }
 
-    struct DeleteUdevDevice
+    struct FreeUdevDevice
     {
         void operator()(
             udev_device *   _device
@@ -100,12 +100,12 @@ namespace {
 
     typedef std::unique_ptr<
         udev_device
-        , DeleteUdevDevice
+        , FreeUdevDevice
     > UdevDeviceUnique;
 
     typedef std::vector< UdevDeviceUnique > UdevDeviceUniques;
 
-    struct DeleteUdevEnumerate
+    struct FreeUdevEnumerate
     {
         void operator()(
             udev_enumerate *    _enumerate
@@ -117,7 +117,7 @@ namespace {
 
     typedef std::unique_ptr<
         udev_enumerate
-        , DeleteUdevEnumerate
+        , FreeUdevEnumerate
     > UdevEnumerateUnique;
 
     udev_enumerate * newUdevEnumerate(

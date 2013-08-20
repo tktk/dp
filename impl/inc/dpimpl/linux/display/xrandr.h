@@ -10,7 +10,7 @@
 #include "dpimpl/linux/common/xlib.h"
 
 namespace dp {
-    struct ScreenResourcesDelete
+    struct FreeScreenResources
     {
         void operator()(
             XRRScreenResources *    _screenResources
@@ -22,7 +22,7 @@ namespace dp {
 
     typedef std::unique_ptr<
         XRRScreenResources
-        , ScreenResourcesDelete
+        , FreeScreenResources
     > ScreenResourcesUnique;
 
     inline XRRScreenResources * screenResourcesNew(
@@ -36,7 +36,7 @@ namespace dp {
         );
     }
 
-    struct CrtcInfoDelete
+    struct FreeCrtcInfo
     {
         void operator()(
             XRRCrtcInfo *   _info
@@ -48,7 +48,7 @@ namespace dp {
 
     typedef std::unique_ptr<
         XRRCrtcInfo
-        , CrtcInfoDelete
+        , FreeCrtcInfo
     > CrtcInfoUnique;
 
     inline XRRCrtcInfo * crtcInfoNew(
@@ -64,7 +64,7 @@ namespace dp {
         );
     }
 
-    struct OutputInfoDelete
+    struct FreeOutputInfo
     {
         void operator()(
             XRROutputInfo * _info
@@ -76,7 +76,7 @@ namespace dp {
 
     typedef std::unique_ptr<
         XRROutputInfo
-        , OutputInfoDelete
+        , FreeOutputInfo
     > OutputInfoUnique;
 
     inline XRROutputInfo * outputInfoNew(

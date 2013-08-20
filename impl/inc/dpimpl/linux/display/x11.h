@@ -6,7 +6,7 @@
 #include <memory>
 
 namespace dp {
-    struct X11DisplayDelete
+    struct FreeX11Display
     {
         void operator()(
             ::Display * _display
@@ -18,7 +18,7 @@ namespace dp {
 
     typedef std::unique_ptr<
         ::Display
-        , X11DisplayDelete
+        , FreeX11Display
     > X11DisplayUnique;
 
     inline ::Display * x11DisplayNew(
