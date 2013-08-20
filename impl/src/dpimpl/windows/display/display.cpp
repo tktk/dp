@@ -6,7 +6,7 @@
 #include "dp/common/primitives.h"
 
 namespace dp {
-    Display * displayNewFromKey(
+    Display * newDisplay(
         const DisplayKey &
     )
     {
@@ -14,7 +14,7 @@ namespace dp {
         return nullptr;
     }
 
-    Bool displayApply(
+    Bool apply(
         const DisplayKey &
         , const Display &
     )

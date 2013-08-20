@@ -4,6 +4,7 @@
 #include "dp/display/displaykey.h"
 #include "dp/display/displaymodekey.h"
 #include "dp/display/displayrotate.h"
+#include "dp/common/functional.h"
 #include "dp/common/primitives.h"
 #include "dp/util/import.h"
 
@@ -12,100 +13,80 @@
 namespace dp {
     struct Display;
 
-    DPEXPORT Display * displayNew(
+    DPEXPORT Display * newDisplay(
         const DisplayModeKey &
         , Long
         , Long
         , DisplayRotate
     );
 
-    DPEXPORT Display * displayNewFromKey(
+    DPEXPORT Display * newDisplay(
         const DisplayKey &
     );
 
-    DPEXPORT Display * displayClone(
+    DPEXPORT Display * clone(
         const Display &
     );
 
-    DPEXPORT void displayDelete(
+    DPEXPORT void free(
         Display &
     );
 
-    DPEXPORT ULong displayGetWidth(
+    DPEXPORT ULong getWidth(
         const Display &
     );
 
-    DPEXPORT ULong displayGetHeight(
+    DPEXPORT ULong getHeight(
         const Display &
     );
 
-    DPEXPORT const DisplayModeKey & displayGetModeKey(
+    DPEXPORT const DisplayModeKey & getModeKey(
         const Display &
     );
 
-    DPEXPORT Bool displaySetModeKey(
+    DPEXPORT Bool setModeKey(
         Display &
         , const DisplayModeKey &
     );
 
-    DPEXPORT Long displayGetX(
+    DPEXPORT Long getX(
         const Display &
     );
 
-    DPEXPORT void displaySetX(
+    DPEXPORT void setX(
         Display &
         , Long
     );
 
-    DPEXPORT Long displayGetY(
+    DPEXPORT Long getY(
         const Display &
     );
 
-    DPEXPORT void displaySetY(
+    DPEXPORT void setY(
         Display &
         , Long
     );
 
-    DPEXPORT DisplayRotate displayGetRotate(
+    DPEXPORT DisplayRotate getRotate(
         const Display &
     );
 
-    DPEXPORT void displaySetRotate(
+    DPEXPORT void setRotate(
         Display &
         , DisplayRotate
     );
 
-    DPEXPORT Bool displayApply(
+    DPEXPORT Bool apply(
         const DisplayKey &
         , const Display &
     );
 
-    struct DisplayDelete
-    {
-        void operator()(
-            Display *   _display
-        ) const
-        {
-            displayDelete( *_display );
-        }
-    };
-
     typedef std::unique_ptr<
         Display
-        , DisplayDelete
+        , Free< Display >
     > DisplayUnique;
 
     typedef std::shared_ptr< Display > DisplayShared;
-
-    inline DisplayShared displayShared(
-        Display &   _display
-    )
-    {
-        return DisplayShared(
-            &_display
-            , DisplayDelete()
-        );
-    }
 
     typedef std::weak_ptr< Display > DisplayWeak;
 }

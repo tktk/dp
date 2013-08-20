@@ -11,7 +11,7 @@
 #include <new>
 
 namespace {
-    dp::Display * displayNew(
+    dp::Display * newDisplay(
         const dp::DisplayModeKey &  _MODE_KEY
         , dp::Long                  _x
         , dp::Long                  _y
@@ -44,7 +44,7 @@ namespace {
 }
 
 namespace dp {
-    Display * displayNew(
+    Display * newDisplay(
         const DisplayModeKey &  _MODE_KEY
         , Long                  _x
         , Long                  _y
@@ -52,7 +52,7 @@ namespace dp {
     )
     {
         DisplayUnique   displayUnique(
-            ::displayNew(
+            ::newDisplay(
                 _MODE_KEY
                 , _x
                 , _y
@@ -76,12 +76,12 @@ namespace dp {
         return displayUnique.release();
     }
 
-    Display * displayClone(
+    Display * clone(
         const Display & _DISPLAY
     )
     {
         DisplayUnique   displayUnique(
-            ::displayNew(
+            ::newDisplay(
                 *( _DISPLAY.modeKeyUnique )
                 , _DISPLAY.x
                 , _DISPLAY.y
@@ -100,35 +100,35 @@ namespace dp {
         return displayUnique.release();
     }
 
-    void displayDelete(
+    void free(
         Display &   _display
     )
     {
         delete &_display;
     }
 
-    ULong displayGetWidth(
+    ULong getWidth(
         const Display & _DISPLAY
     )
     {
         return _DISPLAY.width;
     }
 
-    ULong displayGetHeight(
+    ULong getHeight(
         const Display & _DISPLAY
     )
     {
         return _DISPLAY.height;
     }
 
-    const DisplayModeKey & displayGetModeKey(
+    const DisplayModeKey & getModeKey(
         const Display & _DISPLAY
     )
     {
         return *( _DISPLAY.modeKeyUnique );
     }
 
-    Bool displaySetModeKey(
+    Bool setModeKey(
         Display &                   _display
         , const DisplayModeKey &    _MODE_KEY
     )
@@ -155,14 +155,14 @@ namespace dp {
         return true;
     }
 
-    Long displayGetX(
+    Long getX(
         const Display & _DISPLAY
     )
     {
         return _DISPLAY.x;
     }
 
-    void displaySetX(
+    void setX(
         Display &   _display
         , Long      _x
     )
@@ -170,14 +170,14 @@ namespace dp {
         _display.x = _x;
     }
 
-    Long displayGetY(
+    Long getY(
         const Display & _DISPLAY
     )
     {
         return _DISPLAY.y;
     }
 
-    void displaySetY(
+    void setY(
         Display &   _display
         , Long      _y
     )
@@ -185,14 +185,14 @@ namespace dp {
         _display.y = _y;
     }
 
-    DisplayRotate displayGetRotate(
+    DisplayRotate getRotate(
         const Display & _DISPLAY
     )
     {
         return _DISPLAY.rotate;
     }
 
-    void displaySetRotate(
+    void setRotate(
         Display &       _display
         , DisplayRotate _rotate
     )

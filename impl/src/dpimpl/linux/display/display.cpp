@@ -76,7 +76,7 @@ namespace {
 }
 
 namespace dp {
-    Display * displayNewFromKey(
+    Display * newDisplay(
         const DisplayKey &  _KEY
     )
     {
@@ -143,7 +143,7 @@ namespace dp {
         return displayUnique.release();
     }
 
-    Bool displayApply(
+    Bool apply(
         const DisplayKey &  _KEY
         , const Display &   _DISPLAY
     )
@@ -197,7 +197,7 @@ namespace dp {
             , CurrentTime
             , _DISPLAY.x
             , _DISPLAY.y
-            , displayGetModeKey( _DISPLAY ).mode
+            , _DISPLAY.modeKeyUnique->mode
             , rotation
             , CRTC_INFO.outputs
             , CRTC_INFO.noutput
