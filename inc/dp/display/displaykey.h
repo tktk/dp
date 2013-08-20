@@ -1,7 +1,7 @@
 ﻿#ifndef DP_DISPLAY_DISPLAYKEY_H
 #define DP_DISPLAY_DISPLAYKEY_H
 
-#include "dp/common/functional.h"
+#include "dp/common/memory.h"
 #include "dp/common/primitives.h"
 #include "dp/util/import.h"
 
@@ -28,10 +28,7 @@ namespace dp {
         , const DisplayKey &
     );
 
-    typedef std::unique_ptr<
-        DisplayKey
-        , Free< DisplayKey >
-    > DisplayKeyUnique;
+    typedef Unique< DisplayKey >::type DisplayKeyUnique;
 
     typedef std::shared_ptr< DisplayKey > DisplayKeyShared;
 

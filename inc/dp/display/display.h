@@ -4,7 +4,7 @@
 #include "dp/display/displaykey.h"
 #include "dp/display/displaymodekey.h"
 #include "dp/display/displayrotate.h"
-#include "dp/common/functional.h"
+#include "dp/common/memory.h"
 #include "dp/common/primitives.h"
 #include "dp/util/import.h"
 
@@ -81,10 +81,7 @@ namespace dp {
         , const Display &
     );
 
-    typedef std::unique_ptr<
-        Display
-        , Free< Display >
-    > DisplayUnique;
+    typedef Unique< Display >::type DisplayUnique;
 
     typedef std::shared_ptr< Display > DisplayShared;
 

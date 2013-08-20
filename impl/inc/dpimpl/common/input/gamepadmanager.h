@@ -11,7 +11,7 @@
 
 #include "dp/input/gamepadmanager.h"
 #include "dp/input/gamepadkey.h"
-#include "dp/common/functional.h"
+#include "dp/common/memory.h"
 #include "dp/common/primitives.h"
 
 #include <memory>
@@ -34,10 +34,7 @@ namespace dp {
         GamePadManagerImpl &
     );
 
-    typedef std::unique_ptr<
-        GamePadManagerImpl
-        , Free< GamePadManagerImpl >
-    > GamePadManagerImplUnique;
+    typedef Unique< GamePadManagerImpl >::type GamePadManagerImplUnique;
 
     struct GamePadManager
     {

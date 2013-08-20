@@ -1,7 +1,7 @@
 ﻿#ifndef DP_INPUT_GAMEPADMANAGER_H
 #define DP_INPUT_GAMEPADMANAGER_H
 
-#include "dp/common/functional.h"
+#include "dp/common/memory.h"
 #include "dp/common/primitives.h"
 #include "dp/input/gamepadkey.h"
 #include "dp/util/import.h"
@@ -63,19 +63,13 @@ namespace dp {
         , const GamePadManagerConnectEventHandler &
     );
 
-    typedef std::unique_ptr<
-        GamePadManager
-        , Free< GamePadManager >
-    > GamePadManagerUnique;
+    typedef Unique< GamePadManager >::type GamePadManagerUnique;
 
     typedef std::shared_ptr< GamePadManager > GamePadManagerShared;
 
     typedef std::weak_ptr< GamePadManager > GamePadManagerWeak;
 
-    typedef std::unique_ptr<
-        GamePadManagerInfo
-        , Free< GamePadManagerInfo >
-    > GamePadManagerInfoUnique;
+    typedef Unique< GamePadManagerInfo >::type GamePadManagerInfoUnique;
 
     typedef std::shared_ptr< GamePadManagerInfo > GamePadManagerInfoShared;
 

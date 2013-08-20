@@ -2,7 +2,7 @@
 #define DP_INPUT_GAMEPAD_H
 
 #include "dp/input/gamepadkey.h"
-#include "dp/common/functional.h"
+#include "dp/common/memory.h"
 #include "dp/common/primitives.h"
 #include "dp/util/import.h"
 
@@ -100,19 +100,13 @@ namespace dp {
         , const GamePadAxisEventHandler &
     );
 
-    typedef std::unique_ptr<
-        GamePad
-        , Free< GamePad >
-    > GamePadUnique;
+    typedef Unique< GamePad >::type GamePadUnique;
 
     typedef std::shared_ptr< GamePad > GamePadShared;
 
     typedef std::weak_ptr< GamePad > GamePadWeak;
 
-    typedef std::unique_ptr<
-        GamePadInfo
-        , Free< GamePadInfo >
-    > GamePadInfoUnique;
+    typedef Unique< GamePadInfo >::type GamePadInfoUnique;
 
     typedef std::shared_ptr< GamePadInfo > GamePadInfoShared;
 

@@ -2,7 +2,7 @@
 #define DP_DISPLAY_DISPLAYMODE_H
 
 #include "dp/display/displaymodekey.h"
-#include "dp/common/functional.h"
+#include "dp/common/memory.h"
 #include "dp/common/primitives.h"
 #include "dp/util/import.h"
 
@@ -31,10 +31,7 @@ namespace dp {
         const DisplayMode &
     );
 
-    typedef std::unique_ptr<
-        DisplayMode
-        , Free< DisplayMode >
-    > DisplayModeUnique;
+    typedef Unique< DisplayMode >::type DisplayModeUnique;
 
     typedef std::shared_ptr< DisplayMode > DisplayModeShared;
 

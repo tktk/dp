@@ -8,6 +8,15 @@
 
 namespace dp {
     template< typename T >
+    struct Unique
+    {
+        typedef std::unique_ptr<
+            T
+            , Free< T >
+        > type;
+    };
+
+    template< typename T >
     std::shared_ptr< typename std::remove_pointer< T >::type > shared(
         T   _ptr
     )

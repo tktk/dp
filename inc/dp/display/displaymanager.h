@@ -1,7 +1,7 @@
 ﻿#ifndef DP_DISPLAY_DISPLAYMANAGER_H
 #define DP_DISPLAY_DISPLAYMANAGER_H
 
-#include "dp/common/functional.h"
+#include "dp/common/memory.h"
 #include "dp/common/primitives.h"
 #include "dp/display/displaykey.h"
 #include "dp/util/import.h"
@@ -63,19 +63,13 @@ namespace dp {
         , const DisplayManagerConnectEventHandler &
     );
 
-    typedef std::unique_ptr<
-        DisplayManager
-        , Free< DisplayManager >
-    > DisplayManagerUnique;
+    typedef Unique< DisplayManager >::type DisplayManagerUnique;
 
     typedef std::shared_ptr< DisplayManager > DisplayManagerShared;
 
     typedef std::weak_ptr< DisplayManager > DisplayManagerWeak;
 
-    typedef std::unique_ptr<
-        DisplayManagerInfo
-        , Free< DisplayManagerInfo >
-    > DisplayManagerInfoUnique;
+    typedef Unique< DisplayManagerInfo >::type DisplayManagerInfoUnique;
 
     typedef std::shared_ptr< DisplayManagerInfo > DisplayManagerInfoShared;
 

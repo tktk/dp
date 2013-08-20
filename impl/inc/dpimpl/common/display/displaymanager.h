@@ -11,7 +11,7 @@
 
 #include "dp/display/displaymanager.h"
 #include "dp/display/displaykey.h"
-#include "dp/common/functional.h"
+#include "dp/common/memory.h"
 #include "dp/common/primitives.h"
 
 #include <memory>
@@ -34,10 +34,7 @@ namespace dp {
         DisplayManagerImpl &
     );
 
-    typedef std::unique_ptr<
-        DisplayManagerImpl
-        , Free< DisplayManagerImpl >
-    > DisplayManagerImplUnique;
+    typedef Unique< DisplayManagerImpl >::type DisplayManagerImplUnique;
 
     struct DisplayManager
     {

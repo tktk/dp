@@ -1,7 +1,7 @@
 ﻿#ifndef DP_INPUT_GAMEPADKEY_H
 #define DP_INPUT_GAMEPADKEY_H
 
-#include "dp/common/functional.h"
+#include "dp/common/memory.h"
 #include "dp/common/primitives.h"
 #include "dp/util/import.h"
 
@@ -28,10 +28,7 @@ namespace dp {
         , const GamePadKey &
     );
 
-    typedef std::unique_ptr<
-        GamePadKey
-        , Free< GamePadKey >
-    > GamePadKeyUnique;
+    typedef Unique< GamePadKey >::type GamePadKeyUnique;
 
     typedef std::shared_ptr< GamePadKey > GamePadKeyShared;
 
