@@ -1,12 +1,24 @@
 ﻿#include "dpimpl/util/export.h"
 #include "dp/window/window.h"
 
+#include "dpimpl/common/window/windowinfo.h"
+
+#include <new>
+
 namespace {
     dp::WindowInfo * newWindowInfo(
     )
     {
+        dp::WindowInfoUnique    infoUnique( new( std::nothrow )dp::WindowInfo );
+        if( infoUnique.get() == nullptr ) {
+            return nullptr;
+        }
+
+        auto &  info = *infoUnique;
+
         //TODO
-        return nullptr;
+
+        return infoUnique.release();
     }
 }
 
@@ -27,9 +39,9 @@ namespace dp {
     }
 
     void free(
-        WindowInfo &
+        WindowInfo &    _info
     )
     {
-        //TODO
+        delete &_info;
     }
 }
