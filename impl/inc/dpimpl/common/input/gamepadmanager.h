@@ -14,7 +14,6 @@
 #include "dp/common/memory.h"
 #include "dp/common/primitives.h"
 
-#include <memory>
 #include <mutex>
 
 namespace dp {
