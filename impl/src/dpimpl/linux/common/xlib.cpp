@@ -1,4 +1,5 @@
-﻿#include "dpimpl/linux/display/x11.h"
+﻿#include "dpimpl/util/export.h"
+#include "dpimpl/linux/common/xlib.h"
 
 #include <utility>
 
@@ -8,7 +9,7 @@ namespace {
 }
 
 namespace dp {
-    void initializeX11(
+    void initializeXlib(
     )
     {
         x11DisplayUnique.reset( x11DisplayNew() );
@@ -22,7 +23,7 @@ namespace dp {
         x11Window = DefaultRootWindow( &x11Display );
     }
 
-    void finalizeX11(
+    void finalizeXlib(
     )
     {
         auto    x11DisplayUnique = std::move( ::x11DisplayUnique );

@@ -18,7 +18,7 @@ def build(
     }
     if _ctx.osName == common.LINUX:
         osSources |= {
-            'x11',
+            'xlib',
         }
 
     libraries = set()

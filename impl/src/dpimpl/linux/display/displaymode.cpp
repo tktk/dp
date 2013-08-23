@@ -1,12 +1,12 @@
 ﻿#include "dpimpl/util/export.h"
 #include "dp/display/displaymode.h"
 
-#include "dpimpl/linux/display/x11.h"
 #include "dpimpl/common/display/displaymode.h"
 #include "dpimpl/linux/display/displaymodekey.h"
 #include "dp/display/displaymodekey.h"
 #include "dp/common/primitives.h"
 
+#include "dpimpl/linux/common/xlib.h"
 #include "dpimpl/linux/display/xrandr.h"
 
 namespace {
