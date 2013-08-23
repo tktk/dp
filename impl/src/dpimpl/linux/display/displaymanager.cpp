@@ -42,7 +42,7 @@ namespace {
     )
     {
         dp::CrtcInfoUnique  crtcInfoUnique(
-            dp::crtcInfoNew(
+            dp::newCrtcInfo(
                 _xDisplay
                 , _screenResources
                 , _CRTC
@@ -68,7 +68,7 @@ namespace {
     )
     {
         dp::ScreenResourcesUnique   screenResourcesUnique(
-            dp::screenResourcesNew(
+            dp::newScreenResources(
                 _xDisplay
                 , _xWindow
             )

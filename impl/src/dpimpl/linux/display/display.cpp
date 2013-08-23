@@ -90,7 +90,7 @@ namespace dp {
         auto &  xRootWindow = getXRootWindow();
 
         ScreenResourcesUnique   screenResourcesUnique(
-            screenResourcesNew(
+            newScreenResources(
                 xDisplay
                 , xRootWindow
             )
@@ -102,7 +102,7 @@ namespace dp {
         auto &  screenResources = *screenResourcesUnique;
 
         CrtcInfoUnique  crtcInfoUnique(
-            crtcInfoNew(
+            newCrtcInfo(
                 xDisplay
                 , screenResources
                 , _KEY.crtc
@@ -151,7 +151,7 @@ namespace dp {
         auto &  xRootWindow = getXRootWindow();
 
         ScreenResourcesUnique   screenResourcesUnique(
-            screenResourcesNew(
+            newScreenResources(
                 xDisplay
                 , xRootWindow
             )
@@ -165,7 +165,7 @@ namespace dp {
         const auto &    CRTC = _KEY.crtc;
 
         CrtcInfoUnique  crtcInfoUnique(
-            crtcInfoNew(
+            newCrtcInfo(
                 xDisplay
                 , screenResources
                 , CRTC

@@ -35,7 +35,7 @@ namespace {
     )
     {
         dp::OutputInfoUnique    outputInfoUnique(
-            dp::outputInfoNew(
+            dp::newOutputInfo(
                 _xDisplay
                 , _screenResources
                 , _OUTPUT
@@ -120,7 +120,7 @@ namespace dp {
         auto &  xRootWindow = getXRootWindow();
 
         ScreenResourcesUnique   screenResourcesUnique(
-            screenResourcesNew(
+            newScreenResources(
                 xDisplay
                 , xRootWindow
             )
@@ -132,7 +132,7 @@ namespace dp {
         auto &  screenResources = *screenResourcesUnique;
 
         CrtcInfoUnique  crtcInfoUnique(
-            crtcInfoNew(
+            newCrtcInfo(
                 xDisplay
                 , screenResources
                 , _KEY.crtc

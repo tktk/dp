@@ -25,7 +25,7 @@ namespace dp {
         , FreeScreenResources
     > ScreenResourcesUnique;
 
-    inline XRRScreenResources * screenResourcesNew(
+    inline XRRScreenResources * newScreenResources(
         ::Display &     _xDisplay
         , ::Window &    _xWindow
     )
@@ -51,7 +51,7 @@ namespace dp {
         , FreeCrtcInfo
     > CrtcInfoUnique;
 
-    inline XRRCrtcInfo * crtcInfoNew(
+    inline XRRCrtcInfo * newCrtcInfo(
         ::Display &             _xDisplay
         , XRRScreenResources &  _screenResources
         , const RRCrtc &        _CRTC
@@ -79,7 +79,7 @@ namespace dp {
         , FreeOutputInfo
     > OutputInfoUnique;
 
-    inline XRROutputInfo * outputInfoNew(
+    inline XRROutputInfo * newOutputInfo(
         ::Display &             _xDisplay
         , XRRScreenResources &  _screenResources
         , const RROutput &      _OUTPUT

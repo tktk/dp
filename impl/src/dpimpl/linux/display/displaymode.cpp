@@ -47,7 +47,7 @@ namespace dp {
         auto &  xRootWindow = getXRootWindow();
 
         ScreenResourcesUnique   screenResourcesUnique(
-            screenResourcesNew(
+            newScreenResources(
                 xDisplay
                 , xRootWindow
             )
@@ -90,7 +90,7 @@ namespace dp {
         auto &  xRootWindow = getXRootWindow();
 
         ScreenResourcesUnique   screenResourcesUnique(
-            screenResourcesNew(
+            newScreenResources(
                 xDisplay
                 , xRootWindow
             )
