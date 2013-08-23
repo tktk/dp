@@ -29,14 +29,14 @@ namespace {
 
     dp::Bool appendModeKeyUniques(
         dp::DisplayModeKeyUniques & _modeKeyUniques
-        , ::Display &               _x11Display
+        , ::Display &               _xDisplay
         , XRRScreenResources &      _screenResources
         , const RROutput &          _OUTPUT
     )
     {
         dp::OutputInfoUnique    outputInfoUnique(
             dp::outputInfoNew(
-                _x11Display
+                _xDisplay
                 , _screenResources
                 , _OUTPUT
             )
@@ -116,13 +116,13 @@ namespace dp {
         , DisplayModeKeyUniques &   _modeKeyUniques
     )
     {
-        auto &  x11Display = getX11Display();
-        auto &  x11Window = getX11Window();
+        auto &  xDisplay = getXDisplay();
+        auto &  xRootWindow = getXRootWindow();
 
         ScreenResourcesUnique   screenResourcesUnique(
             screenResourcesNew(
-                x11Display
-                , x11Window
+                xDisplay
+                , xRootWindow
             )
         );
         if( screenResourcesUnique.get() == nullptr ) {
@@ -133,7 +133,7 @@ namespace dp {
 
         CrtcInfoUnique  crtcInfoUnique(
             crtcInfoNew(
-                x11Display
+                xDisplay
                 , screenResources
                 , _KEY.crtc
             )
@@ -151,7 +151,7 @@ namespace dp {
 
             if( appendModeKeyUniques(
                 _modeKeyUniques
-                , x11Display
+                , xDisplay
                 , screenResources
                 , OUTPUT
             ) == false ) {

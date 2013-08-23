@@ -36,14 +36,14 @@ namespace {
     }
 
     dp::Bool isConnectedDisplay(
-        ::Display &             _x11Display
+        ::Display &             _xDisplay
         , XRRScreenResources &  _screenResources
         , const RRCrtc &        _CRTC
     )
     {
         dp::CrtcInfoUnique  crtcInfoUnique(
             dp::crtcInfoNew(
-                _x11Display
+                _xDisplay
                 , _screenResources
                 , _CRTC
             )
@@ -63,14 +63,14 @@ namespace {
 
     void initDisplays(
         dp::DisplayManager &    _manager
-        , ::Display &           _x11Display
-        , ::Window &            _x11Window
+        , ::Display &           _xDisplay
+        , ::Window &            _xWindow
     )
     {
         dp::ScreenResourcesUnique   screenResourcesUnique(
             dp::screenResourcesNew(
-                _x11Display
-                , _x11Window
+                _xDisplay
+                , _xWindow
             )
         );
         if( screenResourcesUnique.get() == nullptr ) {
@@ -85,7 +85,7 @@ namespace {
             const auto &    CRTC = screenResources.crtcs[ i ];
 
             if( isConnectedDisplay(
-                _x11Display
+                _xDisplay
                 , screenResources
                 , CRTC
             ) == false ) {
@@ -138,7 +138,7 @@ namespace {
     void monitorDisplays(
         dp::DisplayManager &        _manager
         , dp::DisplayManagerImpl &  _impl
-        , ::Display &               _x11Display
+        , ::Display &               _xDisplay
     )
     {
         const auto &    ENDED = _impl.ended;
@@ -146,7 +146,7 @@ namespace {
         dp::Int eventBase;
         dp::Int errorBase;
         if( XRRQueryExtension(
-            &_x11Display
+            &_xDisplay
             , &eventBase
             , &errorBase
         ) != True ) {
@@ -158,7 +158,7 @@ namespace {
 
         while( 1 ) {
             XNextEvent(
-                &_x11Display
+                &_xDisplay
                 , &event
             );
 
@@ -182,26 +182,26 @@ namespace {
         , dp::DisplayManagerImpl &  _impl
     )
     {
-        auto &  x11Display = *( _impl.x11DisplayUnique );
+        auto &  xDisplay = *( _impl.xDisplayUnique );
 
-        auto &  x11Window = _impl.x11Window;
+        auto &  xWindow = _impl.xWindow;
 
         XRRSelectInput(
-            &x11Display
-            , x11Window
+            &xDisplay
+            , xWindow
             , RRCrtcChangeNotifyMask
         );
 
         initDisplays(
             _manager
-            , x11Display
-            , x11Window
+            , xDisplay
+            , xWindow
         );
 
         monitorDisplays(
             _manager
             , _impl
-            , x11Display
+            , xDisplay
         );
     }
 
@@ -211,23 +211,23 @@ namespace {
     {
         _impl.ended = true;
 
-        auto &  x11Display = *( _impl.x11DisplayUnique );
-        auto &  x11Window = _impl.x11Window;
+        auto &  xDisplay = *( _impl.xDisplayUnique );
+        auto &  xWindow = _impl.xWindow;
 
         XEvent  event;
         event.type = ClientMessage;
-        event.xclient.display = &x11Display;
-        event.xclient.window = x11Window;
+        event.xclient.display = &xDisplay;
+        event.xclient.window = xWindow;
         event.xclient.format = 8;
 
         XSendEvent(
-            &x11Display
-            , x11Window
+            &xDisplay
+            , xWindow
             , False
             , StructureNotifyMask
             , &event
         );
-        XFlush( &x11Display );
+        XFlush( &xDisplay );
     }
 }
 
@@ -243,22 +243,22 @@ namespace dp {
 
         auto &  impl = *implUnique;
 
-        auto &  x11DisplayUnique = impl.x11DisplayUnique;
-        x11DisplayUnique.reset( x11DisplayNew() );
-        if( x11DisplayUnique.get() == nullptr ) {
+        auto &  xDisplayUnique = impl.xDisplayUnique;
+        xDisplayUnique.reset( newXDisplay() );
+        if( xDisplayUnique.get() == nullptr ) {
             return nullptr;
         }
 
-        auto &  x11Display = *x11DisplayUnique;
+        auto &  xDisplay = *xDisplayUnique;
 
-        auto &  x11Window = impl.x11Window;
+        auto &  xWindow = impl.xWindow;
 
-        x11Window = DefaultRootWindow( &x11Display );
+        xWindow = DefaultRootWindow( &xDisplay );
 
         // スレッド終了イベント用にStructureNotifyMaskを許可
         XSelectInput(
-            &x11Display
-            , x11Window
+            &xDisplay
+            , xWindow
             , StructureNotifyMask
         );
 

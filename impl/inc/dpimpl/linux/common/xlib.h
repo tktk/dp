@@ -12,7 +12,7 @@
 #include <memory>
 
 namespace dp {
-    struct FreeX11Display
+    struct FreeXDisplay
     {
         void operator()(
             ::Display * _display
@@ -24,10 +24,10 @@ namespace dp {
 
     typedef std::unique_ptr<
         ::Display
-        , FreeX11Display
-    > X11DisplayUnique;
+        , FreeXDisplay
+    > XDisplayUnique;
 
-    inline ::Display * x11DisplayNew(
+    inline ::Display * newXDisplay(
     )
     {
         return XOpenDisplay( nullptr );
@@ -39,10 +39,10 @@ namespace dp {
     void finalizeXlib(
     );
 
-    DPEXPORT ::Display & getX11Display(
+    DPEXPORT ::Display & getXDisplay(
     );
 
-    DPEXPORT ::Window & getX11Window(
+    DPEXPORT ::Window & getXRootWindow(
     );
 }
 

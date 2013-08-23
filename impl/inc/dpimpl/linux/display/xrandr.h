@@ -26,13 +26,13 @@ namespace dp {
     > ScreenResourcesUnique;
 
     inline XRRScreenResources * screenResourcesNew(
-        ::Display &     _x11Display
-        , ::Window &    _x11Window
+        ::Display &     _xDisplay
+        , ::Window &    _xWindow
     )
     {
         return XRRGetScreenResources(
-            &_x11Display
-            , _x11Window
+            &_xDisplay
+            , _xWindow
         );
     }
 
@@ -52,13 +52,13 @@ namespace dp {
     > CrtcInfoUnique;
 
     inline XRRCrtcInfo * crtcInfoNew(
-        ::Display &             _x11Display
+        ::Display &             _xDisplay
         , XRRScreenResources &  _screenResources
         , const RRCrtc &        _CRTC
     )
     {
         return XRRGetCrtcInfo(
-            &_x11Display
+            &_xDisplay
             , &_screenResources
             , _CRTC
         );
@@ -80,13 +80,13 @@ namespace dp {
     > OutputInfoUnique;
 
     inline XRROutputInfo * outputInfoNew(
-        ::Display &             _x11Display
+        ::Display &             _xDisplay
         , XRRScreenResources &  _screenResources
         , const RROutput &      _OUTPUT
     )
     {
         return XRRGetOutputInfo(
-            &_x11Display
+            &_xDisplay
             , &_screenResources
             , _OUTPUT
         );

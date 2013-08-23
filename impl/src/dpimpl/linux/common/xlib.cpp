@@ -4,40 +4,40 @@
 #include <utility>
 
 namespace {
-    dp::X11DisplayUnique    x11DisplayUnique;
-    ::Window                x11Window;
+    dp::XDisplayUnique  xDisplayUnique;
+    ::Window            xRootWindow;
 }
 
 namespace dp {
     void initializeXlib(
     )
     {
-        x11DisplayUnique.reset( x11DisplayNew() );
-        if( x11DisplayUnique.get() == nullptr ) {
+        xDisplayUnique.reset( newXDisplay() );
+        if( xDisplayUnique.get() == nullptr ) {
             //FIXME 初期化失敗時の処理
             return;
         }
 
-        auto &  x11Display = *x11DisplayUnique;
+        auto &  xDisplay = *xDisplayUnique;
 
-        x11Window = DefaultRootWindow( &x11Display );
+        xRootWindow = DefaultRootWindow( &xDisplay );
     }
 
     void finalizeXlib(
     )
     {
-        auto    x11DisplayUnique = std::move( ::x11DisplayUnique );
+        auto    xDisplayUnique = std::move( ::xDisplayUnique );
     }
 
-    ::Display & getX11Display(
+    ::Display & getXDisplay(
     )
     {
-        return *x11DisplayUnique;
+        return *xDisplayUnique;
     }
 
-    ::Window & getX11Window(
+    ::Window & getXRootWindow(
     )
     {
-        return x11Window;
+        return xRootWindow;
     }
 }

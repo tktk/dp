@@ -43,13 +43,13 @@ namespace dp {
 
         auto &  mode = *modeUnique;
 
-        auto &  x11Display = getX11Display();
-        auto &  x11Window = getX11Window();
+        auto &  xDisplay = getXDisplay();
+        auto &  xRootWindow = getXRootWindow();
 
         ScreenResourcesUnique   screenResourcesUnique(
             screenResourcesNew(
-                x11Display
-                , x11Window
+                xDisplay
+                , xRootWindow
             )
         );
         if( screenResourcesUnique.get() == nullptr ) {
@@ -86,13 +86,13 @@ namespace dp {
         , const DisplayModeKey &    _MODE_KEY
     )
     {
-        auto &  x11Display = getX11Display();
-        auto &  x11Window = getX11Window();
+        auto &  xDisplay = getXDisplay();
+        auto &  xRootWindow = getXRootWindow();
 
         ScreenResourcesUnique   screenResourcesUnique(
             screenResourcesNew(
-                x11Display
-                , x11Window
+                xDisplay
+                , xRootWindow
             )
         );
         if( screenResourcesUnique.get() == nullptr ) {

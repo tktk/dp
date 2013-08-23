@@ -12,8 +12,8 @@ namespace dp {
     {
         Bool    ended;
 
-        X11DisplayUnique    x11DisplayUnique;
-        ::Window            x11Window;
+        XDisplayUnique  xDisplayUnique;
+        ::Window        xWindow;
 
         std::thread     thread;
         ThreadJoiner    threadJoiner;
