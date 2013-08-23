@@ -7,6 +7,8 @@
 
 #undef  Bool
 
+typedef int Bool;
+
 #include "dpimpl/linux/common/xlib.h"
 
 namespace dp {

@@ -7,6 +7,8 @@
 
 #undef  Bool
 
+typedef int Bool;
+
 #include "dp/util/import.h"
 
 #include <memory>
