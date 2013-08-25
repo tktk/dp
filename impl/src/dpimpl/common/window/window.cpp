@@ -2,9 +2,11 @@
 #include "dp/window/window.h"
 
 #include "dpimpl/common/window/window.h"
+#include "dpimpl/common/window/windowinfo.h"
 #include "dp/common/primitives.h"
 
 #include <new>
+#include <mutex>
 
 namespace dp {
     Window * newWindow(
@@ -35,6 +37,9 @@ namespace dp {
         implUnique.reset(
             newWindowImpl(
                 window
+                , _TITLE
+                , _width
+                , _height
             )
         );
         if( implUnique.get() == nullptr ) {
@@ -49,5 +54,19 @@ namespace dp {
     )
     {
         delete &_window;
+    }
+
+    void callClosingEventHandler(
+        Window &    _window
+    )
+    {
+        std::unique_lock< decltype( _window.mutexForClosingEventHandler ) > lock( _window.mutexForClosingEventHandler );
+
+        const auto &    EVENT_HANDLER = _window.infoUnique->closingEventHandler;
+        if( EVENT_HANDLER != nullptr ) {
+            EVENT_HANDLER(
+                _window
+            );
+        }
     }
 }

@@ -8,6 +8,12 @@ def build(
     _sourcesSet,
     _librariesSet,
 ):
+    setupSources = set()
+    if _ctx.osName == common.LINUX:
+        setupSources |= {
+            'window_setup',
+        }
+
     sources = {
         'window',
         'windowinfo',
@@ -17,11 +23,26 @@ def build(
         'window',
     }
 
+    libraries = set()
+    if _ctx.osName == common.LINUX:
+        libraries |= {
+            'pthread',
+        }
+
+    useModules = set()
+    if _ctx.osName == common.LINUX:
+        useModules = {
+            'common',
+        }
+
     buildPartialLibrary(
         _ctx,
         _sourcesSet,
         _librariesSet,
         'window',
+        setupSources = setupSources,
         sources = sources,
         osSources = osSources,
+        libraries = libraries,
+        useModules = useModules,
     )

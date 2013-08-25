@@ -16,10 +16,17 @@
 #include <mutex>
 
 namespace dp {
+    void callClosingEventHandler(
+        Window &
+    );
+
     struct WindowImpl;
 
     WindowImpl * newWindowImpl(
         Window &
+        , const Utf32 &
+        , ULong
+        , ULong
     );
 
     void free(
@@ -31,6 +38,7 @@ namespace dp {
     struct Window
     {
         WindowInfoUnique    infoUnique;
+        std::mutex          mutexForClosingEventHandler;
 
         WindowImplUnique    implUnique;
     };
