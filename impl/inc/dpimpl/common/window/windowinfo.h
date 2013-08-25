@@ -6,7 +6,7 @@
 namespace dp {
     struct WindowInfo
     {
-        //TODO
+        WindowClosingEventHandler   closingEventHandler;
     };
 }
 

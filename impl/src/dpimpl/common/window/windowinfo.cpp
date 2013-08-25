@@ -7,6 +7,7 @@
 
 namespace {
     dp::WindowInfo * newWindowInfo(
+        const dp::WindowClosingEventHandler &   _CLOSING_EVENT_HANDLER
     )
     {
         dp::WindowInfoUnique    infoUnique( new( std::nothrow )dp::WindowInfo );
@@ -16,7 +17,7 @@ namespace {
 
         auto &  info = *infoUnique;
 
-        //TODO
+        info.closingEventHandler = _CLOSING_EVENT_HANDLER;
 
         return infoUnique.release();
     }
@@ -27,14 +28,16 @@ namespace dp {
     )
     {
         return ::newWindowInfo(
+            nullptr
         );
     }
 
     WindowInfo * clone(
-        const WindowInfo &
+        const WindowInfo &  _OTHER
     )
     {
         return ::newWindowInfo(
+            _OTHER.closingEventHandler
         );
     }
 
@@ -43,5 +46,20 @@ namespace dp {
     )
     {
         delete &_info;
+    }
+
+    const WindowClosingEventHandler & getClosingEventHandler(
+        const WindowInfo &  _INFO
+    )
+    {
+        return _INFO.closingEventHandler;
+    }
+
+    void setClosingEventHandler(
+        WindowInfo &                        _info
+        , const WindowClosingEventHandler & _EVENT_HANDLER
+    )
+    {
+        _info.closingEventHandler = _EVENT_HANDLER;
     }
 }
