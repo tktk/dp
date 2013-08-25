@@ -6,12 +6,19 @@
 #include "dp/util/import.h"
 
 #include <mutex>
+#include <functional>
 #include <memory>
 
 namespace dp {
     struct Window;
 
     struct WindowInfo;
+
+    typedef std::function<
+        void(
+            Window &
+        )
+    > WindowClosingEventHandler;
 
     DPEXPORT Window * newWindow(
         const WindowInfo &
@@ -37,6 +44,15 @@ namespace dp {
 
     DPEXPORT void free(
         WindowInfo &
+    );
+
+    DPEXPORT const WindowClosingEventHandler & getClosingEventHandler(
+        const WindowInfo &
+    );
+
+    DPEXPORT void setClosingEventHandler(
+        WindowInfo &
+        , const WindowClosingEventHandler &
     );
 
     //TODO
