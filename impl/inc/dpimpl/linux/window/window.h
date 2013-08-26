@@ -24,6 +24,8 @@ namespace dp {
                 &xDisplay
                 , *_window
             );
+
+            XFlush( &xDisplay );
         }
     };
 
