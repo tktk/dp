@@ -12,6 +12,8 @@ namespace dp {
     void initializeXlib(
     )
     {
+        XInitThreads();
+
         xDisplayUnique.reset( newXDisplay() );
         if( xDisplayUnique.get() == nullptr ) {
             //FIXME 初期化失敗時の処理
