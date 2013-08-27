@@ -6,6 +6,7 @@
 #include "dp/common/stringconverter.h"
 #include "dp/common/primitives.h"
 
+#include "dpimpl/linux/window/xutil.h"
 #include <new>
 #include <thread>
 #include <utility>
@@ -13,6 +14,27 @@
 
 namespace {
     Atom    WM_DELETE_WINDOW;
+
+    void unresizable(
+        ::Display &         _xDisplay
+        , const ::Window &  _X_WINDOW
+        , const dp::ULong & _WIDTH
+        , const dp::ULong & _HEIGHT
+    )
+    {
+        XSizeHints  sizeHints;
+
+        sizeHints.min_width = sizeHints.max_width = _WIDTH;
+        sizeHints.min_height = sizeHints.max_height = _HEIGHT;
+
+        sizeHints.flags = PMaxSize | PMinSize;
+
+        XSetWMNormalHints(
+            &_xDisplay
+            , _X_WINDOW
+            , &sizeHints
+        );
+    }
 
     dp::Bool isWindowEvent(
         const XEvent *      _EVENT
@@ -251,6 +273,15 @@ namespace dp {
             , &WM_DELETE_WINDOW
             , 1
         );
+
+        if( ( _flags & WindowFlags::UNRESIZABLE ) != 0 ) {
+            unresizable(
+                xDisplay
+                , xWindow
+                , _width
+                , _height
+            );
+        }
 
         XStoreName(
             &xDisplay
