@@ -7,6 +7,7 @@
 #include "dp/common/primitives.h"
 
 #include "dpimpl/linux/window/xutil.h"
+#include <X11/Xatom.h>
 #include <new>
 #include <thread>
 #include <utility>
@@ -14,6 +15,9 @@
 
 namespace {
     Atom    WM_DELETE_WINDOW;
+
+    Atom    _NET_WM_STATE;
+    Atom    _NET_WM_STATE_ABOVE;
 
     void unresizable(
         ::Display &         _xDisplay
@@ -33,6 +37,23 @@ namespace {
             &_xDisplay
             , _X_WINDOW
             , &sizeHints
+        );
+    }
+
+    void alwaysOnTop(
+        ::Display &         _xDisplay
+        , const ::Window &  _X_WINDOW
+    )
+    {
+        XChangeProperty(
+            &_xDisplay
+            , _X_WINDOW
+            , _NET_WM_STATE
+            , XA_ATOM
+            , 32
+            , PropModeReplace
+            , reinterpret_cast< dp::UByte * >( &_NET_WM_STATE_ABOVE )
+            , 1
         );
     }
 
@@ -205,6 +226,18 @@ namespace dp {
             , "WM_DELETE_WINDOW"
             , True
         );
+
+        _NET_WM_STATE_ABOVE = XInternAtom(
+            &xDisplay
+            , "_NET_WM_STATE_ABOVE"
+            , True
+        );
+
+        _NET_WM_STATE= XInternAtom(
+            &xDisplay
+            , "_NET_WM_STATE"
+            , True
+        );
     }
 
     WindowImpl * newWindowImpl(
@@ -280,6 +313,13 @@ namespace dp {
                 , xWindow
                 , _width
                 , _height
+            );
+        }
+
+        if( ( _flags & WindowFlags::ALWAYS_ON_TOP ) != 0 ) {
+            alwaysOnTop(
+                xDisplay
+                , xWindow
             );
         }
 
