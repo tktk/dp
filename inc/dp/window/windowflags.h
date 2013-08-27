@@ -7,6 +7,7 @@ namespace dp {
         PLAIN = 0x0,
 
         UNRESIZABLE = 0x1,
+        ALWAYS_ON_TOP = 0x2,
     };
 }
 
