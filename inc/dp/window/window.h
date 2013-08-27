@@ -1,6 +1,7 @@
 ﻿#ifndef DP_WINDOW_WINDOW_H
 #define DP_WINDOW_WINDOW_H
 
+#include "dp/window/windowflags.h"
 #include "dp/common/memory.h"
 #include "dp/common/primitives.h"
 #include "dp/util/import.h"
@@ -25,6 +26,14 @@ namespace dp {
         , const Utf32 &
         , ULong
         , ULong
+    );
+
+    DPEXPORT Window * newWindow(
+        const WindowInfo &
+        , const Utf32 &
+        , ULong
+        , ULong
+        , WindowFlags
     );
 
     //TODO 位置指定とかフラグ指定とか

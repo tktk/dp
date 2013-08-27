@@ -49,6 +49,19 @@ namespace dp {
         return windowUnique.release();
     }
 
+    Window * newWindow(
+        const WindowInfo &  _INFO
+        , const Utf32 &     _TITLE
+        , ULong             _width
+        , ULong             _height
+        , WindowFlags       _flags
+    )
+    {
+        //TODO
+
+        return nullptr;
+    }
+
     void free(
         Window &    _window
     )
