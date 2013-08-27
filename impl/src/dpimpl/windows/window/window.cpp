@@ -1,5 +1,6 @@
 ﻿#include "dpimpl/windows/window/window.h"
 #include "dp/window/window.h"
+#include "dp/window/windowflags.h"
 #include "dp/common/primitives.h"
 
 namespace dp {
@@ -8,6 +9,7 @@ namespace dp {
         , const Utf32 & _TITLE
         , ULong         _width
         , ULong         _height
+        , WindowFlags   _flags
     )
     {
         //TODO

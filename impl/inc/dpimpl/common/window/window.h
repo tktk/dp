@@ -10,6 +10,7 @@
 #endif  // OS
 
 #include "dp/window/window.h"
+#include "dp/window/windowflags.h"
 #include "dp/common/memory.h"
 #include "dp/common/primitives.h"
 
@@ -27,6 +28,7 @@ namespace dp {
         , const Utf32 &
         , ULong
         , ULong
+        , WindowFlags
     );
 
     void free(

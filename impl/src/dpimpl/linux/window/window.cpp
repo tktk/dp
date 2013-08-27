@@ -1,6 +1,7 @@
 ﻿#include "dpimpl/linux/window/window.h"
 #include "dpimpl/common/window/window.h"
 #include "dp/window/window.h"
+#include "dp/window/windowflags.h"
 #include "dpimpl/linux/common/xlib.h"
 #include "dp/common/stringconverter.h"
 #include "dp/common/primitives.h"
@@ -189,6 +190,7 @@ namespace dp {
         , const Utf32 & _TITLE
         , ULong         _width
         , ULong         _height
+        , WindowFlags   _flags
     )
     {
         String  titleString;
