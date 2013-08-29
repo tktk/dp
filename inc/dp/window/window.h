@@ -36,7 +36,24 @@ namespace dp {
         , WindowFlags
     );
 
-    //TODO 位置指定とかフラグ指定とか
+    DPEXPORT Window * newWindow(
+        const WindowInfo &
+        , const Utf32 &
+        , Long
+        , Long
+        , ULong
+        , ULong
+    );
+
+    DPEXPORT Window * newWindow(
+        const WindowInfo &
+        , const Utf32 &
+        , Long
+        , Long
+        , ULong
+        , ULong
+        , WindowFlags
+    );
 
     DPEXPORT void free(
         Window &
