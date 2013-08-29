@@ -6,9 +6,3 @@ DPCONSTRUCTOR void constructor(
 {
     dp::initializeCommon();
 }
-
-DPDESTRUCTOR void destructor(
-)
-{
-    dp::finalizeCommon();
-}
