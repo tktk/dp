@@ -280,8 +280,8 @@ namespace dp {
         xWindow = XCreateWindow(
             &xDisplay
             , xRootWindow
-            , 0//X
-            , 0//Y
+            , 0
+            , 0
             , _width
             , _height
             , 0
