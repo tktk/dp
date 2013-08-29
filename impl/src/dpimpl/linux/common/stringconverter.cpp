@@ -22,30 +22,45 @@ namespace {
     const dp::StringChar    UTF16_ENCODE[] = "UTF-16";
     const dp::StringChar    UTF32_ENCODE[] = "UTF-32";
 
-    iconv_t UTF8_TO_STRING;
-    iconv_t UTF16_TO_STRING;
-    iconv_t UTF32_TO_STRING;
+    class IconvDeleter
+    {
+    private:
+        iconv_t converter;
 
-    iconv_t STRING_TO_UTF8;
-    iconv_t UTF16_TO_UTF8;
-    iconv_t UTF32_TO_UTF8;
+    public:
+        IconvDeleter(
+            iconv_t _converter
+        )
+            : converter( _converter )
+        {
+        }
 
-    iconv_t STRING_TO_UTF16;
-    iconv_t UTF8_TO_UTF16;
-    iconv_t UTF32_TO_UTF16;
-
-    iconv_t STRING_TO_UTF32;
-    iconv_t UTF8_TO_UTF32;
-    iconv_t UTF16_TO_UTF32;
+        ~IconvDeleter(
+        )
+        {
+            iconv_close( this->converter );
+        }
+    };
 
     dp::Bool convert(
-        const iconv_t & _ICONV
-        , void *        _output
-        , size_t        _outputSize
-        , const void *  _INPUT
-        , size_t        _inputSize
+        const dp::StringChar *      _TO_CODE
+        , const dp::StringChar *    _FROM_CODE
+        , void *                    _output
+        , size_t                    _outputSize
+        , const void *              _INPUT
+        , size_t                    _inputSize
     )
     {
+        auto    converter = iconv_open(
+            _TO_CODE
+            , _FROM_CODE
+        );
+        if( converter == reinterpret_cast< iconv_t >( -1 ) ) {
+            return false;
+        }
+
+        IconvDeleter    deleter( converter );
+
         auto    output = static_cast< dp::Byte * >( _output );
 
         auto    input = static_cast< dp::Byte * >(
@@ -55,7 +70,7 @@ namespace {
         );
 
         if( iconv(
-            _ICONV
+            converter
             , &input
             , &_inputSize
             , &output
@@ -73,9 +88,9 @@ namespace {
 
     template< class IN_T >
     dp::Bool toString(
-        const iconv_t & _ICONV
-        , dp::String &  _out
-        , const IN_T &  _IN
+        const dp::StringChar *  _FROM_CODE
+        , dp::String &          _out
+        , const IN_T &          _IN
     )
     {
         typedef typename IN_T::value_type IN_CHAR;
@@ -93,7 +108,8 @@ namespace {
         auto    inputSize = length * sizeof( IN_CHAR );
 
         const auto  CONVERTED = convert(
-            _ICONV
+            STRING_ENCODE
+            , _FROM_CODE
             , output
             , outputSize
             , input
@@ -109,9 +125,9 @@ namespace {
 
     template< class IN_T >
     dp::Bool toUtf8(
-        const iconv_t & _ICONV
-        , dp::Utf8 &    _out
-        , const IN_T &  _IN
+        const dp::StringChar *  _FROM_CODE
+        , dp::Utf8 &            _out
+        , const IN_T &          _IN
     )
     {
         typedef typename IN_T::value_type IN_CHAR;
@@ -129,7 +145,8 @@ namespace {
         auto    inputSize = length * sizeof( IN_CHAR );
 
         const auto  CONVERTED = convert(
-            _ICONV
+            UTF8_ENCODE
+            , _FROM_CODE
             , output
             , outputSize
             , input
@@ -145,9 +162,9 @@ namespace {
 
     template< class IN_T >
     dp::Bool toUtf16(
-        const iconv_t & _ICONV
-        , dp::Utf16 &   _out
-        , const IN_T &  _IN
+        const dp::StringChar *  _FROM_CODE
+        , dp::Utf16 &           _out
+        , const IN_T &          _IN
     )
     {
         typedef typename IN_T::value_type IN_CHAR;
@@ -164,7 +181,8 @@ namespace {
         auto    inputSize = length * sizeof( IN_CHAR );
 
         const auto  CONVERTED = convert(
-            _ICONV
+            UTF16_ENCODE
+            , _FROM_CODE
             , output
             , outputSize
             , input
@@ -184,9 +202,9 @@ namespace {
 
     template< class IN_T >
     dp::Bool toUtf32(
-        const iconv_t & _ICONV
-        , dp::Utf32 &   _out
-        , const IN_T &  _IN
+        const dp::StringChar *  _FROM_CODE
+        , dp::Utf32 &           _out
+        , const IN_T &          _IN
     )
     {
         typedef typename IN_T::value_type IN_CHAR;
@@ -204,7 +222,8 @@ namespace {
         auto    inputSize = length * sizeof( IN_CHAR );
 
         const auto  CONVERTED = convert(
-            _ICONV
+            UTF32_ENCODE
+            , _FROM_CODE
             , output
             , outputSize
             , input
@@ -230,78 +249,6 @@ namespace dp {
         setlocale( LC_CTYPE, "" );
 
         STRING_ENCODE = nl_langinfo( CODESET );
-
-        UTF8_TO_STRING = iconv_open(
-            STRING_ENCODE
-            , UTF8_ENCODE
-        );
-        UTF16_TO_STRING = iconv_open(
-            STRING_ENCODE
-            , UTF16_ENCODE
-        );
-        UTF32_TO_STRING = iconv_open(
-            STRING_ENCODE
-            , UTF32_ENCODE
-        );
-
-        STRING_TO_UTF8 = iconv_open(
-            UTF8_ENCODE
-            , STRING_ENCODE
-        );
-        UTF16_TO_UTF8 = iconv_open(
-            UTF8_ENCODE
-            , UTF16_ENCODE
-        );
-        UTF32_TO_UTF8 = iconv_open(
-            UTF8_ENCODE
-            , UTF32_ENCODE
-        );
-
-        STRING_TO_UTF16 = iconv_open(
-            UTF16_ENCODE
-            , STRING_ENCODE
-        );
-        UTF8_TO_UTF16 = iconv_open(
-            UTF16_ENCODE
-            , UTF8_ENCODE
-        );
-        UTF32_TO_UTF16 = iconv_open(
-            UTF16_ENCODE
-            , UTF32_ENCODE
-        );
-
-        STRING_TO_UTF32 = iconv_open(
-            UTF32_ENCODE
-            , STRING_ENCODE
-        );
-        UTF8_TO_UTF32 = iconv_open(
-            UTF32_ENCODE
-            , UTF8_ENCODE
-        );
-        UTF16_TO_UTF32 = iconv_open(
-            UTF32_ENCODE
-            , UTF16_ENCODE
-        );
-    }
-
-    void finalizeStringConverter(
-    )
-    {
-        iconv_close( UTF8_TO_STRING );
-        iconv_close( UTF16_TO_STRING );
-        iconv_close( UTF32_TO_STRING );
-
-        iconv_close( STRING_TO_UTF8 );
-        iconv_close( UTF16_TO_UTF8 );
-        iconv_close( UTF32_TO_UTF8 );
-
-        iconv_close( STRING_TO_UTF16 );
-        iconv_close( UTF8_TO_UTF16 );
-        iconv_close( UTF32_TO_UTF16 );
-
-        iconv_close( STRING_TO_UTF32 );
-        iconv_close( UTF8_TO_UTF32 );
-        iconv_close( UTF16_TO_UTF32 );
     }
 
     Bool toString(
@@ -310,7 +257,7 @@ namespace dp {
     )
     {
         return ::toString(
-            UTF8_TO_STRING
+            UTF8_ENCODE
             , _string
             , _UTF8
         );
@@ -322,7 +269,7 @@ namespace dp {
     )
     {
         return ::toString(
-            UTF16_TO_STRING
+            UTF16_ENCODE
             , _string
             , _UTF16
         );
@@ -334,7 +281,7 @@ namespace dp {
     )
     {
         return ::toString(
-            UTF32_TO_STRING
+            UTF32_ENCODE
             , _string
             , _UTF32
         );
@@ -346,7 +293,7 @@ namespace dp {
     )
     {
         return ::toUtf8(
-            STRING_TO_UTF8
+            STRING_ENCODE
             , _utf8
             , _STRING
         );
@@ -358,7 +305,7 @@ namespace dp {
     )
     {
         return ::toUtf8(
-            UTF16_TO_UTF8
+            UTF16_ENCODE
             , _utf8
             , _UTF16
         );
@@ -370,7 +317,7 @@ namespace dp {
     )
     {
         return ::toUtf8(
-            UTF32_TO_UTF8
+            UTF32_ENCODE
             , _utf8
             , _UTF32
         );
@@ -382,7 +329,7 @@ namespace dp {
     )
     {
         return ::toUtf16(
-            STRING_TO_UTF16
+            STRING_ENCODE
             , _utf16
             , _STRING
         );
@@ -394,7 +341,7 @@ namespace dp {
     )
     {
         return ::toUtf16(
-            UTF8_TO_UTF16
+            UTF8_ENCODE
             , _utf16
             , _UTF8
         );
@@ -406,7 +353,7 @@ namespace dp {
     )
     {
         return ::toUtf16(
-            UTF32_TO_UTF16
+            UTF32_ENCODE
             , _utf16
             , _UTF32
         );
@@ -418,7 +365,7 @@ namespace dp {
     )
     {
         return ::toUtf32(
-            STRING_TO_UTF32
+            STRING_ENCODE
             , _utf32
             , _STRING
         );
@@ -430,7 +377,7 @@ namespace dp {
     )
     {
         return ::toUtf32(
-            UTF8_TO_UTF32
+            UTF8_ENCODE
             , _utf32
             , _UTF8
         );
@@ -442,7 +389,7 @@ namespace dp {
     )
     {
         return ::toUtf32(
-            UTF16_TO_UTF32
+            UTF16_ENCODE
             , _utf32
             , _UTF16
         );

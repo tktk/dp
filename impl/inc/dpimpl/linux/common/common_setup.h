@@ -9,12 +9,6 @@ namespace dp {
     {
         initializeStringConverter();
     }
-
-    inline void finalizeCommon(
-    )
-    {
-        finalizeStringConverter();
-    }
 }
 
 #endif  // DPIMPL_LINUX_COMMON_COMMON_SETUP_H
