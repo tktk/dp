@@ -16,6 +16,20 @@ namespace dp {
         return nullptr;
     }
 
+    WindowImpl * newWindowImpl(
+        Window &        _window
+        , const Utf32 & _TITLE
+        , Long          _x
+        , Long          _y
+        , ULong         _width
+        , ULong         _height
+        , WindowFlags   _flags
+    )
+    {
+        //TODO
+        return nullptr;
+    }
+
     void free(
         WindowImpl &    _impl
     )

@@ -353,6 +353,45 @@ namespace dp {
         return implUnique.release();
     }
 
+    WindowImpl * newWindowImpl(
+        Window &        _window
+        , const Utf32 & _TITLE
+        , Long          _x
+        , Long          _y
+        , ULong         _width
+        , ULong         _height
+        , WindowFlags   _flags
+    )
+    {
+        WindowImplUnique    implUnique(
+            newWindowImpl(
+                _window
+                , _TITLE
+                , _width
+                , _height
+                , _flags
+            )
+        );
+        if( implUnique.get() == nullptr ) {
+            return nullptr;
+        }
+
+        auto &  impl = *implUnique;
+
+        auto &  xWindow = impl.xWindow;
+
+        auto &  xDisplay = getXDisplay();
+
+        XMoveWindow(
+            &xDisplay
+            , xWindow
+            , _x
+            , _y
+        );
+
+        return implUnique.release();
+    }
+
     void free(
         WindowImpl &    _impl
     )

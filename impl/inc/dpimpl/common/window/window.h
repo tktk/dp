@@ -31,6 +31,16 @@ namespace dp {
         , WindowFlags
     );
 
+    WindowImpl * newWindowImpl(
+        Window &
+        , const Utf32 &
+        , Long
+        , Long
+        , ULong
+        , ULong
+        , WindowFlags
+    );
+
     void free(
         WindowImpl &
     );
