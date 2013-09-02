@@ -62,4 +62,34 @@ namespace dp {
     {
         _info.closingEventHandler = _EVENT_HANDLER;
     }
+
+    const WindowPositionEventHandler & getPositionEventHandler(
+        const WindowInfo &  _INFO
+    )
+    {
+        return _INFO.positionEventHandler;
+    }
+
+    void setPositionEventHandler(
+        WindowInfo &                            _info
+        , const WindowPositionEventHandler &    _EVENT_HANDLER
+    )
+    {
+        _info.positionEventHandler = _EVENT_HANDLER;
+    }
+
+    const WindowSizeEventHandler & getSizeEventHandler(
+        const WindowInfo &  _INFO
+    )
+    {
+        return _INFO.sizeEventHandler;
+    }
+
+    void setSizeEventHandler(
+        WindowInfo &                        _info
+        , const WindowSizeEventHandler &    _EVENT_HANDLER
+    )
+    {
+        _info.sizeEventHandler = _EVENT_HANDLER;
+    }
 }
