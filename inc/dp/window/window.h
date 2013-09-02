@@ -21,6 +21,22 @@ namespace dp {
         )
     > WindowClosingEventHandler;
 
+    typedef std::function<
+        void(
+            Window &
+            , Long
+            , Long
+        )
+    > WindowPositionEventHandler;
+
+    typedef std::function<
+        void(
+            Window &
+            , ULong
+            , ULong
+        )
+    > WindowSizeEventHandler;
+
     DPEXPORT Window * newWindow(
         const WindowInfo &
         , const Utf32 &
@@ -59,7 +75,7 @@ namespace dp {
         Window &
     );
 
-    //TODO
+    //TODO ウィンドウに対する処理(タイトルやサイズの設定など)
 
     DPEXPORT WindowInfo * newWindowInfo(
     );
@@ -81,7 +97,25 @@ namespace dp {
         , const WindowClosingEventHandler &
     );
 
-    //TODO
+    DPEXPORT const WindowPositionEventHandler & getPositionEventHandler(
+        const WindowInfo &
+    );
+
+    DPEXPORT void setPositionEventHandler(
+        WindowInfo &
+        , const WindowPositionEventHandler &
+    );
+
+    DPEXPORT const WindowSizeEventHandler & getSizeEventHandler(
+        const WindowInfo &
+    );
+
+    DPEXPORT void setSizeEventHandler(
+        WindowInfo &
+        , const WindowSizeEventHandler &
+    );
+
+    //TODO 描画イベントのハンドラ取得、設定など
 
     typedef Unique< Window >::type WindowUnique;
 
