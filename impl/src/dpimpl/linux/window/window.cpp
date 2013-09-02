@@ -19,6 +19,13 @@ namespace {
     Atom    _NET_WM_STATE;
     Atom    _NET_WM_STATE_ABOVE;
 
+    struct Position
+    {
+        dp::Bool    initialized = false;
+        dp::Long    x;
+        dp::Long    y;
+    };
+
     void unresizable(
         ::Display &         _xDisplay
         , const ::Window &  _X_WINDOW
@@ -57,31 +64,51 @@ namespace {
         );
     }
 
-    dp::Bool isWindowEvent(
-        const XEvent *      _EVENT
-        , const XPointer    _ARG
-    )
-    {
-        return _EVENT->xany.window == *reinterpret_cast< const ::Window * >( _ARG );
-    }
-
-    dp::Bool isPaintThreadEvent(
-        const XEvent *  _EVENT
-    )
-    {
-        return _EVENT->type == Expose;
-    }
-
-    Bool isMainThreadEvent(
+    ::Bool isMainThreadEvent(
         ::Display *
         , XEvent *  _event
         , XPointer  _arg
     )
     {
-        return isWindowEvent(
-            _event
-            , _arg
-        ) && ( isPaintThreadEvent( _event ) == false );
+        const auto &    WINDOW = *reinterpret_cast< const ::Window * >( _arg );
+
+        return _event->xany.window == WINDOW;
+    }
+
+    void clientMessage(
+        dp::Window &        _window
+        , const XEvent &    _EVENT
+    )
+    {
+        const auto &    ATOM = static_cast< Atom >( _EVENT.xclient.data.l[ 0 ] );
+
+        if( ATOM == WM_DELETE_WINDOW ) {
+            dp::callClosingEventHandler(
+                _window
+            );
+        }
+    }
+
+    void configureNotify(
+        dp::Window &        _window
+        , Position &        _position
+        , const XEvent &    _EVENT
+    )
+    {
+        const auto &    NEW_X = _EVENT.xconfigure.x;
+        const auto &    NEW_Y = _EVENT.xconfigure.y;
+
+        if( _position.initialized == false || _position.x != NEW_X || _position.y != NEW_Y ) {
+            _position.initialized = true;
+            _position.x = NEW_X;
+            _position.y = NEW_Y;
+
+            dp::callPositionEventHandler(
+                _window
+                , _position.x
+                , _position.y
+            );
+        }
     }
 
     void mainThreadProc(
@@ -89,6 +116,8 @@ namespace {
         , dp::WindowImpl &  _impl
     )
     {
+        Position    position;
+
         const auto &    ENDED = _impl.ended;
 
         auto &  xDisplay = dp::getXDisplay();
@@ -109,15 +138,18 @@ namespace {
 
             switch( event.type ) {
             case ClientMessage:
-                {
-                    const auto &    ATOM = static_cast< Atom >( event.xclient.data.l[ 0 ] );
+                clientMessage(
+                    _window
+                    , event
+                );
+                break;
 
-                    if( ATOM == WM_DELETE_WINDOW ) {
-                        dp::callClosingEventHandler(
-                            _window
-                        );
-                    }
-                }
+            case ConfigureNotify:
+                configureNotify(
+                    _window
+                    , position
+                    , event
+                );
                 break;
 
             //TODO
@@ -273,7 +305,8 @@ namespace dp {
         XSetWindowAttributes    attributes;
 
         attributes.event_mask =
-            ExposureMask
+            ExposureMask |
+            StructureNotifyMask
         ;
 
         errno = 0;

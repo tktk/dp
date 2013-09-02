@@ -177,4 +177,22 @@ namespace dp {
             );
         }
     }
+
+    void callPositionEventHandler(
+        Window &    _window
+        , Long      _x
+        , Long      _y
+    )
+    {
+        std::unique_lock< decltype( _window.mutexForPositionEventHandler ) >    lock( _window.mutexForPositionEventHandler );
+
+        const auto &    EVENT_HANDLER = _window.infoUnique->positionEventHandler;
+        if( EVENT_HANDLER != nullptr ) {
+            EVENT_HANDLER(
+                _window
+                , _x
+                , _y
+            );
+        }
+    }
 }

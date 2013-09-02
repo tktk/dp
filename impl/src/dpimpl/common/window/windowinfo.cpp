@@ -7,7 +7,9 @@
 
 namespace {
     dp::WindowInfo * newWindowInfo(
-        const dp::WindowClosingEventHandler &   _CLOSING_EVENT_HANDLER
+        const dp::WindowClosingEventHandler &       _CLOSING_EVENT_HANDLER
+        , const dp::WindowPositionEventHandler &    _POSITION_EVENT_HANDLER
+        , const dp::WindowSizeEventHandler &        _SIZE_EVENT_HANDLER
     )
     {
         dp::WindowInfoUnique    infoUnique( new( std::nothrow )dp::WindowInfo );
@@ -18,6 +20,8 @@ namespace {
         auto &  info = *infoUnique;
 
         info.closingEventHandler = _CLOSING_EVENT_HANDLER;
+        info.positionEventHandler = _POSITION_EVENT_HANDLER;
+        info.sizeEventHandler = _SIZE_EVENT_HANDLER;
 
         return infoUnique.release();
     }
@@ -29,6 +33,8 @@ namespace dp {
     {
         return ::newWindowInfo(
             nullptr
+            , nullptr
+            , nullptr
         );
     }
 
@@ -38,6 +44,8 @@ namespace dp {
     {
         return ::newWindowInfo(
             _OTHER.closingEventHandler
+            , _OTHER.positionEventHandler
+            , _OTHER.sizeEventHandler
         );
     }
 

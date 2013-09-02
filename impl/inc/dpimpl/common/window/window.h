@@ -21,6 +21,12 @@ namespace dp {
         Window &
     );
 
+    void callPositionEventHandler(
+        Window &
+        , Long
+        , Long
+    );
+
     struct WindowImpl;
 
     WindowImpl * newWindowImpl(
@@ -51,6 +57,7 @@ namespace dp {
     {
         WindowInfoUnique    infoUnique;
         std::mutex          mutexForClosingEventHandler;
+        std::mutex          mutexForPositionEventHandler;
 
         WindowImplUnique    implUnique;
     };
