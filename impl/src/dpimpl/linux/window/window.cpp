@@ -92,7 +92,7 @@ namespace {
         const auto &    ATOM = static_cast< Atom >( _EVENT.xclient.data.l[ 0 ] );
 
         if( ATOM == WM_DELETE_WINDOW ) {
-            dp::callClosingEventHandler(
+            dp::callCloseEventHandler(
                 _window
             );
         }

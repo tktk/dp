@@ -17,7 +17,7 @@
 #include <mutex>
 
 namespace dp {
-    void callClosingEventHandler(
+    void callCloseEventHandler(
         Window &
     );
 
@@ -62,7 +62,7 @@ namespace dp {
     struct Window
     {
         WindowInfoUnique    infoUnique;
-        std::mutex          mutexForClosingEventHandler;
+        std::mutex          mutexForCloseEventHandler;
         std::mutex          mutexForPositionEventHandler;
         std::mutex          mutexForSizeEventHandler;
 

@@ -164,13 +164,13 @@ namespace dp {
         delete &_window;
     }
 
-    void callClosingEventHandler(
+    void callCloseEventHandler(
         Window &    _window
     )
     {
-        std::unique_lock< decltype( _window.mutexForClosingEventHandler ) > lock( _window.mutexForClosingEventHandler );
+        std::unique_lock< decltype( _window.mutexForCloseEventHandler ) >   lock( _window.mutexForCloseEventHandler );
 
-        const auto &    EVENT_HANDLER = _window.infoUnique->closingEventHandler;
+        const auto &    EVENT_HANDLER = _window.infoUnique->closeEventHandler;
         if( EVENT_HANDLER != nullptr ) {
             EVENT_HANDLER(
                 _window

@@ -19,7 +19,7 @@ namespace dp {
         void(
             Window &
         )
-    > WindowClosingEventHandler;
+    > WindowCloseEventHandler;
 
     typedef std::function<
         void(
@@ -88,13 +88,13 @@ namespace dp {
         WindowInfo &
     );
 
-    DPEXPORT const WindowClosingEventHandler & getClosingEventHandler(
+    DPEXPORT const WindowCloseEventHandler & getCloseEventHandler(
         const WindowInfo &
     );
 
-    DPEXPORT void setClosingEventHandler(
+    DPEXPORT void setCloseEventHandler(
         WindowInfo &
-        , const WindowClosingEventHandler &
+        , const WindowCloseEventHandler &
     );
 
     DPEXPORT const WindowPositionEventHandler & getPositionEventHandler(

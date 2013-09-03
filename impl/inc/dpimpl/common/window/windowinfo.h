@@ -6,7 +6,7 @@
 namespace dp {
     struct WindowInfo
     {
-        WindowClosingEventHandler   closingEventHandler;
+        WindowCloseEventHandler     closeEventHandler;
         WindowPositionEventHandler  positionEventHandler;
         WindowSizeEventHandler      sizeEventHandler;
     };
