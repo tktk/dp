@@ -195,4 +195,22 @@ namespace dp {
             );
         }
     }
+
+    void callSizeEventHandler(
+        Window &    _window
+        , ULong     _width
+        , ULong     _height
+    )
+    {
+        std::unique_lock< decltype( _window.mutexForSizeEventHandler ) >    lock( _window.mutexForSizeEventHandler );
+
+        const auto &    EVENT_HANDLER = _window.infoUnique->sizeEventHandler;
+        if( EVENT_HANDLER != nullptr ) {
+            EVENT_HANDLER(
+                _window
+                , _width
+                , _height
+            );
+        }
+    }
 }

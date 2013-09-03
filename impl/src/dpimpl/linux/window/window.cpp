@@ -12,6 +12,8 @@
 #include <thread>
 #include <utility>
 #include <errno.h>
+#include <mutex>
+#include <condition_variable>
 
 namespace {
     Atom    WM_DELETE_WINDOW;
@@ -24,6 +26,13 @@ namespace {
         dp::Bool    initialized = false;
         dp::Long    x;
         dp::Long    y;
+    };
+
+    struct Size
+    {
+        dp::Bool    initialized = false;
+        dp::ULong   width;
+        dp::ULong   height;
     };
 
     void unresizable(
@@ -89,7 +98,34 @@ namespace {
         }
     }
 
-    void configureNotify(
+    void checkSize(
+        dp::Window &                _window
+        , std::mutex &              _mutex
+        , std::condition_variable & _cond
+        , Size &                    _size
+        , const XEvent &            _EVENT
+    )
+    {
+        const auto &    NEW_WIDTH = _EVENT.xconfigure.width;
+        const auto &    NEW_HEIGHT = _EVENT.xconfigure.height;
+
+        if(
+            _size.initialized == false ||
+            _size.width != NEW_WIDTH ||
+            _size.height != NEW_HEIGHT
+        ) {
+            _size.initialized = true;
+
+            std::unique_lock< std::mutex >  lock( _mutex );
+
+            _size.width = NEW_WIDTH;
+            _size.height = NEW_HEIGHT;
+
+            _cond.notify_one();
+        }
+    }
+
+    void checkPosition(
         dp::Window &        _window
         , Position &        _position
         , const XEvent &    _EVENT
@@ -98,7 +134,11 @@ namespace {
         const auto &    NEW_X = _EVENT.xconfigure.x;
         const auto &    NEW_Y = _EVENT.xconfigure.y;
 
-        if( _position.initialized == false || _position.x != NEW_X || _position.y != NEW_Y ) {
+        if(
+            _position.initialized == false ||
+            _position.x != NEW_X ||
+            _position.y != NEW_Y
+        ) {
             _position.initialized = true;
             _position.x = NEW_X;
             _position.y = NEW_Y;
@@ -111,9 +151,126 @@ namespace {
         }
     }
 
+    void configureNotify(
+        dp::Window &                _window
+        , std::mutex &              _mutex
+        , std::condition_variable & _cond
+        , Size &                    _size
+        , Position &                _position
+        , const XEvent &            _EVENT
+    )
+    {
+        checkSize(
+            _window
+            , _mutex
+            , _cond
+            , _size
+            , _EVENT
+        );
+        checkPosition(
+            _window
+            , _position
+            , _EVENT
+        );
+    }
+
+    void waitPaintThread(
+        std::mutex &                _mutex
+        , std::condition_variable & _cond
+    )
+    {
+        std::unique_lock< std::mutex >  lock( _mutex );
+
+        _cond.wait( lock );
+    }
+
+    dp::Bool copyWhenChanged(
+        Size &          _size
+        , std::mutex &  _mutex
+        , const Size &  _NEW_SIZE
+    )
+    {
+        std::unique_lock< std::mutex >  lock( _mutex );
+
+        const auto  CHANGED =
+            _NEW_SIZE.initialized &&
+            (
+                _size.initialized == false ||
+                _size.width != _NEW_SIZE.width ||
+                _size.height != _NEW_SIZE.height
+            )
+        ;
+
+        if( CHANGED ) {
+            _size = _NEW_SIZE;
+        }
+
+        return CHANGED;
+    }
+
+    void checkSize(
+        dp::Window &    _window
+        , Size &        _size
+        , std::mutex &  _mutex
+        , const Size &  _NEW_SIZE
+    )
+    {
+        if( copyWhenChanged(
+            _size
+            , _mutex
+            , _NEW_SIZE
+        ) ) {
+            dp::callSizeEventHandler(
+                _window
+                , _size.width
+                , _size.height
+            );
+        }
+    }
+
+    void paintThreadProc(
+        dp::Window &                _window
+        , dp::WindowImpl &          _impl
+        , std::mutex &              _mutex
+        , std::condition_variable & _cond
+        , const Size &              _NEW_SIZE
+    )
+    {
+        Size    size;
+
+        const auto &    ENDED = _impl.ended;
+
+        //TODO 描画開始イベントハンドラ呼び出し
+
+        while( 1 ) {
+            waitPaintThread(
+                _mutex
+                , _cond
+            );
+
+            if( ENDED ) {
+                break;
+            }
+
+            checkSize(
+                _window
+                , size
+                , _mutex
+                , _NEW_SIZE
+            );
+
+            //TODO 描画イベントハンドラ呼び出し
+        }
+
+        //TODO 描画終了イベントハンドラ呼び出し
+    }
+
     void mainThreadProc(
-        dp::Window &        _window
-        , dp::WindowImpl &  _impl
+        dp::Window &                _window
+        , dp::WindowImpl &          _impl
+        , std::mutex &              _mutex
+        , std::condition_variable & _cond
+        , Size &                    _size
     )
     {
         Position    position;
@@ -147,6 +304,9 @@ namespace {
             case ConfigureNotify:
                 configureNotify(
                     _window
+                    , _mutex
+                    , _cond
+                    , _size
                     , position
                     , event
                 );
@@ -161,16 +321,57 @@ namespace {
         }
     }
 
+    void notifyPaintThread(
+        std::mutex &                _mutex
+        , std::condition_variable & _cond
+    )
+    {
+        std::unique_lock< std::mutex >  lock( _mutex );
+
+        _cond.notify_one();
+    }
+
     void threadProc(
         dp::Window &        _window
         , dp::WindowImpl &  _impl
     )
     {
-        //TODO ペイントスレッドの起動
+        std::mutex              mutex;
+        std::condition_variable cond;
+
+        Size    size;
+
+        std::thread paintThread(
+            [
+                &_window
+                , &_impl
+                , &mutex
+                , &cond
+                , &size
+            ]
+            {
+                paintThreadProc(
+                    _window
+                    , _impl
+                    , mutex
+                    , cond
+                    , size
+                );
+            }
+        );
+        dp::ThreadJoiner    threadJoiner( &paintThread );
 
         mainThreadProc(
             _window
             , _impl
+            , mutex
+            , cond
+            , size
+        );
+
+        notifyPaintThread(
+            mutex
+            , cond
         );
     }
 

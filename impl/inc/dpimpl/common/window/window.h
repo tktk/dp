@@ -27,6 +27,12 @@ namespace dp {
         , Long
     );
 
+    void callSizeEventHandler(
+        Window &
+        , ULong
+        , ULong
+    );
+
     struct WindowImpl;
 
     WindowImpl * newWindowImpl(
@@ -58,6 +64,7 @@ namespace dp {
         WindowInfoUnique    infoUnique;
         std::mutex          mutexForClosingEventHandler;
         std::mutex          mutexForPositionEventHandler;
+        std::mutex          mutexForSizeEventHandler;
 
         WindowImplUnique    implUnique;
     };
