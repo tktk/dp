@@ -37,6 +37,28 @@ namespace dp {
         )
     > WindowSizeEventHandler;
 
+    typedef std::function<
+        void(
+            Window &
+        )
+    > WindowBeginPaintEventHandler;
+
+    typedef std::function<
+        void(
+            Window &
+        )
+    > WindowEndPaintEventHandler;
+
+    typedef std::function<
+        void(
+            Window &
+            , ULong
+            , ULong
+            , ULong
+            , ULong
+        )
+    > WindowPaintEventHandler;
+
     DPEXPORT Window * newWindow(
         const WindowInfo &
         , const Utf32 &
@@ -134,7 +156,32 @@ namespace dp {
         , const WindowSizeEventHandler &
     );
 
-    //TODO 描画イベントのハンドラ取得、設定など
+    DPEXPORT const WindowBeginPaintEventHandler & getBeginPaintEventHandler(
+        const WindowInfo &
+    );
+
+    DPEXPORT void setBeginPaintEventHandler(
+        WindowInfo &
+        , const WindowBeginPaintEventHandler &
+    );
+
+    DPEXPORT const WindowEndPaintEventHandler & getEndPaintEventHandler(
+        const WindowInfo &
+    );
+
+    DPEXPORT void setEndPaintEventHandler(
+        WindowInfo &
+        , const WindowEndPaintEventHandler &
+    );
+
+    DPEXPORT const WindowPaintEventHandler & getPaintEventHandler(
+        const WindowInfo &
+    );
+
+    DPEXPORT void setPaintEventHandler(
+        WindowInfo &
+        , const WindowPaintEventHandler &
+    );
 
     typedef Unique< Window >::type WindowUnique;
 
