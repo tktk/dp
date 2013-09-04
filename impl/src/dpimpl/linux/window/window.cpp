@@ -686,7 +686,16 @@ namespace dp {
         , Long      _y
     )
     {
-        //TODO
+        auto &  xDisplay = getXDisplay();
+        auto &  xWindow = _window.implUnique->xWindow;
+
+        XMoveWindow(
+            &xDisplay
+            , xWindow
+            , _x
+            , _y
+        );
+        XFlush( &xDisplay );
     }
 
     void setSize(
@@ -695,6 +704,15 @@ namespace dp {
         , ULong     _height
     )
     {
-        //TODO
+        auto &  xDisplay = getXDisplay();
+        auto &  xWindow = _window.implUnique->xWindow;
+
+        XResizeWindow(
+            &xDisplay
+            , xWindow
+            , _width
+            , _height
+        );
+        XFlush( &xDisplay );
     }
 }
