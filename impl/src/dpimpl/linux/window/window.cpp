@@ -650,7 +650,22 @@ namespace dp {
         Window &    _window
     )
     {
-        //TODO
+        auto &  xDisplay = dp::getXDisplay();
+        auto &  xWindow = _window.implUnique->xWindow;
+
+        XEvent  event;
+        event.xclient.display = &xDisplay;
+        event.xclient.window = xWindow;
+        event.xclient.type = ClientMessage;
+        event.xclient.format = 32;
+        event.xclient.data.l[ 0 ] = WM_DELETE_WINDOW;
+
+        sendEvent(
+            event
+            , NoEventMask
+        );
+
+        XFlush( &xDisplay );
     }
 
     Bool setTitle(
