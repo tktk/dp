@@ -49,6 +49,21 @@ namespace {
         }
     };
 
+    struct Rect
+    {
+        dp::ULong   x;
+        dp::ULong   y;
+        dp::ULong   width;
+        dp::ULong   height;
+
+        Rect(
+        )
+            : width( 0 )
+            , height( 0 )
+        {
+        }
+    };
+
     void unresizable(
         ::Display &         _xDisplay
         , const ::Window &  _X_WINDOW
@@ -111,12 +126,168 @@ namespace {
         return _event->xany.window == WINDOW;
     }
 
-    void clientMessage(
-        dp::Window &        _window
-        , const XEvent &    _EVENT
+    dp::Bool copyWhenChanged(
+        Size &          _size
+        , const Size &  _SIZE_FROM_MAIN_THREAD
     )
     {
-        const auto &    ATOM = static_cast< Atom >( _EVENT.xclient.data.l[ 0 ] );
+        const auto  CHANGED =
+            _SIZE_FROM_MAIN_THREAD.initialized &&
+            (
+                _size.initialized == false ||
+                _size.width != _SIZE_FROM_MAIN_THREAD.width ||
+                _size.height != _SIZE_FROM_MAIN_THREAD.height
+            )
+        ;
+
+        if( CHANGED ) {
+            _size = _SIZE_FROM_MAIN_THREAD;
+        }
+
+        return CHANGED;
+    }
+
+    void copyAndClear(
+        Rect &      _invalidateRect
+        , Rect &    _invalidateRectFromMainThread
+    )
+    {
+        _invalidateRect = _invalidateRectFromMainThread;
+
+        // 幅を0にして無効領域を初期化
+        _invalidateRectFromMainThread.width = 0;
+    }
+
+    void waitPaintThread(
+        std::mutex &                _mutex
+        , std::condition_variable & _cond
+        , const Size &              _SIZE_FROM_MAIN_THREAD
+        , Rect &                    _invalidateRectFromMainThread
+        , const dp::Bool &          _ENDED
+        , Size &                    _size
+        , dp::Bool &                _sizeChanged
+        , Rect &                    _invalidateRect
+        , dp::Bool &                _exposed
+    )
+    {
+        std::unique_lock< std::mutex >  lock( _mutex );
+
+        _cond.wait(
+            lock
+            , [
+                &_SIZE_FROM_MAIN_THREAD
+                , &_invalidateRectFromMainThread
+                , &_ENDED
+                , &_size
+                , &_sizeChanged
+                , &_invalidateRect
+                , &_exposed
+            ]
+            {
+                _sizeChanged = copyWhenChanged(
+                    _size
+                    , _SIZE_FROM_MAIN_THREAD
+                );
+
+                copyAndClear(
+                    _invalidateRect
+                    , _invalidateRectFromMainThread
+                );
+
+                _exposed = _invalidateRect.width > 0 && _invalidateRect.height > 0;
+
+                return _ENDED || _sizeChanged || _exposed;
+            }
+        );
+    }
+
+    void paintThreadProcMainLoop(
+        dp::Window &                _window
+        , dp::WindowImpl &          _impl
+        , std::mutex &              _mutex
+        , std::condition_variable & _cond
+        , const Size &              _SIZE_FROM_MAIN_THREAD
+        , Rect &                    _invalidateRectFromMainThread
+    )
+    {
+        const auto &    ENDED = _impl.ended;
+
+        Size        size;
+        dp::Bool    sizeChanged;
+
+        Rect        invalidateRect;
+        dp::Bool    exposed;
+
+        while( 1 ) {
+            waitPaintThread(
+                _mutex
+                , _cond
+                , _SIZE_FROM_MAIN_THREAD
+                , _invalidateRectFromMainThread
+                , ENDED
+                , size
+                , sizeChanged
+                , invalidateRect
+                , exposed
+            );
+
+            if( ENDED ) {
+                break;
+            }
+
+            if( sizeChanged ) {
+                dp::callSizeEventHandler(
+                    _window
+                    , size.width
+                    , size.height
+                );
+            }
+
+            if( exposed ) {
+                dp::callPaintEventHandler(
+                    _window
+                    , invalidateRect.x
+                    , invalidateRect.y
+                    , invalidateRect.width
+                    , invalidateRect.height
+                );
+            }
+        }
+    }
+
+    void paintThreadProc(
+        dp::Window &                _window
+        , dp::WindowImpl &          _impl
+        , std::mutex &              _mutex
+        , std::condition_variable & _cond
+        , const Size &              _SIZE_FROM_MAIN_THREAD
+        , Rect &                    _invalidateRectFromMainThread
+    )
+    {
+        dp::callBeginPaintEventHandler(
+            _window
+        );
+
+        paintThreadProcMainLoop(
+            _window
+            , _impl
+            , _mutex
+            , _cond
+            , _SIZE_FROM_MAIN_THREAD
+            , _invalidateRectFromMainThread
+        );
+
+        dp::callEndPaintEventHandler(
+            _window
+        );
+    }
+
+    void clientMessage(
+        dp::Window &                    _window
+        , const XClientMessageEvent &   _EVENT
+    )
+    {
+        const auto &    ATOM = static_cast< Atom >( _EVENT.data.l[ 0 ] );
 
         if( ATOM == WM_DELETE_WINDOW ) {
             dp::callCloseEventHandler(
@@ -125,16 +296,71 @@ namespace {
         }
     }
 
+    void updateRange(
+        dp::ULong &         _from
+        , dp::ULong &       _volume
+        , const dp::Int &   _NEW_FROM
+        , const dp::Int &   _NEW_VOLUME
+    )
+    {
+        const auto      OLD_FROM = _from;
+        const dp::ULong OLD_VOLUME = _volume;
+
+        const auto      OLD_TO = OLD_FROM + OLD_VOLUME;
+        const dp::ULong NEW_TO = _NEW_FROM + _NEW_VOLUME;
+
+        const auto &    TO = OLD_TO > NEW_TO ? OLD_TO : NEW_TO;
+
+        if( OLD_FROM > _NEW_FROM ) {
+            _from = _NEW_FROM;
+        }
+
+        _volume = TO - _from;
+    }
+
+    void expose(
+        dp::Window &                _window
+        , std::mutex &              _mutex
+        , std::condition_variable & _cond
+        , Rect &                    _invalidateRect
+        , const XExposeEvent &      _EVENT
+    )
+    {
+        std::unique_lock< std::mutex >  lock( _mutex );
+
+        if( _invalidateRect.width <= 0 || _invalidateRect.height <= 0 ) {
+            _invalidateRect.x = _EVENT.x;
+            _invalidateRect.y = _EVENT.y;
+            _invalidateRect.width = _EVENT.width;
+            _invalidateRect.height = _EVENT.height;
+        } else {
+            updateRange(
+                _invalidateRect.x
+                , _invalidateRect.width
+                , _EVENT.x
+                , _EVENT.width
+            );
+            updateRange(
+                _invalidateRect.y
+                , _invalidateRect.height
+                , _EVENT.y
+                , _EVENT.height
+            );
+        }
+
+        _cond.notify_one();
+    }
+
     void checkSize(
         dp::Window &                _window
         , std::mutex &              _mutex
         , std::condition_variable & _cond
         , Size &                    _size
-        , const XEvent &            _EVENT
+        , const XConfigureEvent &   _EVENT
     )
     {
-        const auto &    NEW_WIDTH = _EVENT.xconfigure.width;
-        const auto &    NEW_HEIGHT = _EVENT.xconfigure.height;
+        const auto &    NEW_WIDTH = _EVENT.width;
+        const auto &    NEW_HEIGHT = _EVENT.height;
 
         if(
             _size.initialized == false ||
@@ -152,13 +378,13 @@ namespace {
     }
 
     void checkPosition(
-        dp::Window &        _window
-        , Position &        _position
-        , const XEvent &    _EVENT
+        dp::Window &                _window
+        , Position &                _position
+        , const XConfigureEvent &   _EVENT
     )
     {
-        const auto &    NEW_X = _EVENT.xconfigure.x;
-        const auto &    NEW_Y = _EVENT.xconfigure.y;
+        const auto &    NEW_X = _EVENT.x;
+        const auto &    NEW_Y = _EVENT.y;
 
         if(
             _position.initialized == false ||
@@ -183,7 +409,7 @@ namespace {
         , std::condition_variable & _cond
         , Size &                    _size
         , Position &                _position
-        , const XEvent &            _EVENT
+        , const XConfigureEvent &   _EVENT
     )
     {
         checkSize(
@@ -200,123 +426,13 @@ namespace {
         );
     }
 
-    dp::Bool copyWhenChanged(
-        Size &          _size
-        , const Size &  _NEW_SIZE
-    )
-    {
-        const auto  CHANGED =
-            _NEW_SIZE.initialized &&
-            (
-                _size.initialized == false ||
-                _size.width != _NEW_SIZE.width ||
-                _size.height != _NEW_SIZE.height
-            )
-        ;
-
-        if( CHANGED ) {
-            _size = _NEW_SIZE;
-        }
-
-        return CHANGED;
-    }
-
-    void waitPaintThread(
-        std::mutex &                _mutex
-        , std::condition_variable & _cond
-        , const Size &              _NEW_SIZE
-        , Size &                    _size
-        , dp::Bool &                _sizeChanged
-        , const dp::Bool &          _ENDED
-    )
-    {
-        std::unique_lock< std::mutex >  lock( _mutex );
-
-        _cond.wait(
-            lock
-            , [
-                &_NEW_SIZE
-                , &_size
-                , &_sizeChanged
-                , &_ENDED
-            ]
-            {
-                _sizeChanged = copyWhenChanged(
-                    _size
-                    , _NEW_SIZE
-                );
-
-                return _ENDED || _sizeChanged;
-            }
-        );
-    }
-
-    void paintThreadProcMainLoop(
-        dp::Window &                _window
-        , dp::WindowImpl &          _impl
-        , std::mutex &              _mutex
-        , std::condition_variable & _cond
-        , const Size &              _NEW_SIZE
-    )
-    {
-        Size        size;
-        dp::Bool    sizeChanged;
-
-        const auto &    ENDED = _impl.ended;
-
-        while( 1 ) {
-            waitPaintThread(
-                _mutex
-                , _cond
-                , _NEW_SIZE
-                , size
-                , sizeChanged
-                , ENDED
-            );
-
-            if( ENDED ) {
-                break;
-            }
-
-            if( sizeChanged ) {
-                dp::callSizeEventHandler(
-                    _window
-                    , size.width
-                    , size.height
-                );
-            }
-
-            //TODO 描画イベントハンドラ呼び出し
-        }
-    }
-
-    void paintThreadProc(
-        dp::Window &                _window
-        , dp::WindowImpl &          _impl
-        , std::mutex &              _mutex
-        , std::condition_variable & _cond
-        , const Size &              _NEW_SIZE
-    )
-    {
-        //TODO 描画開始イベントハンドラ呼び出し
-
-        paintThreadProcMainLoop(
-            _window
-            , _impl
-            , _mutex
-            , _cond
-            , _NEW_SIZE
-        );
-
-        //TODO 描画終了イベントハンドラ呼び出し
-    }
-
     void mainThreadProc(
         dp::Window &                _window
         , dp::WindowImpl &          _impl
         , std::mutex &              _mutex
         , std::condition_variable & _cond
         , Size &                    _size
+        , Rect &                    _invalidateRect
     )
     {
         Position    position;
@@ -343,7 +459,17 @@ namespace {
             case ClientMessage:
                 clientMessage(
                     _window
-                    , event
+                    , event.xclient
+                );
+                break;
+
+            case Expose:
+                expose(
+                    _window
+                    , _mutex
+                    , _cond
+                    , _invalidateRect
+                    , event.xexpose
                 );
                 break;
 
@@ -354,7 +480,7 @@ namespace {
                     , _cond
                     , _size
                     , position
-                    , event
+                    , event.xconfigure
                 );
                 break;
 
@@ -386,6 +512,7 @@ namespace {
         std::condition_variable cond;
 
         Size    size;
+        Rect    invalidateRect;
 
         std::thread paintThread(
             [
@@ -394,6 +521,7 @@ namespace {
                 , &mutex
                 , &cond
                 , &size
+                , &invalidateRect
             ]
             {
                 paintThreadProc(
@@ -402,6 +530,7 @@ namespace {
                     , mutex
                     , cond
                     , size
+                    , invalidateRect
                 );
             }
         );
@@ -413,6 +542,7 @@ namespace {
             , mutex
             , cond
             , size
+            , invalidateRect
         );
 
         notifyPaintThread(

@@ -33,6 +33,22 @@ namespace dp {
         , ULong
     );
 
+    void callBeginPaintEventHandler(
+        Window &
+    );
+
+    void callEndPaintEventHandler(
+        Window &
+    );
+
+    void callPaintEventHandler(
+        Window &
+        , ULong
+        , ULong
+        , ULong
+        , ULong
+    );
+
     struct WindowImpl;
 
     WindowImpl * newWindowImpl(
@@ -65,6 +81,9 @@ namespace dp {
         std::mutex          mutexForCloseEventHandler;
         std::mutex          mutexForPositionEventHandler;
         std::mutex          mutexForSizeEventHandler;
+        std::mutex          mutexForBeginPaintEventHandler;
+        std::mutex          mutexForEndPaintEventHandler;
+        std::mutex          mutexForPaintEventHandler;
 
         WindowImplUnique    implUnique;
     };

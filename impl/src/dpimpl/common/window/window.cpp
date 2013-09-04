@@ -213,4 +213,54 @@ namespace dp {
             );
         }
     }
+
+    void callBeginPaintEventHandler(
+        Window &    _window
+    )
+    {
+        std::unique_lock< decltype( _window.mutexForBeginPaintEventHandler ) >  lock( _window.mutexForBeginPaintEventHandler );
+
+        const auto &    EVENT_HANDLER = _window.infoUnique->beginPaintEventHandler;
+        if( EVENT_HANDLER != nullptr ) {
+            EVENT_HANDLER(
+                _window
+            );
+        }
+    }
+
+    void callEndPaintEventHandler(
+        Window &    _window
+    )
+    {
+        std::unique_lock< decltype( _window.mutexForEndPaintEventHandler ) >    lock( _window.mutexForEndPaintEventHandler );
+
+        const auto &    EVENT_HANDLER = _window.infoUnique->endPaintEventHandler;
+        if( EVENT_HANDLER != nullptr ) {
+            EVENT_HANDLER(
+                _window
+            );
+        }
+    }
+
+    void callPaintEventHandler(
+        Window &    _window
+        , ULong     _x
+        , ULong     _y
+        , ULong     _width
+        , ULong     _height
+    )
+    {
+        std::unique_lock< decltype( _window.mutexForPaintEventHandler ) >   lock( _window.mutexForPaintEventHandler );
+
+        const auto &    EVENT_HANDLER = _window.infoUnique->paintEventHandler;
+        if( EVENT_HANDLER != nullptr ) {
+            EVENT_HANDLER(
+                _window
+                , _x
+                , _y
+                , _width
+                , _height
+            );
+        }
+    }
 }
