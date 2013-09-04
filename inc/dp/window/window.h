@@ -79,7 +79,7 @@ namespace dp {
         Window &
     );
 
-    DPEXPORT void setTitle(
+    DPEXPORT Bool setTitle(
         Window &
         , const Utf32 &
     );

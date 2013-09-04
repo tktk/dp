@@ -75,6 +75,19 @@ namespace {
         );
     }
 
+    void setTitle(
+        ::Display &             _xDisplay
+        , const ::Window &      _X_WINDOW
+        , const dp::String &    _TITLE_STRING
+    )
+    {
+        XStoreName(
+            &_xDisplay
+            , _X_WINDOW
+            , _TITLE_STRING.c_str()
+        );
+    }
+
     ::Bool isMainThreadEvent(
         ::Display *
         , XEvent *  _event
@@ -116,10 +129,9 @@ namespace {
             _size.width != NEW_WIDTH ||
             _size.height != NEW_HEIGHT
         ) {
-            _size.initialized = true;
-
             std::unique_lock< std::mutex >  lock( _mutex );
 
+            _size.initialized = true;
             _size.width = NEW_WIDTH;
             _size.height = NEW_HEIGHT;
 
@@ -176,24 +188,11 @@ namespace {
         );
     }
 
-    void waitPaintThread(
-        std::mutex &                _mutex
-        , std::condition_variable & _cond
-    )
-    {
-        std::unique_lock< std::mutex >  lock( _mutex );
-
-        _cond.wait( lock );
-    }
-
     dp::Bool copyWhenChanged(
         Size &          _size
-        , std::mutex &  _mutex
         , const Size &  _NEW_SIZE
     )
     {
-        std::unique_lock< std::mutex >  lock( _mutex );
-
         const auto  CHANGED =
             _NEW_SIZE.initialized &&
             (
@@ -210,23 +209,72 @@ namespace {
         return CHANGED;
     }
 
-    void checkSize(
-        dp::Window &    _window
-        , Size &        _size
-        , std::mutex &  _mutex
-        , const Size &  _NEW_SIZE
+    void waitPaintThread(
+        std::mutex &                _mutex
+        , std::condition_variable & _cond
+        , const Size &              _NEW_SIZE
+        , Size &                    _size
+        , dp::Bool &                _sizeChanged
+        , const dp::Bool &          _ENDED
     )
     {
-        if( copyWhenChanged(
-            _size
-            , _mutex
-            , _NEW_SIZE
-        ) ) {
-            dp::callSizeEventHandler(
-                _window
-                , _size.width
-                , _size.height
+        std::unique_lock< std::mutex >  lock( _mutex );
+
+        _cond.wait(
+            lock
+            , [
+                &_NEW_SIZE
+                , &_size
+                , &_sizeChanged
+                , &_ENDED
+            ]
+            {
+                _sizeChanged = copyWhenChanged(
+                    _size
+                    , _NEW_SIZE
+                );
+
+                return _ENDED || _sizeChanged;
+            }
+        );
+    }
+
+    void paintThreadProcMainLoop(
+        dp::Window &                _window
+        , dp::WindowImpl &          _impl
+        , std::mutex &              _mutex
+        , std::condition_variable & _cond
+        , const Size &              _NEW_SIZE
+    )
+    {
+        Size        size;
+        dp::Bool    sizeChanged;
+
+        const auto &    ENDED = _impl.ended;
+
+        while( 1 ) {
+            waitPaintThread(
+                _mutex
+                , _cond
+                , _NEW_SIZE
+                , size
+                , sizeChanged
+                , ENDED
             );
+
+            if( ENDED ) {
+                break;
+            }
+
+            if( sizeChanged ) {
+                dp::callSizeEventHandler(
+                    _window
+                    , size.width
+                    , size.height
+                );
+            }
+
+            //TODO 描画イベントハンドラ呼び出し
         }
     }
 
@@ -238,31 +286,15 @@ namespace {
         , const Size &              _NEW_SIZE
     )
     {
-        Size    size;
-
-        const auto &    ENDED = _impl.ended;
-
         //TODO 描画開始イベントハンドラ呼び出し
 
-        while( 1 ) {
-            waitPaintThread(
-                _mutex
-                , _cond
-            );
-
-            if( ENDED ) {
-                break;
-            }
-
-            checkSize(
-                _window
-                , size
-                , _mutex
-                , _NEW_SIZE
-            );
-
-            //TODO 描画イベントハンドラ呼び出し
-        }
+        paintThreadProcMainLoop(
+            _window
+            , _impl
+            , _mutex
+            , _cond
+            , _NEW_SIZE
+        );
 
         //TODO 描画終了イベントハンドラ呼び出し
     }
@@ -534,10 +566,10 @@ namespace dp {
             );
         }
 
-        XStoreName(
-            &xDisplay
+        ::setTitle(
+            xDisplay
             , xWindow
-            , titleString.c_str()
+            , titleString
         );
 
         XMapWindow(
@@ -621,12 +653,31 @@ namespace dp {
         //TODO
     }
 
-    void setTitle(
+    Bool setTitle(
         Window &        _window
         , const Utf32 & _TITLE
     )
     {
-        //TODO
+        String  titleString;
+        if( toString(
+            titleString
+            , _TITLE
+        ) == false ) {
+            return false;
+        }
+
+        auto &  xDisplay = getXDisplay();
+        auto &  xWindow = _window.implUnique->xWindow;
+
+        ::setTitle(
+            xDisplay
+            , xWindow
+            , titleString
+        );
+
+        XFlush( &xDisplay );
+
+        return true;
     }
 
     void setPosition(

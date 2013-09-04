@@ -46,7 +46,7 @@ namespace dp {
         //TODO
     }
 
-    void setTitle(
+    Bool setTitle(
         Window &        _window
         , const Utf32 & _TITLE
     )
