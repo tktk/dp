@@ -118,6 +118,14 @@ namespace dp {
         , ULong
     );
 
+    DPEXPORT void repaint(
+        Window &
+        , ULong
+        , ULong
+        , ULong
+        , ULong
+    );
+
     DPEXPORT WindowInfo * newWindowInfo(
     );
 

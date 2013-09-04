@@ -903,4 +903,36 @@ namespace dp {
         );
         XFlush( &xDisplay );
     }
+
+    void repaint(
+        Window &    _window
+        , ULong     _x
+        , ULong     _y
+        , ULong     _width
+        , ULong     _height
+    )
+    {
+        auto &  xDisplay = getXDisplay();
+        auto &  xWindow = _window.implUnique->xWindow;
+
+        XEvent  event;
+
+        auto &  exposeEvent = event.xexpose;
+
+        exposeEvent.type = Expose;
+        exposeEvent.display = &xDisplay;
+        exposeEvent.window = xWindow;
+        exposeEvent.x = _x;
+        exposeEvent.y = _y;
+        exposeEvent.width = _width;
+        exposeEvent.height = _height;
+        exposeEvent.count = 0;
+
+        sendEvent(
+            event
+            , ExposureMask
+        );
+
+        XFlush( &xDisplay );
+    }
 }

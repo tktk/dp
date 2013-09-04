@@ -73,4 +73,15 @@ namespace dp {
     {
         //TODO
     }
+
+    void repaint(
+        Window &    _window
+        , ULong     _x
+        , ULong     _y
+        , ULong     _width
+        , ULong     _height
+    )
+    {
+        //TODO
+    }
 }
