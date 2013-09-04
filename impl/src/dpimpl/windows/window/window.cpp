@@ -52,6 +52,8 @@ namespace dp {
     )
     {
         //TODO
+
+        return false;
     }
 
     void setPosition(
