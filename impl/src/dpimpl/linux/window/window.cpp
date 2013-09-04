@@ -409,6 +409,120 @@ namespace {
         );
     }
 
+    dp::WindowImpl * newWindowImpl(
+        dp::Window &        _window
+        , const dp::Utf32 & _TITLE
+        , dp::ULong         _width
+        , dp::ULong         _height
+        , dp::WindowFlags   _flags
+    )
+    {
+        dp::String  titleString;
+        if( dp::toString(
+            titleString
+            , _TITLE
+        ) == false ) {
+            return nullptr;
+        }
+
+        dp::WindowImplUnique    implUnique( new( std::nothrow )dp::WindowImpl );
+        if( implUnique.get() == nullptr ) {
+            return nullptr;
+        }
+
+        auto &  impl = *implUnique;
+
+        impl.ended = false;
+
+        auto &  xWindow = impl.xWindow;
+
+        auto &  xDisplay = dp::getXDisplay();
+        auto &  xRootWindow = dp::getXRootWindow();
+
+        XSetWindowAttributes    attributes;
+
+        attributes.event_mask =
+            ExposureMask |
+            StructureNotifyMask
+        ;
+
+        errno = 0;
+        xWindow = XCreateWindow(
+            &xDisplay
+            , xRootWindow
+            , 0
+            , 0
+            , _width
+            , _height
+            , 0
+            , CopyFromParent
+            , InputOutput
+            , DefaultVisual(
+                &xDisplay
+                , DefaultScreen( &xDisplay )
+            )
+            , CWEventMask
+            , &attributes
+        );
+        if( errno != 0 ) {
+            return nullptr;
+        }
+
+        impl.xWindowDestroyer.reset( &xWindow );
+
+        XSetWMProtocols(
+            &xDisplay
+            , xWindow
+            , &WM_DELETE_WINDOW
+            , 1
+        );
+
+        if( ( _flags & dp::WindowFlags::UNRESIZABLE ) != 0 ) {
+            unresizable(
+                xDisplay
+                , xWindow
+                , _width
+                , _height
+            );
+        }
+
+        if( ( _flags & dp::WindowFlags::ALWAYS_ON_TOP ) != 0 ) {
+            alwaysOnTop(
+                xDisplay
+                , xWindow
+            );
+        }
+
+        setTitle(
+            xDisplay
+            , xWindow
+            , titleString
+        );
+
+        XMapWindow(
+            &xDisplay
+            , xWindow
+        );
+
+        impl.thread = std::move(
+            std::thread(
+                [
+                    &_window
+                    , &impl
+                ]
+                {
+                    threadProc(
+                        _window
+                        , impl
+                    );
+                }
+            )
+        );
+        impl.threadJoiner.reset( &( impl.thread ) );
+
+        return implUnique.release();
+    }
+
     void sendEvent(
         XEvent &    _event
         , dp::Int   _eventMask
@@ -424,7 +538,6 @@ namespace {
             , _eventMask
             , &_event
         );
-        XFlush( xDisplay );
     }
 
     void sendEndEvent(
@@ -443,6 +556,8 @@ namespace {
             event
             , NoEventMask
         );
+
+        XFlush( &xDisplay );
     }
 
     void setEnd(
@@ -490,108 +605,22 @@ namespace dp {
         , WindowFlags   _flags
     )
     {
-        String  titleString;
-        if( toString(
-            titleString
-            , _TITLE
-        ) == false ) {
-            return nullptr;
-        }
-
-        WindowImplUnique    implUnique( new( std::nothrow )WindowImpl );
+        WindowImplUnique    implUnique(
+            ::newWindowImpl(
+                _window
+                , _TITLE
+                , _width
+                , _height
+                , _flags
+            )
+        );
         if( implUnique.get() == nullptr ) {
             return nullptr;
         }
 
-        auto &  impl = *implUnique;
-
-        impl.ended = false;
-
-        auto &  xWindow = impl.xWindow;
-
         auto &  xDisplay = getXDisplay();
-        auto &  xRootWindow = getXRootWindow();
 
-        XSetWindowAttributes    attributes;
-
-        attributes.event_mask =
-            ExposureMask |
-            StructureNotifyMask
-        ;
-
-        errno = 0;
-        xWindow = XCreateWindow(
-            &xDisplay
-            , xRootWindow
-            , 0
-            , 0
-            , _width
-            , _height
-            , 0
-            , CopyFromParent
-            , InputOutput
-            , DefaultVisual(
-                &xDisplay
-                , DefaultScreen( &xDisplay )
-            )
-            , CWEventMask
-            , &attributes
-        );
-        if( errno != 0 ) {
-            return nullptr;
-        }
-
-        impl.xWindowDestroyer.reset( &xWindow );
-
-        XSetWMProtocols(
-            &xDisplay
-            , xWindow
-            , &WM_DELETE_WINDOW
-            , 1
-        );
-
-        if( ( _flags & WindowFlags::UNRESIZABLE ) != 0 ) {
-            unresizable(
-                xDisplay
-                , xWindow
-                , _width
-                , _height
-            );
-        }
-
-        if( ( _flags & WindowFlags::ALWAYS_ON_TOP ) != 0 ) {
-            alwaysOnTop(
-                xDisplay
-                , xWindow
-            );
-        }
-
-        ::setTitle(
-            xDisplay
-            , xWindow
-            , titleString
-        );
-
-        XMapWindow(
-            &xDisplay
-            , xWindow
-        );
-
-        impl.thread = std::move(
-            std::thread(
-                [
-                    &_window
-                    , &impl
-                ]
-                {
-                    threadProc(
-                        _window
-                        , impl
-                    );
-                }
-            )
-        );
-        impl.threadJoiner.reset( &( impl.thread ) );
+        XFlush( &xDisplay );
 
         return implUnique.release();
     }
@@ -607,7 +636,7 @@ namespace dp {
     )
     {
         WindowImplUnique    implUnique(
-            newWindowImpl(
+            ::newWindowImpl(
                 _window
                 , _TITLE
                 , _width
@@ -631,6 +660,8 @@ namespace dp {
             , _x
             , _y
         );
+
+        XFlush( &xDisplay );
 
         return implUnique.release();
     }
