@@ -1,5 +1,7 @@
-﻿#include "dpimpl/windows/window/window.h"
+﻿#include "dpimpl/util/export.h"
 #include "dp/window/window.h"
+
+#include "dpimpl/windows/window/window.h"
 #include "dp/window/windowflags.h"
 #include "dp/common/primitives.h"
 
@@ -32,6 +34,39 @@ namespace dp {
 
     void free(
         WindowImpl &    _impl
+    )
+    {
+        //TODO
+    }
+
+    void close(
+        Window &    _window
+    )
+    {
+        //TODO
+    }
+
+    void setTitle(
+        Window &        _window
+        , const Utf32 & _TITLE
+    )
+    {
+        //TODO
+    }
+
+    void setPosition(
+        Window &    _window
+        , Long      _x
+        , Long      _y
+    )
+    {
+        //TODO
+    }
+
+    void setSize(
+        Window &    _window
+        , ULong     _width
+        , ULong     _height
     )
     {
         //TODO

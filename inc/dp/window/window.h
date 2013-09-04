@@ -75,7 +75,26 @@ namespace dp {
         Window &
     );
 
-    //TODO ウィンドウに対する処理(タイトルやサイズの設定など)
+    DPEXPORT void close(
+        Window &
+    );
+
+    DPEXPORT void setTitle(
+        Window &
+        , const Utf32 &
+    );
+
+    DPEXPORT void setPosition(
+        Window &
+        , Long
+        , Long
+    );
+
+    DPEXPORT void setSize(
+        Window &
+        , ULong
+        , ULong
+    );
 
     DPEXPORT WindowInfo * newWindowInfo(
     );

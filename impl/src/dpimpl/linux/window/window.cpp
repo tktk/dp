@@ -1,6 +1,8 @@
-﻿#include "dpimpl/linux/window/window.h"
-#include "dpimpl/common/window/window.h"
+﻿#include "dpimpl/util/export.h"
 #include "dp/window/window.h"
+
+#include "dpimpl/linux/window/window.h"
+#include "dpimpl/common/window/window.h"
 #include "dp/window/windowflags.h"
 #include "dpimpl/linux/common/xlib.h"
 #include "dp/common/stringconverter.h"
@@ -393,31 +395,6 @@ namespace {
         XFlush( xDisplay );
     }
 
-    void sendEventToMainThread(
-        XEvent &    _event
-    )
-    {
-        _event.type = ClientMessage;
-        _event.xclient.format = 8;
-
-        sendEvent(
-            _event
-            , NoEventMask
-        );
-    }
-
-    void sendEventToPaintThread(
-        XEvent &    _event
-    )
-    {
-        _event.type = Expose;
-
-        sendEvent(
-            _event
-            , ExposureMask
-        );
-    }
-
     void sendEndEvent(
         dp::WindowImpl &    _impl
     )
@@ -425,14 +402,14 @@ namespace {
         auto &  xDisplay = dp::getXDisplay();
 
         XEvent  event;
-        event.xany.display = &xDisplay;
-        event.xany.window = _impl.xWindow;
+        event.xclient.display = &xDisplay;
+        event.xclient.window = _impl.xWindow;
+        event.xclient.type = ClientMessage;
+        event.xclient.format = 8;
 
-        sendEventToMainThread(
+        sendEvent(
             event
-        );
-        sendEventToPaintThread(
-            event
+            , NoEventMask
         );
     }
 
@@ -635,5 +612,38 @@ namespace dp {
         );
 
         delete &_impl;
+    }
+
+    void close(
+        Window &    _window
+    )
+    {
+        //TODO
+    }
+
+    void setTitle(
+        Window &        _window
+        , const Utf32 & _TITLE
+    )
+    {
+        //TODO
+    }
+
+    void setPosition(
+        Window &    _window
+        , Long      _x
+        , Long      _y
+    )
+    {
+        //TODO
+    }
+
+    void setSize(
+        Window &    _window
+        , ULong     _width
+        , ULong     _height
+    )
+    {
+        //TODO
     }
 }
