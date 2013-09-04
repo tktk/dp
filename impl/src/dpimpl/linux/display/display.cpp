@@ -1,7 +1,6 @@
 ﻿#include "dpimpl/util/export.h"
 #include "dp/display/display.h"
 
-#include "dpimpl/linux/display/x11.h"
 #include "dpimpl/common/display/display.h"
 #include "dpimpl/common/display/displaykey.h"
 #include "dpimpl/linux/display/displaymodekey.h"
@@ -87,13 +86,13 @@ namespace dp {
 
         auto &  display = *displayUnique;
 
-        auto &  x11Display = getX11Display();
-        auto &  x11Window = getX11Window();
+        auto &  xDisplay = getXDisplay();
+        auto &  xRootWindow = getXRootWindow();
 
         ScreenResourcesUnique   screenResourcesUnique(
-            screenResourcesNew(
-                x11Display
-                , x11Window
+            newScreenResources(
+                xDisplay
+                , xRootWindow
             )
         );
         if( screenResourcesUnique.get() == nullptr ) {
@@ -103,8 +102,8 @@ namespace dp {
         auto &  screenResources = *screenResourcesUnique;
 
         CrtcInfoUnique  crtcInfoUnique(
-            crtcInfoNew(
-                x11Display
+            newCrtcInfo(
+                xDisplay
                 , screenResources
                 , _KEY.crtc
             )
@@ -148,13 +147,13 @@ namespace dp {
         , const Display &   _DISPLAY
     )
     {
-        auto &  x11Display = getX11Display();
-        auto &  x11Window = getX11Window();
+        auto &  xDisplay = getXDisplay();
+        auto &  xRootWindow = getXRootWindow();
 
         ScreenResourcesUnique   screenResourcesUnique(
-            screenResourcesNew(
-                x11Display
-                , x11Window
+            newScreenResources(
+                xDisplay
+                , xRootWindow
             )
         );
         if( screenResourcesUnique.get() == nullptr ) {
@@ -166,8 +165,8 @@ namespace dp {
         const auto &    CRTC = _KEY.crtc;
 
         CrtcInfoUnique  crtcInfoUnique(
-            crtcInfoNew(
-                x11Display
+            newCrtcInfo(
+                xDisplay
                 , screenResources
                 , CRTC
             )
@@ -191,7 +190,7 @@ namespace dp {
         }
 
         if( XRRSetCrtcConfig(
-            &x11Display
+            &xDisplay
             , &screenResources
             , CRTC
             , CurrentTime

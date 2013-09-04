@@ -1,12 +1,12 @@
 ﻿#include "dpimpl/util/export.h"
 #include "dp/display/displaymode.h"
 
-#include "dpimpl/linux/display/x11.h"
 #include "dpimpl/common/display/displaymode.h"
 #include "dpimpl/linux/display/displaymodekey.h"
 #include "dp/display/displaymodekey.h"
 #include "dp/common/primitives.h"
 
+#include "dpimpl/linux/common/xlib.h"
 #include "dpimpl/linux/display/xrandr.h"
 
 namespace {
@@ -43,13 +43,13 @@ namespace dp {
 
         auto &  mode = *modeUnique;
 
-        auto &  x11Display = getX11Display();
-        auto &  x11Window = getX11Window();
+        auto &  xDisplay = getXDisplay();
+        auto &  xRootWindow = getXRootWindow();
 
         ScreenResourcesUnique   screenResourcesUnique(
-            screenResourcesNew(
-                x11Display
-                , x11Window
+            newScreenResources(
+                xDisplay
+                , xRootWindow
             )
         );
         if( screenResourcesUnique.get() == nullptr ) {
@@ -86,13 +86,13 @@ namespace dp {
         , const DisplayModeKey &    _MODE_KEY
     )
     {
-        auto &  x11Display = getX11Display();
-        auto &  x11Window = getX11Window();
+        auto &  xDisplay = getXDisplay();
+        auto &  xRootWindow = getXRootWindow();
 
         ScreenResourcesUnique   screenResourcesUnique(
-            screenResourcesNew(
-                x11Display
-                , x11Window
+            newScreenResources(
+                xDisplay
+                , xRootWindow
             )
         );
         if( screenResourcesUnique.get() == nullptr ) {

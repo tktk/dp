@@ -7,6 +7,8 @@
 
 #undef  Bool
 
+typedef int Bool;
+
 #include "dpimpl/linux/common/xlib.h"
 
 namespace dp {
@@ -25,14 +27,14 @@ namespace dp {
         , FreeScreenResources
     > ScreenResourcesUnique;
 
-    inline XRRScreenResources * screenResourcesNew(
-        ::Display &     _x11Display
-        , ::Window &    _x11Window
+    inline XRRScreenResources * newScreenResources(
+        ::Display &     _xDisplay
+        , ::Window &    _xWindow
     )
     {
         return XRRGetScreenResources(
-            &_x11Display
-            , _x11Window
+            &_xDisplay
+            , _xWindow
         );
     }
 
@@ -51,14 +53,14 @@ namespace dp {
         , FreeCrtcInfo
     > CrtcInfoUnique;
 
-    inline XRRCrtcInfo * crtcInfoNew(
-        ::Display &             _x11Display
+    inline XRRCrtcInfo * newCrtcInfo(
+        ::Display &             _xDisplay
         , XRRScreenResources &  _screenResources
         , const RRCrtc &        _CRTC
     )
     {
         return XRRGetCrtcInfo(
-            &_x11Display
+            &_xDisplay
             , &_screenResources
             , _CRTC
         );
@@ -79,14 +81,14 @@ namespace dp {
         , FreeOutputInfo
     > OutputInfoUnique;
 
-    inline XRROutputInfo * outputInfoNew(
-        ::Display &             _x11Display
+    inline XRROutputInfo * newOutputInfo(
+        ::Display &             _xDisplay
         , XRRScreenResources &  _screenResources
         , const RROutput &      _OUTPUT
     )
     {
         return XRRGetOutputInfo(
-            &_x11Display
+            &_xDisplay
             , &_screenResources
             , _OUTPUT
         );

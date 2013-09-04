@@ -1,7 +1,6 @@
 ﻿#ifndef DPIMPL_LINUX_DISPLAY_DISPLAYMANAGER_H
 #define DPIMPL_LINUX_DISPLAY_DISPLAYMANAGER_H
 
-#include "dpimpl/linux/display/x11.h"
 #include "dp/common/primitives.h"
 #include "dp/common/thread.h"
 
@@ -13,8 +12,8 @@ namespace dp {
     {
         Bool    ended;
 
-        X11DisplayUnique    x11DisplayUnique;
-        ::Window            x11Window;
+        XDisplayUnique  xDisplayUnique;
+        ::Window        xWindow;
 
         std::thread     thread;
         ThreadJoiner    threadJoiner;

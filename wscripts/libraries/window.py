@@ -8,31 +8,41 @@ def build(
     _sourcesSet,
     _librariesSet,
 ):
-    setupSources = {
-        'common_setup',
+    setupSources = set()
+    if _ctx.osName == common.LINUX:
+        setupSources |= {
+            'window_setup',
+        }
+
+    sources = {
+        'window',
+        'windowinfo',
     }
 
     osSources = {
-        'stringconverter',
-        'args',
+        'window',
     }
-    if _ctx.osName == common.LINUX:
-        osSources |= {
-            'xlib',
-        }
 
     libraries = set()
     if _ctx.osName == common.LINUX:
         libraries |= {
-            'X11',
+            'pthread',
+        }
+
+    useModules = set()
+    if _ctx.osName == common.LINUX:
+        useModules = {
+            'common',
         }
 
     buildPartialLibrary(
         _ctx,
         _sourcesSet,
         _librariesSet,
-        'common',
+        'window',
         setupSources = setupSources,
+        sources = sources,
         osSources = osSources,
         libraries = libraries,
+        useModules = useModules,
     )

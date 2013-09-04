@@ -1,11 +1,11 @@
 ﻿#include "dpimpl/util/export.h"
 #include "dp/display/displaymodekey.h"
 
-#include "dpimpl/linux/display/x11.h"
 #include "dpimpl/linux/display/displaymodekey.h"
 #include "dpimpl/linux/display/displaykey.h"
 #include "dp/common/primitives.h"
 
+#include "dpimpl/linux/common/xlib.h"
 #include "dpimpl/linux/display/xrandr.h"
 #include <new>
 #include <algorithm>
@@ -29,14 +29,14 @@ namespace {
 
     dp::Bool appendModeKeyUniques(
         dp::DisplayModeKeyUniques & _modeKeyUniques
-        , ::Display &               _x11Display
+        , ::Display &               _xDisplay
         , XRRScreenResources &      _screenResources
         , const RROutput &          _OUTPUT
     )
     {
         dp::OutputInfoUnique    outputInfoUnique(
-            dp::outputInfoNew(
-                _x11Display
+            dp::newOutputInfo(
+                _xDisplay
                 , _screenResources
                 , _OUTPUT
             )
@@ -116,13 +116,13 @@ namespace dp {
         , DisplayModeKeyUniques &   _modeKeyUniques
     )
     {
-        auto &  x11Display = getX11Display();
-        auto &  x11Window = getX11Window();
+        auto &  xDisplay = getXDisplay();
+        auto &  xRootWindow = getXRootWindow();
 
         ScreenResourcesUnique   screenResourcesUnique(
-            screenResourcesNew(
-                x11Display
-                , x11Window
+            newScreenResources(
+                xDisplay
+                , xRootWindow
             )
         );
         if( screenResourcesUnique.get() == nullptr ) {
@@ -132,8 +132,8 @@ namespace dp {
         auto &  screenResources = *screenResourcesUnique;
 
         CrtcInfoUnique  crtcInfoUnique(
-            crtcInfoNew(
-                x11Display
+            newCrtcInfo(
+                xDisplay
                 , screenResources
                 , _KEY.crtc
             )
@@ -151,7 +151,7 @@ namespace dp {
 
             if( appendModeKeyUniques(
                 _modeKeyUniques
-                , x11Display
+                , xDisplay
                 , screenResources
                 , OUTPUT
             ) == false ) {
