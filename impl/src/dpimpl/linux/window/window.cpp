@@ -25,16 +25,28 @@ namespace {
 
     struct Position
     {
-        dp::Bool    initialized = false;
+        dp::Bool    initialized;
         dp::Long    x;
         dp::Long    y;
+
+        Position(
+        )
+            : initialized( false )
+        {
+        }
     };
 
     struct Size
     {
-        dp::Bool    initialized = false;
+        dp::Bool    initialized;
         dp::ULong   width;
         dp::ULong   height;
+
+        Size(
+        )
+            : initialized( false )
+        {
+        }
     };
 
     void unresizable(
