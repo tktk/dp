@@ -3,13 +3,13 @@
 #include "dp/display/displaymanager.h"
 
 namespace dp {
-    DisplayManagerImpl * newDisplayManagerImpl(
+    Bool initializeDisplayManagerImpl(
         DisplayManager &
     )
     {
         //TODO
 
-        return nullptr;
+        return false;
     }
 
     void free(

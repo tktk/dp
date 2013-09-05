@@ -136,12 +136,13 @@ namespace {
     }
 
     void monitorDisplays(
-        dp::DisplayManager &        _manager
-        , dp::DisplayManagerImpl &  _impl
-        , ::Display &               _xDisplay
+        dp::DisplayManager &    _manager
+        , ::Display &           _xDisplay
     )
     {
-        const auto &    ENDED = _impl.ended;
+        auto &  impl = *( _manager.implUnique );
+
+        const auto &    ENDED = impl.ended;
 
         dp::Int eventBase;
         dp::Int errorBase;
@@ -178,13 +179,14 @@ namespace {
     }
 
     void threadProc(
-        dp::DisplayManager &        _manager
-        , dp::DisplayManagerImpl &  _impl
+        dp::DisplayManager &    _manager
     )
     {
-        auto &  xDisplay = *( _impl.xDisplayUnique );
+        auto &  impl = *( _manager.implUnique );
 
-        auto &  xWindow = _impl.xWindow;
+        auto &  xDisplay = *( impl.xDisplayUnique );
+
+        auto &  xWindow = impl.xWindow;
 
         XRRSelectInput(
             &xDisplay
@@ -200,7 +202,6 @@ namespace {
 
         monitorDisplays(
             _manager
-            , _impl
             , xDisplay
         );
     }
@@ -232,21 +233,16 @@ namespace {
 }
 
 namespace dp {
-    DisplayManagerImpl * newDisplayManagerImpl(
+    Bool initializeDisplayManagerImpl(
         DisplayManager &    _manager
     )
     {
-        DisplayManagerImplUnique    implUnique( new( std::nothrow )DisplayManagerImpl );
-        if( implUnique.get() == nullptr ) {
-            return nullptr;
-        }
-
-        auto &  impl = *implUnique;
+        auto &  impl = *( _manager.implUnique );
 
         auto &  xDisplayUnique = impl.xDisplayUnique;
         xDisplayUnique.reset( newXDisplay() );
         if( xDisplayUnique.get() == nullptr ) {
-            return nullptr;
+            return false;
         }
 
         auto &  xDisplay = *xDisplayUnique;
@@ -268,25 +264,25 @@ namespace dp {
             std::thread(
                 [
                     &_manager
-                    , &impl
                 ]
                 {
                     threadProc(
                         _manager
-                        , impl
                     );
                 }
             )
         );
         impl.threadJoiner.reset( &( impl.thread ) );
+        //TODO スレッドを終了させるためのユニークポインタも用意するべき
 
-        return implUnique.release();
+        return true;
     }
 
     void free(
         DisplayManagerImpl &    _impl
     )
     {
+        //TODO DisplayManagerImplのメンバのdeleterで処理するべき
         setEnd(
             _impl
         );

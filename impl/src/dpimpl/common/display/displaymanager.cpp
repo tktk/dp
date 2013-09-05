@@ -33,12 +33,14 @@ namespace dp {
         }
 
         auto &  implUnique = manager.implUnique;
-        implUnique.reset(
-            newDisplayManagerImpl(
-                manager
-            )
-        );
+        implUnique.reset( new( std::nothrow )DisplayManagerImpl );
         if( implUnique.get() == nullptr ) {
+            return nullptr;
+        }
+
+        if( initializeDisplayManagerImpl(
+            manager
+        ) == false ) {
             return nullptr;
         }
 

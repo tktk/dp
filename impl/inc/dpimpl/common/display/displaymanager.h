@@ -25,7 +25,7 @@ namespace dp {
 
     struct DisplayManagerImpl;
 
-    DisplayManagerImpl * newDisplayManagerImpl(
+    Bool initializeDisplayManagerImpl(
         DisplayManager &
     );
 
