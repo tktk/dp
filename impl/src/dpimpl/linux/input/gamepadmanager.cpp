@@ -355,6 +355,51 @@ namespace {
         }
     }
 
+    dp::Bool swapWhenNotEmpty(
+        UdevDeviceUniques &     _deviceUniquesForEventLoop
+        , UdevDeviceUniques &   _deviceUniques
+    )
+    {
+        const auto  NOT_EMPTY = _deviceUniquesForEventLoop.empty() == false;
+
+        if( NOT_EMPTY ) {
+            std::swap(
+                _deviceUniquesForEventLoop
+                , _deviceUniques
+            );
+        }
+
+        return NOT_EMPTY;
+    }
+
+    void waitManageLoop(
+        std::mutex &                _mutex
+        , std::condition_variable & _cond
+        , const dp::Bool &          _ENDED
+        , UdevDeviceUniques &       _deviceUniquesForEventLoop
+        , UdevDeviceUniques &       _deviceUniques
+    )
+    {
+        std::unique_lock< std::mutex >  lock( _mutex );
+
+        _cond.wait(
+            lock
+            , [
+                &_ENDED
+                , &_deviceUniquesForEventLoop
+                , &_deviceUniques
+            ]
+            {
+                const auto  NOT_EMPTY = swapWhenNotEmpty(
+                    _deviceUniquesForEventLoop
+                    , _deviceUniques
+                );
+
+                return _ENDED || NOT_EMPTY;
+            }
+        );
+    }
+
     void monitorGamePadsManageLoop(
         dp::GamePadManager &    _manager
         , UdevDeviceUniques &   _deviceUniquesForEventLoop
@@ -370,31 +415,16 @@ namespace {
         while( 1 ) {
             UdevDeviceUniques  deviceUniques;
 
-            {
-                std::unique_lock< std::mutex >  lock( mutex );
+            waitManageLoop(
+                mutex
+                , cond
+                , ENDED
+                , _deviceUniquesForEventLoop
+                , deviceUniques
+            );
 
-                cond.wait(
-                    lock
-                    , [
-                        &ENDED
-                        , &_deviceUniquesForEventLoop
-                    ]
-                    {
-                        return
-                            ENDED == true ||
-                            _deviceUniquesForEventLoop.empty() == false
-                        ;
-                    }
-                );
-
-                if( ENDED ) {
-                    break;
-                }
-
-                std::swap(
-                    deviceUniques
-                    , _deviceUniquesForEventLoop
-                );
+            if( ENDED ) {
+                break;
             }
 
             monitorGamePadsManageLoopMainProc(
