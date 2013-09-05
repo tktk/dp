@@ -6,7 +6,7 @@
 #include "dp/common/primitives.h"
 
 namespace dp {
-    WindowImpl * newWindowImpl(
+    Bool initializeWindowImpl(
         Window &        _window
         , const Utf32 & _TITLE
         , ULong         _width
@@ -15,10 +15,10 @@ namespace dp {
     )
     {
         //TODO
-        return nullptr;
+        return false;
     }
 
-    WindowImpl * newWindowImpl(
+    Bool initializeWindowImpl(
         Window &        _window
         , const Utf32 & _TITLE
         , Long          _x
@@ -29,7 +29,7 @@ namespace dp {
     )
     {
         //TODO
-        return nullptr;
+        return false;
     }
 
     void free(

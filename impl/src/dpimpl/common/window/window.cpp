@@ -11,14 +11,14 @@
 
 namespace {
     typedef std::function<
-        dp::WindowImpl *(
+        dp::Bool(
             dp::Window &
         )
-    > NewWindowImpl;
+    > InitializeWindowImpl;
 
     dp::Window * newWindow(
-        const dp::WindowInfo &  _INFO
-        , const NewWindowImpl & _NEW_WINDOW_IMPL
+        const dp::WindowInfo &          _INFO
+        , const InitializeWindowImpl &  _INITIALIZE_WINDOW_IMPL
     )
     {
         dp::WindowUnique    windowUnique( new( std::nothrow )dp::Window );
@@ -39,12 +39,14 @@ namespace {
         }
 
         auto &  implUnique = window.implUnique;
-        implUnique.reset(
-            _NEW_WINDOW_IMPL(
-                window
-            )
-        );
+        implUnique.reset( new( std::nothrow )dp::WindowImpl );
         if( implUnique.get() == nullptr ) {
+            return nullptr;
+        }
+
+        if( _INITIALIZE_WINDOW_IMPL(
+            window
+        ) == false ) {
             return nullptr;
         }
 
@@ -89,7 +91,7 @@ namespace dp {
                 dp::Window &    _window
             )
             {
-                return dp::newWindowImpl(
+                return dp::initializeWindowImpl(
                     _window
                     , _TITLE
                     , _width
@@ -144,7 +146,7 @@ namespace dp {
                 dp::Window &    _window
             )
             {
-                return dp::newWindowImpl(
+                return dp::initializeWindowImpl(
                     _window
                     , _TITLE
                     , _x

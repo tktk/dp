@@ -203,14 +203,15 @@ namespace {
 
     void paintThreadProcMainLoop(
         dp::Window &                _window
-        , dp::WindowImpl &          _impl
         , std::mutex &              _mutex
         , std::condition_variable & _cond
         , const Size &              _SIZE_FROM_MAIN_THREAD
         , Rect &                    _invalidateRectFromMainThread
     )
     {
-        const auto &    ENDED = _impl.ended;
+        auto &  impl = *( _window.implUnique );
+
+        const auto &    ENDED = impl.ended;
 
         Size        size;
         dp::Bool    sizeChanged;
@@ -257,7 +258,6 @@ namespace {
 
     void paintThreadProc(
         dp::Window &                _window
-        , dp::WindowImpl &          _impl
         , std::mutex &              _mutex
         , std::condition_variable & _cond
         , const Size &              _SIZE_FROM_MAIN_THREAD
@@ -270,7 +270,6 @@ namespace {
 
         paintThreadProcMainLoop(
             _window
-            , _impl
             , _mutex
             , _cond
             , _SIZE_FROM_MAIN_THREAD
@@ -428,7 +427,6 @@ namespace {
 
     void mainThreadProc(
         dp::Window &                _window
-        , dp::WindowImpl &          _impl
         , std::mutex &              _mutex
         , std::condition_variable & _cond
         , Size &                    _size
@@ -437,10 +435,12 @@ namespace {
     {
         Position    position;
 
-        const auto &    ENDED = _impl.ended;
+        auto &  impl = *( _window.implUnique );
+
+        const auto &    ENDED = impl.ended;
 
         auto &  xDisplay = dp::getXDisplay();
-        auto &  xWindow = _impl.xWindow;
+        auto &  xWindow = impl.xWindow;
 
         XEvent  event;
         while( 1 ) {
@@ -505,7 +505,6 @@ namespace {
 
     void threadProc(
         dp::Window &        _window
-        , dp::WindowImpl &  _impl
     )
     {
         std::mutex              mutex;
@@ -517,7 +516,6 @@ namespace {
         std::thread paintThread(
             [
                 &_window
-                , &_impl
                 , &mutex
                 , &cond
                 , &size
@@ -526,7 +524,6 @@ namespace {
             {
                 paintThreadProc(
                     _window
-                    , _impl
                     , mutex
                     , cond
                     , size
@@ -538,7 +535,6 @@ namespace {
 
         mainThreadProc(
             _window
-            , _impl
             , mutex
             , cond
             , size
@@ -551,7 +547,7 @@ namespace {
         );
     }
 
-    dp::WindowImpl * newWindowImpl(
+    Bool initializeWindowImpl(
         dp::Window &        _window
         , const dp::Utf32 & _TITLE
         , dp::ULong         _width
@@ -564,15 +560,10 @@ namespace {
             titleString
             , _TITLE
         ) == false ) {
-            return nullptr;
+            return false;
         }
 
-        dp::WindowImplUnique    implUnique( new( std::nothrow )dp::WindowImpl );
-        if( implUnique.get() == nullptr ) {
-            return nullptr;
-        }
-
-        auto &  impl = *implUnique;
+        auto &  impl = *( _window.implUnique );
 
         impl.ended = false;
 
@@ -607,7 +598,7 @@ namespace {
             , &attributes
         );
         if( errno != 0 ) {
-            return nullptr;
+            return false;
         }
 
         impl.xWindowDestroyer.reset( &xWindow );
@@ -650,19 +641,18 @@ namespace {
             std::thread(
                 [
                     &_window
-                    , &impl
                 ]
                 {
                     threadProc(
                         _window
-                        , impl
                     );
                 }
             )
         );
         impl.threadJoiner.reset( &( impl.thread ) );
+        //TODO スレッドを終了させるためのユニークポインタも用意するべき
 
-        return implUnique.release();
+        return true;
     }
 
     void sendEvent(
@@ -739,7 +729,7 @@ namespace dp {
         );
     }
 
-    WindowImpl * newWindowImpl(
+    Bool initializeWindowImpl(
         Window &        _window
         , const Utf32 & _TITLE
         , ULong         _width
@@ -747,27 +737,24 @@ namespace dp {
         , WindowFlags   _flags
     )
     {
-        WindowImplUnique    implUnique(
-            ::newWindowImpl(
-                _window
-                , _TITLE
-                , _width
-                , _height
-                , _flags
-            )
-        );
-        if( implUnique.get() == nullptr ) {
-            return nullptr;
+        if( ::initializeWindowImpl(
+            _window
+            , _TITLE
+            , _width
+            , _height
+            , _flags
+        ) == false ) {
+            return false;
         }
 
         auto &  xDisplay = getXDisplay();
 
         XFlush( &xDisplay );
 
-        return implUnique.release();
+        return true;
     }
 
-    WindowImpl * newWindowImpl(
+    Bool initializeWindowImpl(
         Window &        _window
         , const Utf32 & _TITLE
         , Long          _x
@@ -777,22 +764,17 @@ namespace dp {
         , WindowFlags   _flags
     )
     {
-        WindowImplUnique    implUnique(
-            ::newWindowImpl(
-                _window
-                , _TITLE
-                , _width
-                , _height
-                , _flags
-            )
-        );
-        if( implUnique.get() == nullptr ) {
-            return nullptr;
+        if( ::initializeWindowImpl(
+            _window
+            , _TITLE
+            , _width
+            , _height
+            , _flags
+        ) == false ) {
+            return false;
         }
 
-        auto &  impl = *implUnique;
-
-        auto &  xWindow = impl.xWindow;
+        auto &  xWindow = _window.implUnique->xWindow;
 
         auto &  xDisplay = getXDisplay();
 
@@ -805,13 +787,14 @@ namespace dp {
 
         XFlush( &xDisplay );
 
-        return implUnique.release();
+        return true;
     }
 
     void free(
         WindowImpl &    _impl
     )
     {
+        //TODO WindowImplのメンバのdeleterで処理するべき
         setEnd(
             _impl
         );

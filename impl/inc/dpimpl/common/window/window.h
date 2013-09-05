@@ -51,7 +51,7 @@ namespace dp {
 
     struct WindowImpl;
 
-    WindowImpl * newWindowImpl(
+    Bool initializeWindowImpl(
         Window &
         , const Utf32 &
         , ULong
@@ -59,7 +59,7 @@ namespace dp {
         , WindowFlags
     );
 
-    WindowImpl * newWindowImpl(
+    Bool initializeWindowImpl(
         Window &
         , const Utf32 &
         , Long
