@@ -9,7 +9,6 @@
 
 #include "dpimpl/linux/common/xlib.h"
 #include "dpimpl/linux/display/xrandr.h"
-#include <new>
 #include <vector>
 
 namespace {

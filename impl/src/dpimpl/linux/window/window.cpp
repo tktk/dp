@@ -10,7 +10,6 @@
 
 #include "dpimpl/linux/window/xutil.h"
 #include <X11/Xatom.h>
-#include <new>
 #include <thread>
 #include <utility>
 #include <errno.h>

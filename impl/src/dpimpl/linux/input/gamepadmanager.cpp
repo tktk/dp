@@ -9,7 +9,6 @@
 
 #include <libudev.h>
 #include <poll.h>
-#include <new>
 #include <thread>
 #include <memory>
 #include <vector>

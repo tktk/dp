@@ -9,7 +9,6 @@
 #include "dpimpl/linux/common/thread.h"
 #include "dp/common/primitives.h"
 
-#include <new>
 #include <vector>
 #include <fcntl.h>
 #include <sys/ioctl.h>
