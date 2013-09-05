@@ -210,6 +210,51 @@ namespace {
         }
     }
 
+    dp::Bool swapWhenNotEmpty(
+        JsEvents &      _jsEventsForEventLoop
+        , JsEvents &    _jsEvents
+    )
+    {
+        const auto  NOT_EMPTY = _jsEventsForEventLoop.empty() == false;
+
+        if( NOT_EMPTY ) {
+            std::swap(
+                _jsEventsForEventLoop
+                , _jsEvents
+            );
+        }
+
+        return NOT_EMPTY;
+    }
+
+    void waitManageLoop(
+        std::mutex &                _mutex
+        , std::condition_variable & _cond
+        , const dp::Bool &          _ENDED
+        , JsEvents &                _jsEventsForEventLoop
+        , JsEvents &                _jsEvents
+    )
+    {
+        std::unique_lock< std::mutex >  lock( _mutex );
+
+        _cond.wait(
+            lock
+            , [
+                &_ENDED
+                , &_jsEvents
+                , &_jsEventsForEventLoop
+            ]
+            {
+                const auto  NOT_EMPTY = swapWhenNotEmpty(
+                    _jsEventsForEventLoop
+                    , _jsEvents
+                );
+
+                return _ENDED || NOT_EMPTY;
+            }
+        );
+    }
+
     void threadManageLoop(
         dp::GamePad &   _gamePad
         , JsEvents &    _jsEventsForEventLoop
@@ -225,31 +270,16 @@ namespace {
         while( 1 ) {
             JsEvents    jsEvents;
 
-            {
-                std::unique_lock< std::mutex >  lock( mutex );
+            waitManageLoop(
+                mutex
+                , cond
+                , ENDED
+                , _jsEventsForEventLoop
+                , jsEvents
+            );
 
-                cond.wait(
-                    lock
-                    , [
-                        &ENDED
-                        , &_jsEventsForEventLoop
-                    ]
-                    {
-                        return
-                            ENDED == true ||
-                            _jsEventsForEventLoop.empty() == false
-                        ;
-                    }
-                );
-
-                if( ENDED ) {
-                    break;
-                }
-
-                std::swap(
-                    jsEvents
-                    , _jsEventsForEventLoop
-                );
+            if( ENDED ) {
+                break;
             }
 
             callEventHandlers(
