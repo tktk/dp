@@ -3,13 +3,13 @@
 #include "dp/input/gamepadmanager.h"
 
 namespace dp {
-    GamePadManagerImpl * newGamePadManagerImpl(
+    Bool initializeGamePadManagerImpl(
         GamePadManager &
     )
     {
         //TODO
 
-        return nullptr;
+        return false;
     }
 
     void free(

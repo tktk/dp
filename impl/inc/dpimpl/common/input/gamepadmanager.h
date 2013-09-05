@@ -25,7 +25,7 @@ namespace dp {
 
     struct GamePadManagerImpl;
 
-    GamePadManagerImpl * newGamePadManagerImpl(
+    Bool initializeGamePadManagerImpl(
         GamePadManager &
     );
 

@@ -271,13 +271,15 @@ namespace {
     }
 
     void monitorGamePadsEventLoop(
-        dp::GamePadManagerImpl &    _impl
-        , udev_monitor &            _monitor
-        , UdevDeviceUniques &       _deviceUniques
+        dp::GamePadManager &    _manager
+        , udev_monitor &        _monitor
+        , UdevDeviceUniques &   _deviceUniques
     )
     {
-        auto &  mutex = _impl.mutex;
-        auto &  cond = _impl.cond;
+        auto &  impl = *( _manager.implUnique );
+
+        auto &  mutex = impl.mutex;
+        auto &  cond = impl.cond;
 
         pollfd  fd;
         fd.fd = udev_monitor_get_fd( &_monitor );
@@ -355,14 +357,16 @@ namespace {
     }
 
     void monitorGamePadsManageLoop(
-        dp::GamePadManager &        _manager
-        , dp::GamePadManagerImpl &  _impl
-        , UdevDeviceUniques &       _deviceUniquesForEventLoop
+        dp::GamePadManager &    _manager
+        , UdevDeviceUniques &   _deviceUniquesForEventLoop
     )
     {
-        auto &  mutex = _impl.mutex;
-        auto &  cond = _impl.cond;
-        auto &  ended = _impl.ended;
+        auto &  impl = *( _manager.implUnique );
+
+        auto &  mutex = impl.mutex;
+        auto &  cond = impl.cond;
+
+        const auto &    ENDED = impl.ended;
 
         while( 1 ) {
             UdevDeviceUniques  deviceUniques;
@@ -373,18 +377,18 @@ namespace {
                 cond.wait(
                     lock
                     , [
-                        &ended
+                        &ENDED
                         , &_deviceUniquesForEventLoop
                     ]
                     {
                         return
-                            ended == true ||
+                            ENDED == true ||
                             _deviceUniquesForEventLoop.empty() == false
                         ;
                     }
                 );
 
-                if( ended ) {
+                if( ENDED ) {
                     break;
                 }
 
@@ -402,22 +406,21 @@ namespace {
     }
 
     void monitorGamePads(
-        dp::GamePadManager &        _manager
-        , dp::GamePadManagerImpl &  _impl
-        , udev_monitor &            _monitor
+        dp::GamePadManager &    _manager
+        , udev_monitor &        _monitor
     )
     {
         UdevDeviceUniques   deviceUniques;
 
         std::thread eventThread(
             [
-                &_impl
+                &_manager
                 , &_monitor
                 , &deviceUniques
             ]
             {
                 monitorGamePadsEventLoop(
-                    _impl
+                    _manager
                     , _monitor
                     , deviceUniques
                 );
@@ -428,14 +431,12 @@ namespace {
 
         monitorGamePadsManageLoop(
             _manager
-            , _impl
             , deviceUniques
         );
     }
 
     void threadProc(
-        dp::GamePadManager &        _manager
-        , dp::GamePadManagerImpl &  _impl
+        dp::GamePadManager &    _manager
     )
     {
         UdevUnique  udevUnique( newUdev() );
@@ -463,7 +464,6 @@ namespace {
 
         monitorGamePads(
             _manager
-            , _impl
             , monitor
         );
     }
@@ -483,16 +483,11 @@ namespace {
 }
 
 namespace dp {
-    GamePadManagerImpl * newGamePadManagerImpl(
+    Bool initializeGamePadManagerImpl(
         GamePadManager &    _manager
     )
     {
-        GamePadManagerImplUnique    implUnique( new( std::nothrow )GamePadManagerImpl );
-        if( implUnique.get() == nullptr ) {
-            return nullptr;
-        }
-
-        auto &  impl = *implUnique;
+        auto &  impl = *( _manager.implUnique );
 
         impl.ended = false;
 
@@ -500,25 +495,25 @@ namespace dp {
             std::thread(
                 [
                     &_manager
-                    , &impl
                 ]
                 {
                     threadProc(
                         _manager
-                        , impl
                     );
                 }
             )
         );
         impl.threadJoiner.reset( &( impl.thread ) );
+        //TODO スレッドを終了させるためのユニークポインタも用意するべき
 
-        return implUnique.release();
+        return true;
     }
 
     void free(
         GamePadManagerImpl &    _impl
     )
     {
+        //TODO GamePadManagerImplのメンバのdeleterで処理するべき
         setEnd(
             _impl
         );

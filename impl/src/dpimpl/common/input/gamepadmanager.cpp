@@ -33,12 +33,14 @@ namespace dp {
         }
 
         auto &  implUnique = manager.implUnique;
-        implUnique.reset(
-            newGamePadManagerImpl(
-                manager
-            )
-        );
+        implUnique.reset( new( std::nothrow )GamePadManagerImpl );
         if( implUnique.get() == nullptr ) {
+            return nullptr;
+        }
+
+        if( initializeGamePadManagerImpl(
+            manager
+        ) == false ) {
             return nullptr;
         }
 
