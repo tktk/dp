@@ -265,4 +265,11 @@ namespace dp {
             );
         }
     }
+
+    void free(
+        WindowImpl &    _impl
+    )
+    {
+        delete &_impl;
+    }
 }

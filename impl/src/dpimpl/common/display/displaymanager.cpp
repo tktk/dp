@@ -92,4 +92,11 @@ namespace dp {
             );
         }
     }
+
+    void free(
+        DisplayManagerImpl &    _impl
+    )
+    {
+        delete &_impl;
+    }
 }

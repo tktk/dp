@@ -252,13 +252,6 @@ namespace dp {
         return true;
     }
 
-    void free(
-        DisplayManagerImpl &    _impl
-    )
-    {
-        delete &_impl;
-    }
-
     void DisplayManagerImpl::ExitThread::operator()(
         DisplayManagerImpl *    _impl
     ) const

@@ -44,11 +44,4 @@ namespace dp {
         //TODO
         return false;
     }
-
-    void free(
-        GamePadImpl &   _impl
-    )
-    {
-        delete &_impl;
-    }
 }

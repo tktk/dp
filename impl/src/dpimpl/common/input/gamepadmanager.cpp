@@ -92,4 +92,11 @@ namespace dp {
             );
         }
     }
+
+    void free(
+        GamePadManagerImpl &    _impl
+    )
+    {
+        delete &_impl;
+    }
 }

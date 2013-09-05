@@ -11,11 +11,4 @@ namespace dp {
 
         return false;
     }
-
-    void free(
-        DisplayManagerImpl &
-    )
-    {
-        //TODO
-    }
 }

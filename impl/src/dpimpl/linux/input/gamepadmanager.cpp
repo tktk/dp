@@ -525,13 +525,6 @@ namespace dp {
         return true;
     }
 
-    void free(
-        GamePadManagerImpl &    _impl
-    )
-    {
-        delete &_impl;
-    }
-
     void GamePadManagerImpl::ExitThread::operator()(
         GamePadManagerImpl *    _impl
     ) const

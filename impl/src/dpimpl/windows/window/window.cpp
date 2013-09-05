@@ -32,13 +32,6 @@ namespace dp {
         return false;
     }
 
-    void free(
-        WindowImpl &    _impl
-    )
-    {
-        //TODO
-    }
-
     void close(
         Window &    _window
     )

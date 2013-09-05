@@ -759,13 +759,6 @@ namespace dp {
         return true;
     }
 
-    void free(
-        WindowImpl &    _impl
-    )
-    {
-        delete &_impl;
-    }
-
     void close(
         Window &    _window
     )

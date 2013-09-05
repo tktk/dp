@@ -117,4 +117,11 @@ namespace dp {
             );
         }
     }
+
+    void free(
+        GamePadImpl &   _impl
+    )
+    {
+        delete &_impl;
+    }
 }

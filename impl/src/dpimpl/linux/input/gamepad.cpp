@@ -390,13 +390,6 @@ namespace dp {
         return true;
     }
 
-    void free(
-        GamePadImpl &   _impl
-    )
-    {
-        delete &_impl;
-    }
-
     void GamePadImpl::ExitThread::operator()(
         GamePadImpl *   _impl
     ) const
