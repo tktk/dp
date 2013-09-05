@@ -8,10 +8,25 @@
 #include <mutex>
 #include <condition_variable>
 #include <thread>
+#include <memory>
 
 namespace dp {
     struct GamePadImpl
     {
+    private:
+        struct ExitThread
+        {
+            void operator()(
+                GamePadImpl *
+            ) const;
+        };
+
+        typedef std::unique_ptr<
+            GamePadImpl
+            , ExitThread
+        > ThreadExiter;
+
+    public:
         std::mutex              mutex;
         std::condition_variable cond;
         Bool                    ended;
@@ -21,6 +36,7 @@ namespace dp {
 
         std::thread     thread;
         ThreadJoiner    threadJoiner;
+        ThreadExiter    threadExiter;
     };
 }
 

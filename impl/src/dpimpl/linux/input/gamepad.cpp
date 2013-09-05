@@ -315,19 +315,6 @@ namespace {
             , jsEvents
         );
     }
-
-    void setEnd(
-        dp::GamePadImpl &   _impl
-    )
-    {
-        auto &  mutex = _impl.mutex;
-
-        std::unique_lock< std::mutex >  lock( mutex );
-
-        _impl.ended = true;
-
-        _impl.cond.notify_one();
-    }
 }
 
 namespace dp {
@@ -398,7 +385,7 @@ namespace dp {
             )
         );
         impl.threadJoiner.reset( &( impl.thread ) );
-        //TODO スレッドを終了させるためのユニークポインタも用意するべき
+        impl.threadExiter.reset( &impl );
 
         return true;
     }
@@ -407,11 +394,19 @@ namespace dp {
         GamePadImpl &   _impl
     )
     {
-        //TODO GamePadImplのメンバのdeleterで処理するべき
-        setEnd(
-            _impl
-        );
-
         delete &_impl;
+    }
+
+    void GamePadImpl::ExitThread::operator()(
+        GamePadImpl *   _impl
+    ) const
+    {
+        auto &  mutex = _impl->mutex;
+
+        std::unique_lock< std::mutex >  lock( mutex );
+
+        _impl->ended = true;
+
+        _impl->cond.notify_one();
     }
 }
