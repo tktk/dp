@@ -3,7 +3,7 @@
 from wscripts import common
 
 APPNAME = common.APPNAME
-VERSION = '0.4.0'
+VERSION = '0.4.1'
 
 out = common.BUILD_DIR
 
