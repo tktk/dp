@@ -540,6 +540,7 @@ namespace {
             , invalidateRect
         );
 
+        //FIXME 可能ならstd::unique_ptrのdeleterで実行
         notifyPaintThread(
             mutex
             , cond
@@ -649,7 +650,7 @@ namespace {
             )
         );
         impl.threadJoiner.reset( &( impl.thread ) );
-        //TODO スレッドを終了させるためのユニークポインタも用意するべき
+        impl.threadExiter.reset( &impl );
 
         return true;
     }
@@ -668,37 +669,6 @@ namespace {
             , False
             , _eventMask
             , &_event
-        );
-    }
-
-    void sendEndEvent(
-        dp::WindowImpl &    _impl
-    )
-    {
-        auto &  xDisplay = dp::getXDisplay();
-
-        XEvent  event;
-        event.xclient.display = &xDisplay;
-        event.xclient.window = _impl.xWindow;
-        event.xclient.type = ClientMessage;
-        event.xclient.format = 8;
-
-        sendEvent(
-            event
-            , NoEventMask
-        );
-
-        XFlush( &xDisplay );
-    }
-
-    void setEnd(
-        dp::WindowImpl &    _impl
-    )
-    {
-        _impl.ended = true;
-
-        sendEndEvent(
-            _impl
         );
     }
 }
@@ -793,11 +763,6 @@ namespace dp {
         WindowImpl &    _impl
     )
     {
-        //TODO WindowImplのメンバのdeleterで処理するべき
-        setEnd(
-            _impl
-        );
-
         delete &_impl;
     }
 
@@ -913,6 +878,30 @@ namespace dp {
         sendEvent(
             event
             , ExposureMask
+        );
+
+        XFlush( &xDisplay );
+    }
+
+    void WindowImpl::ExitThread::operator()(
+        WindowImpl *    _impl
+    ) const
+    {
+        _impl->ended = true;
+
+        auto &  xDisplay = dp::getXDisplay();
+
+        auto &  xWindow = _impl->xWindow;
+
+        XEvent  event;
+        event.xclient.display = &xDisplay;
+        event.xclient.window = xWindow;
+        event.xclient.type = ClientMessage;
+        event.xclient.format = 8;
+
+        sendEvent(
+            event
+            , NoEventMask
         );
 
         XFlush( &xDisplay );

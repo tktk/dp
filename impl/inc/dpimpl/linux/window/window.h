@@ -36,6 +36,20 @@ namespace dp {
 
     struct WindowImpl
     {
+    private:
+        struct ExitThread
+        {
+            void operator()(
+                WindowImpl *
+            ) const;
+        };
+
+        typedef std::unique_ptr<
+            WindowImpl
+            , ExitThread
+        > ThreadExiter;
+
+    public:
         Bool    ended;
 
         ::Window            xWindow;
@@ -43,6 +57,7 @@ namespace dp {
 
         std::thread     thread;
         ThreadJoiner    threadJoiner;
+        ThreadExiter    threadExiter;
     };
 }
 
