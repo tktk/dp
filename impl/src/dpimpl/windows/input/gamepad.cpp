@@ -36,19 +36,13 @@ namespace dp {
         return false;
     }
 
-    GamePadImpl * newGamePadImpl(
+    Bool initializeGamePadImpl(
         GamePad &
         , const GamePadKey &
     )
     {
-        GamePadImplUnique   implUnique( new( std::nothrow )GamePadImpl );
-        if( implUnique.get() == nullptr ) {
-            return nullptr;
-        }
-
         //TODO
-
-        return implUnique.release();
+        return false;
     }
 
     void free(

@@ -32,13 +32,15 @@ namespace dp {
         }
 
         auto &  implUnique = gamePad.implUnique;
-        implUnique.reset(
-            newGamePadImpl(
-                gamePad
-                , _KEY
-            )
-        );
+        implUnique.reset( new( std::nothrow )GamePadImpl );
         if( implUnique.get() == nullptr ) {
+            return nullptr;
+        }
+
+        if( initializeGamePadImpl(
+            gamePad
+            , _KEY
+        ) == false ) {
             return nullptr;
         }
 

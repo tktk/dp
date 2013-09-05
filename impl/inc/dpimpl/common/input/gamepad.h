@@ -31,7 +31,7 @@ namespace dp {
 
     struct GamePadImpl;
 
-    GamePadImpl * newGamePadImpl(
+    Bool initializeGamePadImpl(
         GamePad &
         , const GamePadKey &
     );

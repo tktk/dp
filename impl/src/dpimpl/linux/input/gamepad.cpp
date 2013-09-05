@@ -180,14 +180,16 @@ namespace {
     const auto  BUFFER_COUNT = 10;
 
     void threadEventLoop(
-        dp::GamePadImpl &   _impl
-        , JsEvents &        _jsEvents
+        dp::GamePad &   _gamePad
+        , JsEvents &    _jsEvents
     )
     {
-        auto &  mutex = _impl.mutex;
-        auto &  cond = _impl.cond;
+        auto &  impl = *( _gamePad.implUnique );
 
-        const auto &    DESCRIPTOR = _impl.descriptor;
+        auto &  mutex = impl.mutex;
+        auto &  cond = impl.cond;
+
+        const auto &    DESCRIPTOR = impl.descriptor;
 
         while( 1 ) {
             JsEvents::value_type    jsEvent;
@@ -210,14 +212,16 @@ namespace {
     }
 
     void threadManageLoop(
-        dp::GamePad &       _gamePad
-        , dp::GamePadImpl & _impl
-        , JsEvents &        _jsEventsForEventLoop
+        dp::GamePad &   _gamePad
+        , JsEvents &    _jsEventsForEventLoop
     )
     {
-        auto &  mutex = _impl.mutex;
-        auto &  cond = _impl.cond;
-        auto &  ended = _impl.ended;
+        auto &  impl = *( _gamePad.implUnique );
+
+        auto &  mutex = impl.mutex;
+        auto &  cond = impl.cond;
+
+        const auto &    ENDED = impl.ended;
 
         while( 1 ) {
             JsEvents    jsEvents;
@@ -228,18 +232,18 @@ namespace {
                 cond.wait(
                     lock
                     , [
-                        &ended
+                        &ENDED
                         , &_jsEventsForEventLoop
                     ]
                     {
                         return
-                            ended == true ||
+                            ENDED == true ||
                             _jsEventsForEventLoop.empty() == false
                         ;
                     }
                 );
 
-                if( ended ) {
+                if( ENDED ) {
                     break;
                 }
 
@@ -258,19 +262,18 @@ namespace {
 
     void threadProc(
         dp::GamePad &       _gamePad
-        , dp::GamePadImpl & _impl
     )
     {
         JsEvents    jsEvents;
 
         std::thread eventThread(
             [
-                &_impl
+                &_gamePad
                 , &jsEvents
             ]
             {
                 threadEventLoop(
-                    _impl
+                    _gamePad
                     , jsEvents
                 );
             }
@@ -280,7 +283,6 @@ namespace {
 
         threadManageLoop(
             _gamePad
-            , _impl
             , jsEvents
         );
     }
@@ -335,17 +337,12 @@ namespace dp {
         );
     }
 
-    GamePadImpl * newGamePadImpl(
+    Bool initializeGamePadImpl(
         GamePad &               _gamePad
         , const GamePadKey &    _KEY
     )
     {
-        GamePadImplUnique   implUnique( new( std::nothrow )GamePadImpl );
-        if( implUnique.get() == nullptr ) {
-            return nullptr;
-        }
-
-        auto &  impl = *implUnique;
+        auto &  impl = *( _gamePad.implUnique );
 
         impl.ended = false;
 
@@ -355,7 +352,7 @@ namespace dp {
             , 0
         );
         if( impl.descriptor == -1 ) {
-            return nullptr;
+            return false;
         }
         impl.descriptorCloser.reset( &( impl.descriptor ) );
 
@@ -363,25 +360,25 @@ namespace dp {
             std::thread(
                 [
                     &_gamePad
-                    , &impl
                 ]
                 {
                     threadProc(
                         _gamePad
-                        , impl
                     );
                 }
             )
         );
         impl.threadJoiner.reset( &( impl.thread ) );
+        //TODO スレッドを終了させるためのユニークポインタも用意するべき
 
-        return implUnique.release();
+        return true;
     }
 
     void free(
         GamePadImpl &   _impl
     )
     {
+        //TODO GamePadImplのメンバのdeleterで処理するべき
         setEnd(
             _impl
         );
