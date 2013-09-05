@@ -6,10 +6,25 @@
 
 #include "dpimpl/linux/common/xlib.h"
 #include <thread>
+#include <memory>
 
 namespace dp {
     struct DisplayManagerImpl
     {
+    private:
+        struct ExitThread
+        {
+            void operator()(
+                DisplayManagerImpl *
+            ) const;
+        };
+
+        typedef std::unique_ptr<
+            DisplayManagerImpl
+            , ExitThread
+        > ThreadExiter;
+
+    public:
         Bool    ended;
 
         XDisplayUnique  xDisplayUnique;
@@ -17,6 +32,7 @@ namespace dp {
 
         std::thread     thread;
         ThreadJoiner    threadJoiner;
+        ThreadExiter    threadExiter;
     };
 }
 

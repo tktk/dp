@@ -204,31 +204,6 @@ namespace {
             , xDisplay
         );
     }
-
-    void setEnd(
-        dp::DisplayManagerImpl &    _impl
-    )
-    {
-        _impl.ended = true;
-
-        auto &  xDisplay = *( _impl.xDisplayUnique );
-        auto &  xWindow = _impl.xWindow;
-
-        XEvent  event;
-        event.type = ClientMessage;
-        event.xclient.display = &xDisplay;
-        event.xclient.window = xWindow;
-        event.xclient.format = 8;
-
-        XSendEvent(
-            &xDisplay
-            , xWindow
-            , False
-            , StructureNotifyMask
-            , &event
-        );
-        XFlush( &xDisplay );
-    }
 }
 
 namespace dp {
@@ -272,7 +247,7 @@ namespace dp {
             )
         );
         impl.threadJoiner.reset( &( impl.thread ) );
-        //TODO スレッドを終了させるためのユニークポインタも用意するべき
+        impl.threadExiter.reset( &impl );
 
         return true;
     }
@@ -281,11 +256,31 @@ namespace dp {
         DisplayManagerImpl &    _impl
     )
     {
-        //TODO DisplayManagerImplのメンバのdeleterで処理するべき
-        setEnd(
-            _impl
-        );
-
         delete &_impl;
+    }
+
+    void DisplayManagerImpl::ExitThread::operator()(
+        DisplayManagerImpl *    _impl
+    ) const
+    {
+        _impl->ended = true;
+
+        auto &  xDisplay = *( _impl->xDisplayUnique );
+        auto &  xWindow = _impl->xWindow;
+
+        XEvent  event;
+        event.type = ClientMessage;
+        event.xclient.display = &xDisplay;
+        event.xclient.window = xWindow;
+        event.xclient.format = 8;
+
+        XSendEvent(
+            &xDisplay
+            , xWindow
+            , False
+            , StructureNotifyMask
+            , &event
+        );
+        XFlush( &xDisplay );
     }
 }
