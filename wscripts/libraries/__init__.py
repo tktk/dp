@@ -4,6 +4,7 @@ from . import common
 from . import input
 from . import display
 from . import window
+from . import opengl
 #from .builder import buildCompositeLibrary
 
 def build( _ctx ):
@@ -29,6 +30,12 @@ def build( _ctx ):
     )
 
     window.build(
+        _ctx,
+        sourcesSet,
+        librariesSet,
+    )
+
+    opengl.build(
         _ctx,
         sourcesSet,
         librariesSet,
