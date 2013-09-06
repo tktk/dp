@@ -1,14 +1,14 @@
-﻿#include "dpimpl/linux/common/common_setup.h"
+﻿#include "dpimpl/linux/opengl/opengl_setup.h"
 #include "dpimpl/linux/util/export.h"
 
 DPCONSTRUCTOR void constructor(
 )
 {
-    dp::initializeCommon();
+    dp::initializeOpenGL();
 }
 
 DPDESTRUCTOR void destructor(
 )
 {
-    dp::finalizeCommon();
+    dp::finalizeOpenGL();
 }

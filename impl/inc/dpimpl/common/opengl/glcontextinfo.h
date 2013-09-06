@@ -6,7 +6,6 @@
 namespace dp {
     struct GLContextInfo
     {
-        Bool    vSync;
         Bool    doubleBuffer;
         Bool    existsAuxBuffers;
         Int     auxBuffers;

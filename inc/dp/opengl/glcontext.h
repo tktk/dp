@@ -3,6 +3,7 @@
 
 #include "dp/window/window.h"
 #include "dp/common/memory.h"
+#include "dp/common/primitives.h"
 #include "dp/util/import.h"
 
 #include <memory>
@@ -28,13 +29,14 @@ namespace dp {
     DPEXPORT void glMakeCurrent(
         Window &
         , GLContext &
+        , Bool
     );
 
     DPEXPORT void glMakeCurrent(
     );
 
-    DPEXPORT void swapBuffers(
-        GLContext &
+    DPEXPORT void glSwapBuffers(
+        Window &
     );
 
     DPEXPORT GLContextInfo * newGLContextInfo(
@@ -46,15 +48,6 @@ namespace dp {
 
     DPEXPORT void free(
         GLContextInfo &
-    );
-
-    DPEXPORT Bool getVSync(
-        const GLContextInfo &
-    );
-
-    DPEXPORT void setVSync(
-        GLContextInfo &
-        , Bool
     );
 
     DPEXPORT Bool getDoubleBuffer(

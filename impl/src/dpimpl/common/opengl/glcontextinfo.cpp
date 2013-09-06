@@ -8,8 +8,7 @@
 
 namespace {
     dp::GLContextInfo * newGLContextInfo(
-        dp::Bool    _vSync
-        , dp::Bool  _doubleBuffer
+        dp::Bool    _doubleBuffer
         , dp::Bool  _existsAuxBuffers
         , dp::Int   _auxBuffers
         , dp::Bool  _existsRedBits
@@ -35,13 +34,12 @@ namespace {
     )
     {
         dp::GLContextInfoUnique infoUnique( new( std::nothrow )dp::GLContextInfo );
-        if( infoUnique.get() == false ) {
+        if( infoUnique.get() == nullptr ) {
             return nullptr;
         }
 
         auto &  info = *infoUnique;
 
-        info.vSync = _vSync;
         info.doubleBuffer = _doubleBuffer;
         info.existsAuxBuffers = _existsAuxBuffers;
         info.auxBuffers = _auxBuffers;
@@ -76,7 +74,6 @@ namespace dp {
     {
         return ::newGLContextInfo(
             true
-            , true
             , false
             , 0
             , false
@@ -107,8 +104,7 @@ namespace dp {
     )
     {
         return ::newGLContextInfo(
-            _OTHER.vSync
-            , _OTHER.doubleBuffer
+            _OTHER.doubleBuffer
             , _OTHER.existsAuxBuffers
             , _OTHER.auxBuffers
             , _OTHER.existsRedBits
@@ -139,21 +135,6 @@ namespace dp {
     )
     {
         delete &_info;
-    }
-
-    Bool getVSync(
-        const GLContextInfo &   _INFO
-    )
-    {
-        return _INFO.vSync;
-    }
-
-    void setVSync(
-        GLContextInfo & _info
-        , Bool          _vSync
-    )
-    {
-        _info.vSync = _vSync;
     }
 
     Bool getDoubleBuffer(

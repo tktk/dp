@@ -24,6 +24,7 @@ namespace dp {
     void glMakeCurrent(
         Window &
         , GLContext &
+        , Bool
     )
     {
         //TODO
@@ -35,8 +36,8 @@ namespace dp {
         //TODO
     }
 
-    void swapBuffers(
-        GLContext &
+    void glSwapBuffers(
+        Window &
     )
     {
         //TODO
