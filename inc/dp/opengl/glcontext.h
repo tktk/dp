@@ -66,187 +66,187 @@ namespace dp {
         , Bool
     );
 
-    DPEXPORT void setAuxBuffers(
+    DPEXPORT Bool isExistsAuxBuffers(
         const GLContextInfo &
-        , Int
     );
 
     DPEXPORT Int getAuxBuffers(
         const GLContextInfo &
     );
 
-    DPEXPORT Bool isExistsAuxBuffers(
-        const GLContextInfo &
+    DPEXPORT void setAuxBuffers(
+        GLContextInfo &
+        , Int
     );
 
     DPEXPORT void clearAuxBuffers(
         GLContextInfo &
     );
 
-    DPEXPORT void setRedBits(
+    DPEXPORT Bool isExistsRedBits(
         const GLContextInfo &
-        , Int
     );
 
     DPEXPORT Int getRedBits(
         const GLContextInfo &
     );
 
-    DPEXPORT Bool isExistsRedBits(
-        const GLContextInfo &
+    DPEXPORT void setRedBits(
+        GLContextInfo &
+        , Int
     );
 
     DPEXPORT void clearRedBits(
         GLContextInfo &
     );
 
-    DPEXPORT void setGreenBits(
+    DPEXPORT Bool isExistsGreenBits(
         const GLContextInfo &
-        , Int
     );
 
     DPEXPORT Int getGreenBits(
         const GLContextInfo &
     );
 
-    DPEXPORT Bool isExistsGreenBits(
-        const GLContextInfo &
+    DPEXPORT void setGreenBits(
+        GLContextInfo &
+        , Int
     );
 
     DPEXPORT void clearGreenBits(
         GLContextInfo &
     );
 
-    DPEXPORT void setBlueBits(
+    DPEXPORT Bool isExistsBlueBits(
         const GLContextInfo &
-        , Int
     );
 
     DPEXPORT Int getBlueBits(
         const GLContextInfo &
     );
 
-    DPEXPORT Bool isExistsBlueBits(
-        const GLContextInfo &
+    DPEXPORT void setBlueBits(
+        GLContextInfo &
+        , Int
     );
 
     DPEXPORT void clearBlueBits(
         GLContextInfo &
     );
 
-    DPEXPORT void setAlphaBits(
+    DPEXPORT Bool isExistsAlphaBits(
         const GLContextInfo &
-        , Int
     );
 
     DPEXPORT Int getAlphaBits(
         const GLContextInfo &
     );
 
-    DPEXPORT Bool isExistsAlphaBits(
-        const GLContextInfo &
+    DPEXPORT void setAlphaBits(
+        GLContextInfo &
+        , Int
     );
 
     DPEXPORT void clearAlphaBits(
         GLContextInfo &
     );
 
-    DPEXPORT void setDepthBits(
+    DPEXPORT Bool isExistsDepthBits(
         const GLContextInfo &
-        , Int
     );
 
     DPEXPORT Int getDepthBits(
         const GLContextInfo &
     );
 
-    DPEXPORT Bool isExistsDepthBits(
-        const GLContextInfo &
+    DPEXPORT void setDepthBits(
+        GLContextInfo &
+        , Int
     );
 
     DPEXPORT void clearDepthBits(
         GLContextInfo &
     );
 
-    DPEXPORT void setStencilBits(
+    DPEXPORT Bool isExistsStencilBits(
         const GLContextInfo &
-        , Int
     );
 
     DPEXPORT Int getStencilBits(
         const GLContextInfo &
     );
 
-    DPEXPORT Bool isExistsStencilBits(
-        const GLContextInfo &
+    DPEXPORT void setStencilBits(
+        GLContextInfo &
+        , Int
     );
 
     DPEXPORT void clearStencilBits(
         GLContextInfo &
     );
 
-    DPEXPORT void setAccumRedBits(
+    DPEXPORT Bool isExistsAccumRedBits(
         const GLContextInfo &
-        , Int
     );
 
     DPEXPORT Int getAccumRedBits(
         const GLContextInfo &
     );
 
-    DPEXPORT Bool isExistsAccumRedBits(
-        const GLContextInfo &
+    DPEXPORT void setAccumRedBits(
+        GLContextInfo &
+        , Int
     );
 
     DPEXPORT void clearAccumRedBits(
         GLContextInfo &
     );
 
-    DPEXPORT void setAccumGreenBits(
+    DPEXPORT Bool isExistsAccumGreenBits(
         const GLContextInfo &
-        , Int
     );
 
     DPEXPORT Int getAccumGreenBits(
         const GLContextInfo &
     );
 
-    DPEXPORT Bool isExistsAccumGreenBits(
-        const GLContextInfo &
+    DPEXPORT void setAccumGreenBits(
+        GLContextInfo &
+        , Int
     );
 
     DPEXPORT void clearAccumGreenBits(
         GLContextInfo &
     );
 
-    DPEXPORT void setAccumBlueBits(
+    DPEXPORT Bool isExistsAccumBlueBits(
         const GLContextInfo &
-        , Int
     );
 
     DPEXPORT Int getAccumBlueBits(
         const GLContextInfo &
     );
 
-    DPEXPORT Bool isExistsAccumBlueBits(
-        const GLContextInfo &
+    DPEXPORT void setAccumBlueBits(
+        GLContextInfo &
+        , Int
     );
 
     DPEXPORT void clearAccumBlueBits(
         GLContextInfo &
     );
 
-    DPEXPORT void setAccumAlphaBits(
+    DPEXPORT Bool isExistsAccumAlphaBits(
         const GLContextInfo &
-        , Int
     );
 
     DPEXPORT Int getAccumAlphaBits(
         const GLContextInfo &
     );
 
-    DPEXPORT Bool isExistsAccumAlphaBits(
-        const GLContextInfo &
+    DPEXPORT void setAccumAlphaBits(
+        GLContextInfo &
+        , Int
     );
 
     DPEXPORT void clearAccumAlphaBits(
