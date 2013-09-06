@@ -4,6 +4,7 @@
 #include "dpimpl/linux/common/xlib.h"
 #include "dp/common/thread.h"
 #include "dp/common/primitives.h"
+#include "dp/util/import.h"
 
 #include <memory>
 #include <thread>
@@ -59,6 +60,10 @@ namespace dp {
         ThreadJoiner    threadJoiner;
         ThreadExiter    threadExiter;
     };
+
+    DPEXPORT const ::Window & getXWindow(
+        const Window &
+    );
 }
 
 #endif  // DPIMPL_LINUX_WINDOW_WINDOW_H

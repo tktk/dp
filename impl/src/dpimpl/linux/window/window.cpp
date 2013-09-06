@@ -899,4 +899,11 @@ namespace dp {
 
         XFlush( &xDisplay );
     }
+
+    const ::Window & getXWindow(
+        const Window &  _window
+    )
+    {
+        return _window.implUnique->xWindow;
+    }
 }
