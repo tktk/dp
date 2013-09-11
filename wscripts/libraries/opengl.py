@@ -17,10 +17,13 @@ def build(
     sources = {
         'glcontext',
         'glcontextinfo',
+        'common',
+        'gl10',
     }
 
     osSources = {
         'glcontext',
+        'common',
     }
 
     libraries = set()
