@@ -1,6 +1,7 @@
 ﻿#ifndef DP_OPENGL_COMMON_H
 #define DP_OPENGL_COMMON_H
 
+#include "dp/common/primitives.h"
 #include "dp/util/import.h"
 
 #if defined LINUX   //OS
@@ -25,16 +26,31 @@ namespace dp {
         return reinterpret_cast< GLProc & >( _proc );
     }
 
-    DPEXPORT void loadGLProc(
-        GLProc &
-    );
-
     template< typename T >
-    void loadGLProc(
+    GLProc * toGLProcPtr(
         T & _proc
     )
     {
-        loadGLProc( toGLProc( _proc ) );
+        return &toGLProc< T >( _proc );
+    }
+
+    DPEXPORT Bool loadGLProc(
+        GLProc &
+    );
+
+    inline Bool loadGLProc(
+        GLProc *    _proc
+    )
+    {
+        return loadGLProc( *_proc );
+    }
+
+    template< typename T >
+    Bool loadGLProc(
+        T & _proc
+    )
+    {
+        return loadGLProc( toGLProc( _proc ) );
     }
 }
 

@@ -43,21 +43,23 @@ namespace dp {
         GL_FUNCTIONS
 #undef  GL_FUNCTION
 
-    void loadGLProc(
+    Bool loadGLProc(
         GLProc &    _proc
     )
     {
         if( _proc != nullptr ) {
-            return;
+            return true;
         }
 
         const auto  NAME = getName(
             _proc
         );
-        if( NAME != nullptr ) {
-            _proc = glGetProcAddress( NAME );
-
-            return;
+        if( NAME == nullptr ) {
+            return false;
         }
+
+        _proc = glGetProcAddress( NAME );
+
+        return _proc != nullptr;
     }
 }
