@@ -52,6 +52,22 @@ namespace dp {
     {
         return loadGLProc( toGLProc( _proc ) );
     }
+
+    template< typename T >
+    Bool loadGLProcs(
+        const T &   _PROCS
+    )
+    {
+        auto    result = true;
+
+        for( auto & proc : _PROCS ) {
+            if( loadGLProc( proc ) == false ) {
+                result = false;
+            }
+        }
+
+        return result;
+    }
 }
 
 #endif  // DP_OPENGL_COMMON_H
