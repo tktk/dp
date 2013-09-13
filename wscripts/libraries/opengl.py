@@ -18,7 +18,6 @@ def build(
         'glcontext',
         'glcontextinfo',
         'common',
-        'gl10',
     }
 
     osSources = {

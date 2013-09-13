@@ -20,6 +20,7 @@ namespace dp {
         GL_2_BYTES = 0x1407,
         GL_3_BYTES = 0x1408,
         GL_4_BYTES = 0x1409,
+        GL_DOUBLE = 0x140a, // >=GL1.1
 
         // Simple values
         GL_FALSE = 0,
@@ -95,6 +96,8 @@ namespace dp {
         // Texture mapping
         GL_TEXTURE_1D = 0x0de0,
         GL_TEXTURE_2D = 0x0de1,
+        GL_PROXY_TEXTURE_1D = 0x8063,   // >=GL1.1
+        GL_PROXY_TEXTURE_2D = 0x8064,   // >=GL1.1
         GL_NEAREST = 0x2600,
         GL_LINEAR = 0x2601,
         GL_NEAREST_MIPMAP_NEAREST = 0x2700,
@@ -109,12 +112,23 @@ namespace dp {
         GL_REPEAT = 0x2901,
         GL_TEXTURE_WIDTH = 0x1000,
         GL_TEXTURE_HEIGHT = 0x1001,
-        GL_TEXTURE_COMPONENTS = 0x1003,
+        GL_TEXTURE_COMPONENTS = 0x1003, // <GL1.1
+        GL_TEXTURE_INTERNAL_FORMAT = 0x1003,    // >=GL1.1
         GL_TEXTURE_BORDER_COLOR = 0x1004,
         GL_TEXTURE_BORDER = 0x1005,
         GL_TEXTURE_ENV = 0x2300,
         GL_TEXTURE_ENV_MODE = 0x2200,
         GL_TEXTURE_ENV_COLOR = 0x2201,
+        GL_TEXTURE_RED_SIZE = 0x805c,   // >=GL1.1
+        GL_TEXTURE_GREEN_SIZE = 0x805d, // >=GL1.1
+        GL_TEXTURE_BLUE_SIZE = 0x805e,  // >=GL1.1
+        GL_TEXTURE_ALPHA_SIZE = 0x805f, // >=GL1.1
+        GL_TEXTURE_LUMINANCE_SIZE = 0x8060, // >=GL1.1
+        GL_TEXTURE_INTENSITY_SIZE = 0x8061, // >=GL1.1
+        GL_TEXTURE_PRIORITY = 0x8066,   // >=GL1.1
+        GL_TEXTURE_RESIDENT = 0x8067,   // >=GL1.1
+        GL_TEXTURE_BINDING_1D = 0x8068, // >=GL1.1
+        GL_TEXTURE_BINDING_2D = 0x8069, // >=GL1.1
         GL_MODULATE = 0x2100,
         GL_DECAL = 0x2101,
 
@@ -182,6 +196,11 @@ namespace dp {
         GL_POINT = 0x1b00,
         GL_LINE = 0x1b01,
         GL_FILL = 0x1b02,
+        GL_POLYGON_OFFSET_UNITS = 0x2a00,   // >=GL1.1
+        GL_POLYGON_OFFSET_POINT = 0x2a01,   // >=GL1.1
+        GL_POLYGON_OFFSET_LINE = 0x2a02,    // >=GL1.1
+        GL_POLYGON_OFFSET_FILL = 0x8037,    // >=GL1.1
+        GL_POLYGON_OFFSET_FACTOR = 0x8038,  // >=GL1.1
 
         // Pixels
         GL_BITMAP = 0x1a00,
@@ -211,20 +230,53 @@ namespace dp {
         GL_RGBA = 0x1908,
         GL_LUMINANCE = 0x1909,
         GL_LUMINANCE_ALPHA = 0x190a,
+        GL_ALPHA4 = 0x803b, // >=GL1.1
+        GL_ALPHA8 = 0x803c, // >=GL1.1
+        GL_ALPHA12 = 0x803d,    // >=GL1.1
+        GL_ALPHA16 = 0x803e,    // >=GL1.1
+        GL_LUMINANCE4 = 0x803f, // >=GL1.1
+        GL_LUMINANCE8 = 0x8040, // >=GL1.1
+        GL_LUMINANCE12 = 0x8041,    // >=GL1.1
+        GL_LUMINANCE16 = 0x8042,    // >=GL1.1
+        GL_LUMINANCE4_ALPHA4 = 0x8043,  // >=GL1.1
+        GL_LUMINANCE6_ALPHA2 = 0x8044,  // >=GL1.1
+        GL_LUMINANCE8_ALPHA8 = 0x8045,  // >=GL1.1
+        GL_LUMINANCE12_ALPHA4 = 0x8046, // >=GL1.1
+        GL_LUMINANCE12_ALPHA12 = 0x8047,    // >=GL1.1
+        GL_LUMINANCE16_ALPHA16 = 0x8048,    // >=GL1.1
+        GL_INTENSITY = 0x8049,  // >=GL1.1
+        GL_INTENSITY4 = 0x804a, // >=GL1.1
+        GL_INTENSITY8 = 0x804b, // >=GL1.1
+        GL_INTENSITY12 = 0x804c,    // >=GL1.1
+        GL_INTENSITY16 = 0x804d,    // >=GL1.1
+        GL_R3_G3_B2 = 0x2a10,   // >=GL1.1
+        GL_RGB4 = 0x804f,   // >=GL1.1
+        GL_RGB5 = 0x8050,   // >=GL1.1
+        GL_RGB8 = 0x8051,   // >=GL1.1
+        GL_RGB10 = 0x8052,  // >=GL1.1
+        GL_RGB12 = 0x8053,  // >=GL1.1
+        GL_RGB16 = 0x8054,  // >=GL1.1
+        GL_RGBA2 = 0x8055,  // >=GL1.1
+        GL_RGBA4 = 0x8056,  // >=GL1.1
+        GL_RGB5_A1 = 0x8057,    // >=GL1.1
+        GL_RGBA8 = 0x8058,  // >=GL1.1
+        GL_RGB10_A2 = 0x8059,   // >=GL1.1
+        GL_RGBA12 = 0x805a, // >=GL1.1
+        GL_RGBA16 = 0x805b, // >=GL1.1
 
         // Pixel mode / transfer
         GL_MAP_COLOR = 0x0d10,
         GL_MAP_STENCIL = 0x0d11,
         GL_INDEX_SHIFT = 0x0d12,
         GL_INDEX_OFFSET = 0x0d13,
-        GL_RED_BIAS = 0x0d14,
-        GL_RED_SCALE = 0x0d15,
+        GL_RED_SCALE = 0x0d14,
+        GL_RED_BIAS = 0x0d15,
         GL_ZOOM_X = 0x0d16,
         GL_ZOOM_Y = 0x0d17,
-        GL_GREEN_BIAS = 0x0d18,
-        GL_GREEN_SCALE = 0x0d19,
-        GL_BLUE_BIAS = 0x0d1a,
-        GL_BLUE_SCALE = 0x0d1b,
+        GL_GREEN_SCALE = 0x0d18,
+        GL_GREEN_BIAS = 0x0d19,
+        GL_BLUE_SCALE = 0x0d1a,
+        GL_BLUE_BIAS = 0x0d1b,
         GL_ALPHA_SCALE = 0x0d1c,
         GL_ALPHA_BIAS = 0x0d1d,
         GL_DEPTH_SCALE = 0x0d1e,
@@ -239,6 +291,16 @@ namespace dp {
         GL_PIXEL_MAP_G_TO_G = 0x0c77,
         GL_PIXEL_MAP_B_TO_B = 0x0c78,
         GL_PIXEL_MAP_A_TO_A = 0x0c79,
+        GL_PIXEL_MAP_I_TO_I_SIZE = 0x0cb0,
+        GL_PIXEL_MAP_S_TO_S_SIZE = 0x0cb1,
+        GL_PIXEL_MAP_I_TO_R_SIZE = 0x0cb2,
+        GL_PIXEL_MAP_I_TO_G_SIZE = 0x0cb3,
+        GL_PIXEL_MAP_I_TO_B_SIZE = 0x0cb4,
+        GL_PIXEL_MAP_I_TO_A_SIZE = 0x0cb5,
+        GL_PIXEL_MAP_R_TO_R_SIZE = 0x0cb6,
+        GL_PIXEL_MAP_G_TO_G_SIZE = 0x0cb7,
+        GL_PIXEL_MAP_B_TO_B_SIZE = 0x0cb8,
+        GL_PIXEL_MAP_A_TO_A_SIZE = 0x0cb9,
         GL_UNPACK_SWAP_BYTES = 0x0cf0,
         GL_UNPACK_LSB_FIRST = 0x0cf1,
         GL_UNPACK_ROW_LENGTH = 0x0cf2,
@@ -322,7 +384,9 @@ namespace dp {
 
         // Logical Operation
         GL_LOGIC_OP_MODE = 0x0bf0,
-        GL_LOGIC_OP = 0x0bf1,
+        GL_LOGIC_OP = 0x0bf1,   // <GL1.1
+        GL_INDEX_LOGIC_OP = 0x0bf1, // >=GL1.1
+        GL_COLOR_LOGIC_OP = 0x0bf2, // >=GL1.1
         GL_CLEAR = 0x1500,
         GL_AND = 0x1501,
         GL_AND_REVERSE = 0x1502,
@@ -385,6 +449,16 @@ namespace dp {
         GL_3D_COLOR_TEXTURE = 0x0603,
         GL_4D_COLOR_TEXTURE = 0x0604,
 
+        // Feedback Token
+        GL_PASS_THROUGH_TOKEN = 0x0700,
+        GL_POINT_TOKEN = 0x0701,
+        GL_LINE_TOKEN = 0x0702,
+        GL_POLYGON_TOKEN = 0x0703,
+        GL_BITMAP_TOKEN = 0x0704,
+        GL_DRAW_PIXEL_TOKEN = 0x0705,
+        GL_COPY_PIXEL_TOKEN = 0x0706,
+        GL_LINE_RESET_TOKEN = 0x0707,
+
         // Display Lists
         GL_COMPILE = 0x1300,
         GL_COMPILE_AND_EXECUTE = 0x1301,
@@ -424,6 +498,9 @@ namespace dp {
         GL_TEXTURE_BIT = 0x00040000,
         GL_SCISSOR_BIT = 0x00080000,
         GL_ALL_ATTRIB_BITS = 0x000fffff,
+        GL_CLIENT_PIXEL_STORE_BIT = 0x00000001, // >=GL1.1
+        GL_CLIENT_VERTEX_ARRAY_BIT = 0x00000002,    // >=GL1.1
+        GL_ALL_CLIENTL_ATTRIB_BITS = 0xffffffff,    // >=GL1.1
 
         // Buffer
         GL_AUX_BUFFERS = 0x0c00,
@@ -470,13 +547,62 @@ namespace dp {
         GL_MAX_ATTRIB_STACK_DEPTH = 0x0d35,
         GL_MAX_NAME_STACK_DEPTH = 0x0d37,
         GL_MAX_VIEWPORT_DIMS = 0x0d3a,
+        GL_MAX_CLIENT_ATTRIB_STACK_DEPTH = 0x0d3b,  // >=GL1.1
         GL_INDEX_MODE = 0x0c30,
         GL_RGBA_MODE = 0x0c31,
         GL_DOUBLEBUFFER = 0x0c32,
         GL_STEREO = 0x0c33,
         GL_ATTRIB_STACK_DEPTH = 0x0bb0,
+        GL_CLIENT_ATTRIB_STACK_DEPTH = 0x0bb1,  // >=GL1.1
         GL_NAME_STACK_DEPTH = 0x0d70,
         GL_RENDER_MODE = 0x0c40,
+
+        // Vertex arrays
+        GL_VERTEX_ARRAY = 0x8074,   // >=GL1.1
+        GL_VERTEX_ARRAY_SIZE = 0x807a,  // >=GL1.1
+        GL_VERTEX_ARRAY_TYPE = 0x807b,  // >=GL1.1
+        GL_VERTEX_ARRAY_STRIDE = 0x807c,    // >=GL1.1
+        GL_VERTEX_ARRAY_POINTER = 0x808e,   // >=GL1.1
+        GL_NORMAL_ARRAY = 0x8075,   // >=GL1.1
+        GL_NORMAL_ARRAY_TYPE = 0x807e,  // >=GL1.1
+        GL_NORMAL_ARRAY_STRIDE = 0x807f,    // >=GL1.1
+        GL_NORMAL_ARRAY_POINTER = 0x808f,   // >=GL1.1
+        GL_COLOR_ARRAY = 0x8076,    // >=GL1.1
+        GL_COLOR_ARRAY_SIZE = 0x8081,   // >=GL1.1
+        GL_COLOR_ARRAY_TYPE = 0x8082,   // >=GL1.1
+        GL_COLOR_ARRAY_STRIDE = 0x8083, // >=GL1.1
+        GL_COLOR_ARRAY_POINTER = 0x8090,    // >=GL1.1
+        GL_INDEX_ARRAY = 0x8077,    // >=GL1.1
+        GL_INDEX_ARRAY_TYPE = 0x8085,   // >=GL1.1
+        GL_INDEX_ARRAY_STRIDE = 0x8086, // >=GL1.1
+        GL_INDEX_ARRAY_POINTER = 0x8091,    // >=GL1.1
+        GL_TEXTURE_COORD_ARRAY = 0x8078,    // >=GL1.1
+        GL_TEXTURE_COORD_ARRAY_SIZE = 0x8088,   // >=GL1.1
+        GL_TEXTURE_COORD_ARRAY_TYPE = 0x8089,   // >=GL1.1
+        GL_TEXTURE_COORD_ARRAY_STRIDE = 0x808a, // >=GL1.1
+        GL_TEXTURE_COORD_ARRAY_POINTER = 0x8092,    // >=GL1.1
+        GL_EDGE_FLAG_ARRAY = 0x8079,    // >=GL1.1
+        GL_EDGE_FLAG_ARRAY_STRIDE = 0x808c, // >=GL1.1
+        GL_EDGE_FLAG_ARRAY_POINTER = 0x8093,    // >=GL1.1
+        GL_SELECTION_BUFFER_POINTER = 0x0df3,   // >=GL1.1
+        GL_SELECTION_BUFFER_SIZE = 0x0df4,  // >=GL1.1
+        GL_FEEDBACK_BUFFER_POINTER = 0x0df0,    // >=GL1.1
+        GL_FEEDBACK_BUFFER_SIZE = 0x0df1,   // >=GL1.1
+        GL_FEEDBACK_BUFFER_TYPE = 0x0df2,   // >=GL1.1
+        GL_V2F = 0x2a20,    // >=GL1.1
+        GL_V3F = 0x2a21,    // >=GL1.1
+        GL_C4UB_V2F = 0x2a22,   // >=GL1.1
+        GL_C4UB_V3F = 0x2a23,   // >=GL1.1
+        GL_C3F_V3F = 0x2a24,    // >=GL1.1
+        GL_N3F_V3F = 0x2a25,    // >=GL1.1
+        GL_C4F_N3F_V3F = 0x2a26,    // >=GL1.1
+        GL_T2F_V3F = 0x2a27,    // >=GL1.1
+        GL_T4F_V4F = 0x2a28,    // >=GL1.1
+        GL_T2F_C4UB_V3F = 0x2a29,   // >=GL1.1
+        GL_T2F_C3F_V3F = 0x2a2a,    // >=GL1.1
+        GL_T2F_N3F_V3F = 0x2a2b,    // >=GL1.1
+        GL_T2F_C4F_N3F_V3F = 0x2a2c,    // >=GL1.1
+        GL_T4F_C4F_N3F_V4F = 0x2a2d,    // >=GL1.1
     };
 }
 
