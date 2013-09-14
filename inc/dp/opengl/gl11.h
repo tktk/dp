@@ -53,9 +53,3 @@ namespace dp {
 }
 
 #endif  // DP_OPENGL_GL11_H
-/*
-################################################################################
-
-#define GL_FUNCTIONS    \
-    GL_FUNCTION( void, glBlendColor, ( GLclampf, GLclampf, GLclampf, GLclampf ) )   \
-*/
