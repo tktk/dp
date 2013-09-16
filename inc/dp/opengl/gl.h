@@ -1,19 +1,11 @@
-﻿#ifndef DP_OPENGL_COMMON_H
-#define DP_OPENGL_COMMON_H
+﻿#ifndef DP_OPENGL_GL_H
+#define DP_OPENGL_GL_H
 
+#include "dp/opengl/types.h"
+#include "dp/opengl/constants.h"
+#include "dp/opengl/functions.h"
 #include "dp/common/primitives.h"
 #include "dp/util/import.h"
-
-#if defined LINUX   //OS
-#   define DPSTDCALL
-#elif defined WINDOWS   // OS
-#   define DPSTDCALL __stdcall
-#else   // OS
-#   error 未対応のOS
-#endif  // OS
-
-#define GL_EXTERN_FUNCTION_POINTER( _returnType, _name, _args ) \
-    DPEXPORT extern _returnType ( DPSTDCALL * _name )_args; \
 
 namespace dp {
     typedef void( * GLProc )();
@@ -70,4 +62,4 @@ namespace dp {
     }
 }
 
-#endif  // DP_OPENGL_COMMON_H
+#endif  // DP_OPENGL_GL_H

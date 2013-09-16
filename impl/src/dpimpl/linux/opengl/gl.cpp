@@ -1,5 +1,5 @@
-﻿#include "dpimpl/common/opengl/common.h"
-#include "dp/opengl/common.h"
+﻿#include "dpimpl/common/opengl/gl.h"
+#include "dp/opengl/gl.h"
 #include "dp/common/primitives.h"
 
 #include "dpimpl/linux/opengl/glx.h"
