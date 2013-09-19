@@ -5,6 +5,7 @@ from . import input
 from . import display
 from . import window
 from . import opengl
+from . import audio
 #from .builder import buildCompositeLibrary
 
 def build( _ctx ):
@@ -36,6 +37,12 @@ def build( _ctx ):
     )
 
     opengl.build(
+        _ctx,
+        sourcesSet,
+        librariesSet,
+    )
+
+    audio.build(
         _ctx,
         sourcesSet,
         librariesSet,
