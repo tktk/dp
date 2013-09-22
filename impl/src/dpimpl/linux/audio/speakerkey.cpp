@@ -8,7 +8,7 @@
 
 namespace {
     dp::SpeakerKey * newSpeakerKey(
-        //TODO
+        dp::UInt    _index
     )
     {
         dp::SpeakerKeyUnique    keyUnique( new( std::nothrow )dp::SpeakerKey );
@@ -18,7 +18,7 @@ namespace {
 
         auto &  key = *keyUnique;
 
-        //TODO
+        key.index = _index;
 
         return keyUnique.release();
     }
@@ -30,7 +30,7 @@ namespace dp {
     )
     {
         return ::newSpeakerKey(
-            //TODO
+            _OTHER.index
         );
     }
 
@@ -39,8 +39,7 @@ namespace dp {
         , const SpeakerKey &    _KEY2
     )
     {
-        //TODO
-        return false;
+        return _KEY1.index == _KEY2.index;
     }
 
     Bool less(
@@ -48,16 +47,15 @@ namespace dp {
         , const SpeakerKey &    _KEY2
     )
     {
-        //TODO
-        return false;
+        return _KEY1.index < _KEY2.index;
     }
 
     SpeakerKey * newSpeakerKey(
-        //TODO
+        UInt    _index
     )
     {
         return ::newSpeakerKey(
-            //TODO
+            _index
         );
     }
 }

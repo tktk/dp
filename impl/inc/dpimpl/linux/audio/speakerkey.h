@@ -2,15 +2,16 @@
 #define DPIMPL_LINUX_AUDIO_SPEAKERKEY_H
 
 #include "dp/audio/speakerkey.h"
+#include "dp/common/primitives.h"
 
 namespace dp {
     struct SpeakerKey
     {
-        //TODO
+        UInt    index;
     };
 
     SpeakerKey * newSpeakerKey(
-        //TODO
+        UInt
     );
 }
 
