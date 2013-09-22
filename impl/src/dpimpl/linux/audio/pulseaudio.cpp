@@ -1,4 +1,5 @@
 ﻿#include "dpimpl/linux/audio/pulseaudio.h"
+#include "dp/common/primitives.h"
 
 #include <pulse/thread-mainloop.h>
 #include <pulse/mainloop-api.h>
@@ -65,6 +66,48 @@ namespace {
 
     PAMainloopUnique    mainloopUnique;
     PAMainloopApiUnique mainloopApiUnique;
+
+    struct PALock
+    {
+        PALock(
+        )
+        {
+            auto &  mainloop = *mainloopUnique;
+
+            pa_threaded_mainloop_lock( &mainloop );
+        }
+
+        ~PALock(
+        )
+        {
+            auto &  mainloop = *mainloopUnique;
+
+            pa_threaded_mainloop_unlock( &mainloop );
+        }
+    };
+
+    dp::Bool connect(
+        pa_context &    _paContext
+    )
+    {
+        PALock  lock;
+
+        return pa_context_connect(
+            &_paContext
+            , nullptr
+            , PA_CONTEXT_NOFAIL
+            , nullptr
+        ) == 0;
+    }
+
+    void disconnect(
+        pa_context &    _paContext
+    )
+    {
+        PALock  lock;
+
+        pa_context_disconnect( &_paContext );
+    }
 }
 
 namespace dp {
@@ -97,14 +140,47 @@ namespace dp {
         auto    mainloopApiUnique = std::move( ::mainloopApiUnique );
     }
 
+    void FreePAContext::operator()(
+        pa_context *    _paContext
+    ) const
+    {
+        PALock  lock;
+
+        pa_context_unref( _paContext );
+    }
+
     pa_context * newPAContext(
     )
     {
         auto &  mainloopApi = *mainloopApiUnique;
 
+        PALock  lock;
+
         return pa_context_new(
             &mainloopApi
             , nullptr
         );
+    }
+
+    void DisconnectPAContext::operator()(
+        pa_context *    _paContext
+    ) const
+    {
+        ::disconnect(
+            *_paContext
+        );
+    }
+
+    pa_context * connect(
+        pa_context &    _paContext
+    )
+    {
+        if( ::connect(
+            _paContext
+        ) == false ) {
+            return nullptr;
+        }
+
+        return &_paContext;
     }
 }

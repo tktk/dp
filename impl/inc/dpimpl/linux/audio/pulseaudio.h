@@ -14,11 +14,8 @@ namespace dp {
     struct FreePAContext
     {
         void operator()(
-            pa_context *    _context
-        ) const
-        {
-            pa_context_unref( _context );
-        }
+            pa_context *
+        ) const;
     };
 
     typedef std::unique_ptr<
@@ -27,6 +24,22 @@ namespace dp {
     > PAContextUnique;
 
     pa_context * newPAContext(
+    );
+
+    struct DisconnectPAContext
+    {
+        void operator()(
+            pa_context *
+        ) const;
+    };
+
+    typedef std::unique_ptr<
+        pa_context
+        , DisconnectPAContext
+    > PAContextDisconnector;
+
+    pa_context * connect(
+        pa_context &    _paContext
     );
 }
 

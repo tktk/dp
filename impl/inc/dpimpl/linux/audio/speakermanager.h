@@ -6,7 +6,8 @@
 namespace dp {
     struct SpeakerManagerImpl
     {
-        PAContextUnique paContextUnique;
+        PAContextUnique         paContextUnique;
+        PAContextDisconnector   paContextDisconnector;
     };
 }
 

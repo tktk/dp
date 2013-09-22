@@ -227,12 +227,13 @@ namespace dp {
             , &_manager
         );
 
-        if( pa_context_connect(
-            &paContext
-            , nullptr
-            , PA_CONTEXT_NOFAIL
-            , nullptr
-        ) < 0 ) {
+        auto &  paContextDisconnector = impl.paContextDisconnector;
+        paContextDisconnector.reset(
+            connect(
+                paContext
+            )
+        );
+        if( paContextDisconnector.get() == nullptr ) {
             return false;
         }
 
