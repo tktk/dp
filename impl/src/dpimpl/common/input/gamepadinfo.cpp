@@ -7,8 +7,8 @@
 
 namespace {
     dp::GamePadInfo * newGamePadInfo(
-        dp::GamePadButtonEventHandler   _buttonEventHandler
-        , dp::GamePadAxisEventHandler   _axisEventHandler
+        const dp::GamePadButtonEventHandler &   _BUTTON_EVENT_HANDLER
+        , const dp::GamePadAxisEventHandler &   _AXIS_EVENT_HANDLER
     )
     {
         dp::GamePadInfoUnique   infoUnique( new( std::nothrow )dp::GamePadInfo );
@@ -18,8 +18,8 @@ namespace {
 
         auto &  info = *infoUnique;
 
-        info.buttonEventHandler = _buttonEventHandler;
-        info.axisEventHandler = _axisEventHandler;
+        info.buttonEventHandler = _BUTTON_EVENT_HANDLER;
+        info.axisEventHandler = _AXIS_EVENT_HANDLER;
 
         return infoUnique.release();
     }
