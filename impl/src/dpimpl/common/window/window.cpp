@@ -166,6 +166,62 @@ namespace dp {
         delete &_window;
     }
 
+    const WindowInfo & getInfo(
+        const Window &  _WINDOW
+    )
+    {
+        return *( _WINDOW.infoUnique );
+    }
+
+    WindowInfo & getInfoMutable(
+        Window &    _window
+    )
+    {
+        return *( _window.infoUnique );
+    }
+
+    std::mutex & getMutexForCloseEventHandler(
+        Window &    _window
+    )
+    {
+        return _window.mutexForCloseEventHandler;
+    }
+
+    std::mutex & getMutexForPositionEventHandler(
+        Window &    _window
+    )
+    {
+        return _window.mutexForPositionEventHandler;
+    }
+
+    std::mutex & getMutexForSizeEventHandler(
+        Window &    _window
+    )
+    {
+        return _window.mutexForSizeEventHandler;
+    }
+
+    std::mutex & getMutexForBeginPaintEventHandler(
+        Window &    _window
+    )
+    {
+        return _window.mutexForBeginPaintEventHandler;
+    }
+
+    std::mutex & getMutexForEndPaintEventHandler(
+        Window &    _window
+    )
+    {
+        return _window.mutexForEndPaintEventHandler;
+    }
+
+    std::mutex & getMutexForPaintEventHandler(
+        Window &    _window
+    )
+    {
+        return _window.mutexForPaintEventHandler;
+    }
+
     void callCloseEventHandler(
         Window &    _window
     )

@@ -97,6 +97,38 @@ namespace dp {
         Window &
     );
 
+    DPEXPORT const WindowInfo & getInfo(
+        const Window &
+    );
+
+    DPEXPORT WindowInfo & getInfoMutable(
+        Window &
+    );
+
+    DPEXPORT std::mutex & getMutexForCloseEventHandler(
+        Window &
+    );
+
+    DPEXPORT std::mutex & getMutexForPositionEventHandler(
+        Window &
+    );
+
+    DPEXPORT std::mutex & getMutexForSizeEventHandler(
+        Window &
+    );
+
+    DPEXPORT std::mutex & getMutexForBeginPaintEventHandler(
+        Window &
+    );
+
+    DPEXPORT std::mutex & getMutexForEndPaintEventHandler(
+        Window &
+    );
+
+    DPEXPORT std::mutex & getMutexForPaintEventHandler(
+        Window &
+    );
+
     DPEXPORT void close(
         Window &
     );
