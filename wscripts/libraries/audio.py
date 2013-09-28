@@ -18,11 +18,14 @@ def build(
         'speakermanager',
         'speakermanagerinfo',
         'speakerkey',
+        'audioplayer',
+        'audioplayerinfo',
     }
 
     osSources = {
         'speakermanager',
         'speakerkey',
+        'audioplayer',
     }
     if _ctx.osName == common.LINUX:
         osSources |= {
