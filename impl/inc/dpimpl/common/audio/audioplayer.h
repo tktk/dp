@@ -17,7 +17,7 @@
 #include <mutex>
 
 namespace dp {
-    void callPlayEventHandler(
+    ULong callPlayEventHandler(
         AudioPlayer &
         , void *
         , ULong

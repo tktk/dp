@@ -89,7 +89,7 @@ namespace dp {
         return _audioPlayer.mutexForEndEventHandler;
     }
 
-    void callPlayEventHandler(
+    ULong callPlayEventHandler(
         AudioPlayer &   _audioPlayer
         , void *        _buffer
         , ULong         _bufferSize
@@ -99,11 +99,13 @@ namespace dp {
 
         const auto &    EVENT_HANDLER = _audioPlayer.infoUnique->playEventHandler;
         if( EVENT_HANDLER != nullptr ) {
-            EVENT_HANDLER(
+            return EVENT_HANDLER(
                 _audioPlayer
                 , _buffer
                 , _bufferSize
             );
+        } else {
+            return 0;
         }
     }
 

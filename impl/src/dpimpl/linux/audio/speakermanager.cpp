@@ -139,7 +139,7 @@ namespace {
         , dp::SpeakerManager &  _manager
     )
     {
-        pa_operation_unref(
+        dp::PAOperationUnique   paOperationUnique(
             pa_context_get_sink_info_list(
                 &_paContext
                 , getSinkInfoCallback
@@ -159,7 +159,7 @@ namespace {
             , &_manager
         );
 
-        pa_operation_unref(
+        dp::PAOperationUnique   paOperationUnique(
             pa_context_subscribe(
                 &_paContext
                 , PA_SUBSCRIPTION_MASK_SINK

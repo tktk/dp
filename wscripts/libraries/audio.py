@@ -36,6 +36,7 @@ def build(
     if _ctx.osName == common.LINUX:
         libraries |= {
             'pulse',
+            'pthread',
         }
 
     buildPartialLibrary(
