@@ -1,5 +1,5 @@
-﻿#ifndef DPIMPL_LINUX_COMMON_XLIB_H
-#define DPIMPL_LINUX_COMMON_XLIB_H
+﻿#ifndef DPIMPL_LINUX_XLIB_XLIB_H
+#define DPIMPL_LINUX_XLIB_XLIB_H
 
 #define Bool int
 
@@ -48,4 +48,4 @@ namespace dp {
     );
 }
 
-#endif  // DPIMPL_LINUX_COMMON_XLIB_H
+#endif  // DPIMPL_LINUX_XLIB_XLIB_H

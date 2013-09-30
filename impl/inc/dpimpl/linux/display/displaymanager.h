@@ -4,7 +4,7 @@
 #include "dp/common/primitives.h"
 #include "dp/common/thread.h"
 
-#include "dpimpl/linux/common/xlib.h"
+#include "dpimpl/linux/xlib/xlib.h"
 #include <thread>
 #include <memory>
 

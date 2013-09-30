@@ -35,7 +35,7 @@ def build(
     useModules = set()
     if _ctx.osName == common.LINUX:
         useModules |= {
-            'common',
+            'xlib',
         }
 
     buildPartialLibrary(

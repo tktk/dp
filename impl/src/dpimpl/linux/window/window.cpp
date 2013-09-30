@@ -4,10 +4,10 @@
 #include "dpimpl/linux/window/window.h"
 #include "dpimpl/common/window/window.h"
 #include "dp/window/windowflags.h"
-#include "dpimpl/linux/common/xlib.h"
 #include "dp/common/stringconverter.h"
 #include "dp/common/primitives.h"
 
+#include "dpimpl/linux/xlib/xlib.h"
 #include "dpimpl/linux/window/xutil.h"
 #include <X11/Xatom.h>
 #include <thread>

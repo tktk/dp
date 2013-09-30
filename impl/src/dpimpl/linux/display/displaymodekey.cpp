@@ -5,7 +5,7 @@
 #include "dpimpl/linux/display/displaykey.h"
 #include "dp/common/primitives.h"
 
-#include "dpimpl/linux/common/xlib.h"
+#include "dpimpl/linux/xlib/xlib.h"
 #include "dpimpl/linux/display/xrandr.h"
 #include <new>
 #include <algorithm>

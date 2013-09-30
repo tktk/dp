@@ -16,16 +16,6 @@ def build(
         'stringconverter',
         'args',
     }
-    if _ctx.osName == common.LINUX:
-        osSources |= {
-            'xlib',
-        }
-
-    libraries = set()
-    if _ctx.osName == common.LINUX:
-        libraries |= {
-            'X11',
-        }
 
     buildPartialLibrary(
         _ctx,
@@ -34,5 +24,4 @@ def build(
         'common',
         setupSources = setupSources,
         osSources = osSources,
-        libraries = libraries,
     )

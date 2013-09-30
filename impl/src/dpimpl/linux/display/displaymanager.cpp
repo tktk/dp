@@ -7,7 +7,7 @@
 #include "dp/common/thread.h"
 #include "dpimpl/linux/common/thread.h"
 
-#include "dpimpl/linux/common/xlib.h"
+#include "dpimpl/linux/xlib/xlib.h"
 #include "dpimpl/linux/display/xrandr.h"
 #include <vector>
 

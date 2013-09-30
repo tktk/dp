@@ -8,9 +8,9 @@
 #include "dp/display/displayrotate.h"
 #include "dp/common/primitives.h"
 
-#include <new>
+#include "dpimpl/linux/xlib/xlib.h"
 #include "dpimpl/linux/display/xrandr.h"
-#include "dpimpl/linux/common/xlib.h"
+#include <new>
 
 namespace {
     dp::Bool rotationToDisplayRotate(

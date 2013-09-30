@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from . import common
+from . import xlib
 from . import input
 from . import display
 from . import window
@@ -19,6 +20,12 @@ def build( _ctx ):
     )
 
     input.build(
+        _ctx,
+        sourcesSet,
+        librariesSet,
+    )
+
+    xlib.build(
         _ctx,
         sourcesSet,
         librariesSet,

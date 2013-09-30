@@ -1,5 +1,5 @@
 ﻿#include "dpimpl/util/export.h"
-#include "dpimpl/linux/common/xlib.h"
+#include "dpimpl/linux/xlib/xlib.h"
 
 #include <utility>
 

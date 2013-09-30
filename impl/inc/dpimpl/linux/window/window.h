@@ -1,11 +1,11 @@
 ﻿#ifndef DPIMPL_LINUX_WINDOW_WINDOW_H
 #define DPIMPL_LINUX_WINDOW_WINDOW_H
 
-#include "dpimpl/linux/common/xlib.h"
 #include "dp/common/thread.h"
 #include "dp/common/primitives.h"
 #include "dp/util/import.h"
 
+#include "dpimpl/linux/xlib/xlib.h"
 #include <memory>
 #include <thread>
 

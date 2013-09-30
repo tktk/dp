@@ -11,42 +11,27 @@ def build(
     setupSources = set()
     if _ctx.osName == common.LINUX:
         setupSources |= {
-            'opengl_setup',
+            'xlib_setup',
         }
 
-    sources = {
-        'glcontext',
-        'glcontextinfo',
-        'gl',
-    }
-
-    osSources = {
-        'glcontext',
-        'gl',
-    }
+    osSources = set()
+    if _ctx.osName == common.LINUX:
+        osSources |= {
+            'xlib',
+        }
 
     libraries = set()
     if _ctx.osName == common.LINUX:
         libraries |= {
-            'GL',
-        }
-
-    useModules = {
-        'window',
-    }
-    if _ctx.osName == common.LINUX:
-        useModules = {
-            'xlib',
+            'X11',
         }
 
     buildPartialLibrary(
         _ctx,
         _sourcesSet,
         _librariesSet,
-        'opengl',
+        'xlib',
         setupSources = setupSources,
-        sources = sources,
         osSources = osSources,
         libraries = libraries,
-        useModules = useModules,
     )

@@ -9,7 +9,7 @@
 
 typedef int Bool;
 
-#include "dpimpl/linux/common/xlib.h"
+#include "dpimpl/linux/xlib/xlib.h"
 
 namespace dp {
     struct FreeScreenResources

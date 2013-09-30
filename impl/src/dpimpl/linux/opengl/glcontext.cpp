@@ -5,9 +5,9 @@
 #include "dpimpl/common/opengl/glcontextinfo.h"
 #include "dp/opengl/types.h"
 #include "dpimpl/linux/window/window.h"
-#include "dpimpl/linux/common/xlib.h"
 #include "dp/common/primitives.h"
 
+#include "dpimpl/linux/xlib/xlib.h"
 #include "dpimpl/linux/opengl/glx.h"
 #include <new>
 #include <memory>
