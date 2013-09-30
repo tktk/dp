@@ -13,12 +13,12 @@ namespace {
     struct FreePAMainloop
     {
         void operator()(
-            pa_threaded_mainloop *  _mainloop
+            pa_threaded_mainloop *  _paMainloop
         ) const
         {
-            pa_threaded_mainloop_stop( _mainloop );
+            pa_threaded_mainloop_stop( _paMainloop );
 
-            pa_threaded_mainloop_free( _mainloop );
+            pa_threaded_mainloop_free( _paMainloop );
         }
     };
 
@@ -30,26 +30,26 @@ namespace {
     pa_threaded_mainloop * newPAMainloop(
     )
     {
-        PAMainloopUnique    mainloopUnique( pa_threaded_mainloop_new() );
-        if( mainloopUnique.get() == nullptr ) {
+        PAMainloopUnique    paMainloopUnique( pa_threaded_mainloop_new() );
+        if( paMainloopUnique.get() == nullptr ) {
             return nullptr;
         }
 
-        auto &  mainloop = *mainloopUnique;
+        auto &  paMainloop = *paMainloopUnique;
 
-        pa_threaded_mainloop_start( &mainloop );
+        pa_threaded_mainloop_start( &paMainloop );
 
-        return mainloopUnique.release();
+        return paMainloopUnique.release();
     }
 
     struct FreePAMainloopApi
     {
         void operator()(
-            pa_mainloop_api *   _mainloopApi
+            pa_mainloop_api *   _paMainloopApi
         ) const
         {
-            _mainloopApi->quit(
-                _mainloopApi
+            _paMainloopApi->quit(
+                _paMainloopApi
                 , 0
             );
         }
@@ -61,14 +61,14 @@ namespace {
     > PAMainloopApiUnique;
 
     pa_mainloop_api * newPAMainloopApi(
-        pa_threaded_mainloop &  _mainloop
+        pa_threaded_mainloop &  _paMainloop
     )
     {
-        return pa_threaded_mainloop_get_api( &_mainloop );
+        return pa_threaded_mainloop_get_api( &_paMainloop );
     }
 
-    PAMainloopUnique    mainloopUnique;
-    PAMainloopApiUnique mainloopApiUnique;
+    PAMainloopUnique    paMainloopUnique;
+    PAMainloopApiUnique paMainloopApiUnique;
 
     dp::Bool connect(
         pa_context &    _paContext
@@ -149,20 +149,20 @@ namespace dp {
     void initializePulseAudio(
     )
     {
-        mainloopUnique.reset( newPAMainloop() );
-        if( mainloopUnique.get() == nullptr ) {
+        paMainloopUnique.reset( newPAMainloop() );
+        if( paMainloopUnique.get() == nullptr ) {
             //FIXME 初期化失敗時の処理
             return;
         }
 
-        auto &  mainloop = *mainloopUnique;
+        auto &  paMainloop = *paMainloopUnique;
 
-        mainloopApiUnique.reset(
+        paMainloopApiUnique.reset(
             newPAMainloopApi(
-                mainloop
+                paMainloop
             )
         );
-        if( mainloopApiUnique.get() == nullptr ) {
+        if( paMainloopApiUnique.get() == nullptr ) {
             //FIXME 初期化失敗時の処理
             return;
         }
@@ -171,41 +171,41 @@ namespace dp {
     void finalizePulseAudio(
     )
     {
-        auto    mainloopUnique = std::move( ::mainloopUnique );
-        auto    mainloopApiUnique = std::move( ::mainloopApiUnique );
+        auto    paMainloopUnique = std::move( ::paMainloopUnique );
+        auto    paMainloopApiUnique = std::move( ::paMainloopApiUnique );
     }
 
     PALock::PALock(
     )
     {
-        auto &  mainloop = *mainloopUnique;
+        auto &  paMainloop = *paMainloopUnique;
 
-        pa_threaded_mainloop_lock( &mainloop );
+        pa_threaded_mainloop_lock( &paMainloop );
     }
 
     PALock::~PALock(
     )
     {
-        auto &  mainloop = *mainloopUnique;
+        auto &  paMainloop = *paMainloopUnique;
 
-        pa_threaded_mainloop_unlock( &mainloop );
+        pa_threaded_mainloop_unlock( &paMainloop );
     }
 
     void paWait(
     )
     {
-        auto &  mainloop = *mainloopUnique;
+        auto &  paMainloop = *paMainloopUnique;
 
-        pa_threaded_mainloop_wait( &mainloop );
+        pa_threaded_mainloop_wait( &paMainloop );
     }
 
     void paNotify(
     )
     {
-        auto &  mainloop = *mainloopUnique;
+        auto &  paMainloop = *paMainloopUnique;
 
         pa_threaded_mainloop_signal(
-            &mainloop
+            &paMainloop
             , 0
         );
     }
@@ -222,12 +222,12 @@ namespace dp {
     pa_context * newPAContext(
     )
     {
-        auto &  mainloopApi = *mainloopApiUnique;
+        auto &  paMainloopApi = *paMainloopApiUnique;
 
         PALock  lock;
 
         return pa_context_new(
-            &mainloopApi
+            &paMainloopApi
             , nullptr
         );
     }
