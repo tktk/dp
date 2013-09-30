@@ -23,14 +23,14 @@ namespace dp {
 
     void callPositionEventHandler(
         Window &
-        , Long
-        , Long
+        , Int
+        , Int
     );
 
     void callSizeEventHandler(
         Window &
-        , ULong
-        , ULong
+        , Int
+        , Int
     );
 
     void callBeginPaintEventHandler(
@@ -43,10 +43,10 @@ namespace dp {
 
     void callPaintEventHandler(
         Window &
-        , ULong
-        , ULong
-        , ULong
-        , ULong
+        , Int
+        , Int
+        , Int
+        , Int
     );
 
     struct WindowImpl;
@@ -54,18 +54,18 @@ namespace dp {
     Bool initializeWindowImpl(
         Window &
         , const Utf32 &
-        , ULong
-        , ULong
+        , Int
+        , Int
         , WindowFlags
     );
 
     Bool initializeWindowImpl(
         Window &
         , const Utf32 &
-        , Long
-        , Long
-        , ULong
-        , ULong
+        , Int
+        , Int
+        , Int
+        , Int
         , WindowFlags
     );
 

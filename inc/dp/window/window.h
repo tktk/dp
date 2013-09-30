@@ -24,16 +24,16 @@ namespace dp {
     typedef std::function<
         void(
             Window &
-            , Long
-            , Long
+            , Int
+            , Int
         )
     > WindowPositionEventHandler;
 
     typedef std::function<
         void(
             Window &
-            , ULong
-            , ULong
+            , Int
+            , Int
         )
     > WindowSizeEventHandler;
 
@@ -52,44 +52,44 @@ namespace dp {
     typedef std::function<
         void(
             Window &
-            , ULong
-            , ULong
-            , ULong
-            , ULong
+            , Int
+            , Int
+            , Int
+            , Int
         )
     > WindowPaintEventHandler;
 
     DPEXPORT Window * newWindow(
         const WindowInfo &
         , const Utf32 &
-        , ULong
-        , ULong
+        , Int
+        , Int
     );
 
     DPEXPORT Window * newWindow(
         const WindowInfo &
         , const Utf32 &
-        , ULong
-        , ULong
+        , Int
+        , Int
         , WindowFlags
     );
 
     DPEXPORT Window * newWindow(
         const WindowInfo &
         , const Utf32 &
-        , Long
-        , Long
-        , ULong
-        , ULong
+        , Int
+        , Int
+        , Int
+        , Int
     );
 
     DPEXPORT Window * newWindow(
         const WindowInfo &
         , const Utf32 &
-        , Long
-        , Long
-        , ULong
-        , ULong
+        , Int
+        , Int
+        , Int
+        , Int
         , WindowFlags
     );
 
@@ -140,22 +140,22 @@ namespace dp {
 
     DPEXPORT void setPosition(
         Window &
-        , Long
-        , Long
+        , Int
+        , Int
     );
 
     DPEXPORT void setSize(
         Window &
-        , ULong
-        , ULong
+        , Int
+        , Int
     );
 
     DPEXPORT void repaint(
         Window &
-        , ULong
-        , ULong
-        , ULong
-        , ULong
+        , Int
+        , Int
+        , Int
+        , Int
     );
 
     DPEXPORT WindowInfo * newWindowInfo(

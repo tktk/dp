@@ -25,8 +25,8 @@ namespace {
     struct Position
     {
         dp::Bool    initialized;
-        dp::Long    x;
-        dp::Long    y;
+        dp::Int     x;
+        dp::Int     y;
 
         Position(
         )
@@ -38,8 +38,8 @@ namespace {
     struct Size
     {
         dp::Bool    initialized;
-        dp::ULong   width;
-        dp::ULong   height;
+        dp::Int     width;
+        dp::Int     height;
 
         Size(
         )
@@ -50,10 +50,10 @@ namespace {
 
     struct Rect
     {
-        dp::ULong   x;
-        dp::ULong   y;
-        dp::ULong   width;
-        dp::ULong   height;
+        dp::Int x;
+        dp::Int y;
+        dp::Int width;
+        dp::Int height;
 
         Rect(
         )
@@ -66,14 +66,14 @@ namespace {
     void unresizable(
         ::Display &         _xDisplay
         , const ::Window &  _X_WINDOW
-        , const dp::ULong & _WIDTH
-        , const dp::ULong & _HEIGHT
+        , dp::Int           _width
+        , dp::Int           _height
     )
     {
         XSizeHints  sizeHints;
 
-        sizeHints.min_width = sizeHints.max_width = _WIDTH;
-        sizeHints.min_height = sizeHints.max_height = _HEIGHT;
+        sizeHints.min_width = sizeHints.max_width = _width;
+        sizeHints.min_height = sizeHints.max_height = _height;
 
         sizeHints.flags = PMaxSize | PMinSize;
 
@@ -295,22 +295,22 @@ namespace {
     }
 
     void updateRange(
-        dp::ULong &         _from
-        , dp::ULong &       _volume
-        , const dp::Int &   _NEW_FROM
-        , const dp::Int &   _NEW_VOLUME
+        dp::Int &   _from
+        , dp::Int & _volume
+        , dp::Int   _newFrom
+        , dp::Int   _newVolume
     )
     {
-        const auto      OLD_FROM = _from;
-        const dp::ULong OLD_VOLUME = _volume;
+        const auto  OLD_FROM = _from;
+        const auto  OLD_VOLUME = _volume;
 
-        const auto      OLD_TO = OLD_FROM + OLD_VOLUME;
-        const dp::ULong NEW_TO = _NEW_FROM + _NEW_VOLUME;
+        const auto  OLD_TO = OLD_FROM + OLD_VOLUME;
+        const auto  NEW_TO = _newFrom + _newVolume;
 
         const auto &    TO = OLD_TO > NEW_TO ? OLD_TO : NEW_TO;
 
-        if( OLD_FROM > _NEW_FROM ) {
-            _from = _NEW_FROM;
+        if( OLD_FROM > _newFrom ) {
+            _from = _newFrom;
         }
 
         _volume = TO - _from;
@@ -550,8 +550,8 @@ namespace {
     Bool initializeWindowImpl(
         dp::Window &        _window
         , const dp::Utf32 & _TITLE
-        , dp::ULong         _width
-        , dp::ULong         _height
+        , dp::Int           _width
+        , dp::Int           _height
         , dp::WindowFlags   _flags
     )
     {
@@ -701,8 +701,8 @@ namespace dp {
     Bool initializeWindowImpl(
         Window &        _window
         , const Utf32 & _TITLE
-        , ULong         _width
-        , ULong         _height
+        , Int           _width
+        , Int           _height
         , WindowFlags   _flags
     )
     {
@@ -726,10 +726,10 @@ namespace dp {
     Bool initializeWindowImpl(
         Window &        _window
         , const Utf32 & _TITLE
-        , Long          _x
-        , Long          _y
-        , ULong         _width
-        , ULong         _height
+        , Int           _x
+        , Int           _y
+        , Int           _width
+        , Int           _height
         , WindowFlags   _flags
     )
     {
@@ -810,8 +810,8 @@ namespace dp {
 
     void setPosition(
         Window &    _window
-        , Long      _x
-        , Long      _y
+        , Int       _x
+        , Int       _y
     )
     {
         auto &  xDisplay = getXDisplay();
@@ -828,8 +828,8 @@ namespace dp {
 
     void setSize(
         Window &    _window
-        , ULong     _width
-        , ULong     _height
+        , Int       _width
+        , Int       _height
     )
     {
         auto &  xDisplay = getXDisplay();
@@ -846,10 +846,10 @@ namespace dp {
 
     void repaint(
         Window &    _window
-        , ULong     _x
-        , ULong     _y
-        , ULong     _width
-        , ULong     _height
+        , Int       _x
+        , Int       _y
+        , Int       _width
+        , Int       _height
     )
     {
         auto &  xDisplay = getXDisplay();

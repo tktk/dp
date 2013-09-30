@@ -58,8 +58,8 @@ namespace dp {
     Window * newWindow(
         const WindowInfo &  _INFO
         , const Utf32 &     _TITLE
-        , ULong             _width
-        , ULong             _height
+        , Int               _width
+        , Int               _height
     )
     {
         return newWindow(
@@ -74,8 +74,8 @@ namespace dp {
     Window * newWindow(
         const WindowInfo &  _INFO
         , const Utf32 &     _TITLE
-        , ULong             _width
-        , ULong             _height
+        , Int               _width
+        , Int               _height
         , WindowFlags       _flags
     )
     {
@@ -105,10 +105,10 @@ namespace dp {
     Window * newWindow(
         const WindowInfo &  _INFO
         , const Utf32 &     _TITLE
-        , Long              _x
-        , Long              _y
-        , ULong             _width
-        , ULong             _height
+        , Int               _x
+        , Int               _y
+        , Int               _width
+        , Int               _height
     )
     {
         return newWindow(
@@ -125,10 +125,10 @@ namespace dp {
     Window * newWindow(
         const WindowInfo &  _INFO
         , const Utf32 &     _TITLE
-        , Long              _x
-        , Long              _y
-        , ULong             _width
-        , ULong             _height
+        , Int               _x
+        , Int               _y
+        , Int               _width
+        , Int               _height
         , WindowFlags       _flags
     )
     {
@@ -238,8 +238,8 @@ namespace dp {
 
     void callPositionEventHandler(
         Window &    _window
-        , Long      _x
-        , Long      _y
+        , Int       _x
+        , Int       _y
     )
     {
         std::unique_lock< decltype( _window.mutexForPositionEventHandler ) >    lock( _window.mutexForPositionEventHandler );
@@ -256,8 +256,8 @@ namespace dp {
 
     void callSizeEventHandler(
         Window &    _window
-        , ULong     _width
-        , ULong     _height
+        , Int       _width
+        , Int       _height
     )
     {
         std::unique_lock< decltype( _window.mutexForSizeEventHandler ) >    lock( _window.mutexForSizeEventHandler );
@@ -302,10 +302,10 @@ namespace dp {
 
     void callPaintEventHandler(
         Window &    _window
-        , ULong     _x
-        , ULong     _y
-        , ULong     _width
-        , ULong     _height
+        , Int       _x
+        , Int       _y
+        , Int       _width
+        , Int       _height
     )
     {
         std::unique_lock< decltype( _window.mutexForPaintEventHandler ) >   lock( _window.mutexForPaintEventHandler );

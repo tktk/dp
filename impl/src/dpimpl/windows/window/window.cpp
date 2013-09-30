@@ -9,8 +9,8 @@ namespace dp {
     Bool initializeWindowImpl(
         Window &        _window
         , const Utf32 & _TITLE
-        , ULong         _width
-        , ULong         _height
+        , Int           _width
+        , Int           _height
         , WindowFlags   _flags
     )
     {
@@ -21,10 +21,10 @@ namespace dp {
     Bool initializeWindowImpl(
         Window &        _window
         , const Utf32 & _TITLE
-        , Long          _x
-        , Long          _y
-        , ULong         _width
-        , ULong         _height
+        , Int           _x
+        , Int           _y
+        , Int           _width
+        , Int           _height
         , WindowFlags   _flags
     )
     {
@@ -51,8 +51,8 @@ namespace dp {
 
     void setPosition(
         Window &    _window
-        , Long      _x
-        , Long      _y
+        , Int       _x
+        , Int       _y
     )
     {
         //TODO
@@ -60,8 +60,8 @@ namespace dp {
 
     void setSize(
         Window &    _window
-        , ULong     _width
-        , ULong     _height
+        , Int       _width
+        , Int       _height
     )
     {
         //TODO
@@ -69,10 +69,10 @@ namespace dp {
 
     void repaint(
         Window &    _window
-        , ULong     _x
-        , ULong     _y
-        , ULong     _width
-        , ULong     _height
+        , Int       _x
+        , Int       _y
+        , Int       _width
+        , Int       _height
     )
     {
         //TODO
