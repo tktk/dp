@@ -283,6 +283,15 @@ namespace dp {
                 , nullptr
             )
         );
+        if( paOperationUnique.get() == nullptr ) {
+            return;
+        }
+
+        auto &  paOperation = *paOperationUnique;
+
+        dp::wait(
+            paOperation
+        );
     }
 
     Bool initializeAudioPlayerImpl(
