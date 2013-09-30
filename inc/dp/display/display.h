@@ -15,8 +15,8 @@ namespace dp {
 
     DPEXPORT Display * newDisplay(
         const DisplayModeKey &
-        , Long
-        , Long
+        , Int
+        , Int
         , DisplayRotate
     );
 
@@ -32,11 +32,11 @@ namespace dp {
         Display &
     );
 
-    DPEXPORT ULong getWidth(
+    DPEXPORT Int getWidth(
         const Display &
     );
 
-    DPEXPORT ULong getHeight(
+    DPEXPORT Int getHeight(
         const Display &
     );
 
@@ -49,22 +49,22 @@ namespace dp {
         , const DisplayModeKey &
     );
 
-    DPEXPORT Long getX(
+    DPEXPORT Int getX(
         const Display &
     );
 
     DPEXPORT void setX(
         Display &
-        , Long
+        , Int
     );
 
-    DPEXPORT Long getY(
+    DPEXPORT Int getY(
         const Display &
     );
 
     DPEXPORT void setY(
         Display &
-        , Long
+        , Int
     );
 
     DPEXPORT DisplayRotate getRotate(

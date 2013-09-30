@@ -12,14 +12,14 @@ namespace dp {
         delete &_mode;
     }
 
-    ULong getWidth(
+    Int getWidth(
         const DisplayMode & _MODE
     )
     {
         return _MODE.width;
     }
 
-    ULong getHeight(
+    Int getHeight(
         const DisplayMode & _MODE
     )
     {

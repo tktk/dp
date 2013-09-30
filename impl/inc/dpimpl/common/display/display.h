@@ -10,11 +10,11 @@ namespace dp {
     {
         DisplayModeKeyUnique    modeKeyUnique;
 
-        ULong   width;
-        ULong   height;
+        Int width;
+        Int height;
 
-        Long    x;
-        Long    y;
+        Int x;
+        Int y;
 
         DisplayRotate   rotate;
     };

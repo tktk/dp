@@ -19,11 +19,11 @@ namespace dp {
         DisplayMode &
     );
 
-    DPEXPORT ULong getWidth(
+    DPEXPORT Int getWidth(
         const DisplayMode &
     );
 
-    DPEXPORT ULong getHeight(
+    DPEXPORT Int getHeight(
         const DisplayMode &
     );
 

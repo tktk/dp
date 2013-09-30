@@ -13,8 +13,8 @@
 namespace {
     dp::Display * newDisplay(
         const dp::DisplayModeKey &  _MODE_KEY
-        , dp::Long                  _x
-        , dp::Long                  _y
+        , dp::Int                   _x
+        , dp::Int                   _y
         , dp::DisplayRotate         _rotate
     )
     {
@@ -46,8 +46,8 @@ namespace {
 namespace dp {
     Display * newDisplay(
         const DisplayModeKey &  _MODE_KEY
-        , Long                  _x
-        , Long                  _y
+        , Int                   _x
+        , Int                   _y
         , DisplayRotate         _rotate
     )
     {
@@ -107,14 +107,14 @@ namespace dp {
         delete &_display;
     }
 
-    ULong getWidth(
+    Int getWidth(
         const Display & _DISPLAY
     )
     {
         return _DISPLAY.width;
     }
 
-    ULong getHeight(
+    Int getHeight(
         const Display & _DISPLAY
     )
     {
@@ -155,7 +155,7 @@ namespace dp {
         return true;
     }
 
-    Long getX(
+    Int getX(
         const Display & _DISPLAY
     )
     {
@@ -164,13 +164,13 @@ namespace dp {
 
     void setX(
         Display &   _display
-        , Long      _x
+        , Int       _x
     )
     {
         _display.x = _x;
     }
 
-    Long getY(
+    Int getY(
         const Display & _DISPLAY
     )
     {
@@ -179,7 +179,7 @@ namespace dp {
 
     void setY(
         Display &   _display
-        , Long      _y
+        , Int       _y
     )
     {
         _display.y = _y;

@@ -6,15 +6,15 @@
 
 namespace dp {
     Bool getWidthAndHeightFromModeKey(
-        ULong &
-        , ULong &
+        Int &
+        , Int &
         , const DisplayModeKey &
     );
 
     struct DisplayMode
     {
-        ULong   width;
-        ULong   height;
+        Int width;
+        Int height;
 
         Float   refreshRate;
     };

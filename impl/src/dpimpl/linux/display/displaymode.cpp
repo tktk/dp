@@ -81,8 +81,8 @@ namespace dp {
     }
 
     Bool getWidthAndHeightFromModeKey(
-        ULong &                     _width
-        , ULong &                   _height
+        Int &                       _width
+        , Int &                     _height
         , const DisplayModeKey &    _MODE_KEY
     )
     {
