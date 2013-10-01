@@ -2,6 +2,7 @@
 #define DP_WINDOW_WINDOW_H
 
 #include "dp/window/windowflags.h"
+#include "dp/window/key.h"
 #include "dp/common/memory.h"
 #include "dp/common/primitives.h"
 #include "dp/util/import.h"
@@ -58,6 +59,15 @@ namespace dp {
             , Int
         )
     > WindowPaintEventHandler;
+
+    typedef std::function<
+        void(
+            Window &
+            , Key
+            , const Utf32Char *
+            , Bool
+        )
+    > WindowKeyEventHandler;
 
     DPEXPORT Window * newWindow(
         const WindowInfo &
@@ -126,6 +136,10 @@ namespace dp {
     );
 
     DPEXPORT std::mutex & getMutexForPaintEventHandler(
+        Window &
+    );
+
+    DPEXPORT std::mutex & getMutexForKeyEventHandler(
         Window &
     );
 
@@ -221,6 +235,15 @@ namespace dp {
     DPEXPORT void setPaintEventHandler(
         WindowInfo &
         , const WindowPaintEventHandler &
+    );
+
+    DPEXPORT const WindowKeyEventHandler & getKeyEventHandler(
+        const WindowInfo &
+    );
+
+    DPEXPORT void setKeyEventHandler(
+        WindowInfo &
+        , const WindowKeyEventHandler &
     );
 
     typedef Unique< Window >::type WindowUnique;
