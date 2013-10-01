@@ -424,6 +424,199 @@ namespace {
         );
     }
 
+    dp::Key toKey(
+        KeySym  _keySym
+    )
+    {
+        // ASCIIコードの図形文字の範囲ならそのまま
+        if( _keySym >= XK_space && _keySym <= XK_asciitilde ) {
+            return static_cast< dp::Key >( _keySym );
+        }
+
+#define TO_KEY( _KEY, _KEYSYM ) \
+        case _KEYSYM:   \
+            return dp::Key::_KEY;   \
+            break;  \
+
+        switch( _keySym ) {
+        TO_KEY( KP_SPACE, XK_KP_Space )
+        TO_KEY( KP_EQUAL, XK_KP_Equal )
+        TO_KEY( KP_ASTERISK, XK_KP_Multiply )
+        TO_KEY( KP_PLUS, XK_KP_Add )
+        TO_KEY( KP_COMMA, XK_KP_Separator )
+        TO_KEY( KP_MINUS, XK_KP_Subtract )
+        TO_KEY( KP_PERIOD, XK_KP_Decimal )
+        TO_KEY( KP_SLASH, XK_KP_Divide )
+        TO_KEY( KP_0, XK_KP_0 )
+        TO_KEY( KP_1, XK_KP_1 )
+        TO_KEY( KP_2, XK_KP_2 )
+        TO_KEY( KP_3, XK_KP_3 )
+        TO_KEY( KP_4, XK_KP_4 )
+        TO_KEY( KP_5, XK_KP_5 )
+        TO_KEY( KP_6, XK_KP_6 )
+        TO_KEY( KP_7, XK_KP_7 )
+        TO_KEY( KP_8, XK_KP_8 )
+        TO_KEY( KP_9, XK_KP_9 )
+
+        TO_KEY( LEFT, XK_Left )
+        TO_KEY( UP, XK_Up )
+        TO_KEY( RIGHT, XK_Right )
+        TO_KEY( DOWN, XK_Down )
+        TO_KEY( PAGE_UP, XK_Page_Up )
+        TO_KEY( PAGE_DOWN, XK_Page_Down )
+        TO_KEY( HOME, XK_Home )
+        TO_KEY( END, XK_End )
+        TO_KEY( SHIFT_LEFT, XK_Shift_L )
+        TO_KEY( SHIFT_RIGHT, XK_Shift_R )
+        TO_KEY( CONTROL_LEFT, XK_Control_L )
+        TO_KEY( CONTROL_RIGHT, XK_Control_R )
+        TO_KEY( ALT_LEFT, XK_Alt_L )
+        TO_KEY( ALT_RIGHT, XK_Alt_R )
+        TO_KEY( SUPER_LEFT, XK_Super_L )
+        TO_KEY( SUPER_RIGHT, XK_Super_R )
+        TO_KEY( BACK_SPACE, XK_BackSpace )
+        TO_KEY( TAB, XK_Tab )
+        TO_KEY( ENTER, XK_Return )
+        TO_KEY( ESCAPE, XK_Escape )
+        TO_KEY( DELETE, XK_Delete )
+        TO_KEY( INSERT, XK_Insert )
+        TO_KEY( BREAK, XK_Break )
+        TO_KEY( CAPS_LOCK, XK_Caps_Lock )
+        TO_KEY( NUM_LOCK, XK_Num_Lock )
+        TO_KEY( SCROLL_LOCK, XK_Scroll_Lock )
+        TO_KEY( PRINT_SCREEN, XK_Print )
+        TO_KEY( PAUSE, XK_Pause )
+        TO_KEY( APPLICATION, XK_Menu )
+        TO_KEY( BEGIN, XK_Begin )
+        TO_KEY( EISU, XK_Eisu_toggle )
+        TO_KEY( MUHENKAN, XK_Muhenkan )
+        TO_KEY( HENKAN, XK_Henkan_Mode )
+        TO_KEY( HIRAGANA_KATAKANA, XK_Hiragana_Katakana )
+        TO_KEY( ZENKAKU_HANKAKU, XK_Zenkaku_Hankaku )
+
+        TO_KEY( KP_LEFT, XK_KP_Left )
+        TO_KEY( KP_UP, XK_KP_Up )
+        TO_KEY( KP_RIGHT, XK_KP_Right )
+        TO_KEY( KP_DOWN, XK_KP_Down )
+        TO_KEY( KP_PAGE_UP, XK_KP_Page_Up )
+        TO_KEY( KP_PAGE_DOWN, XK_KP_Page_Down )
+        TO_KEY( KP_HOME, XK_KP_Home )
+        TO_KEY( KP_END, XK_KP_End )
+        TO_KEY( KP_TAB, XK_KP_Tab )
+        TO_KEY( KP_ENTER, XK_KP_Enter )
+        TO_KEY( KP_DELETE, XK_KP_Delete )
+        TO_KEY( KP_INSERT, XK_KP_Insert )
+        TO_KEY( KP_BEGIN, XK_KP_Begin )
+
+        TO_KEY( F1, XK_F1 )
+        TO_KEY( F2, XK_F2 )
+        TO_KEY( F3, XK_F3 )
+        TO_KEY( F4, XK_F4 )
+        TO_KEY( F5, XK_F5 )
+        TO_KEY( F6, XK_F6 )
+        TO_KEY( F7, XK_F7 )
+        TO_KEY( F8, XK_F8 )
+        TO_KEY( F9, XK_F9 )
+        TO_KEY( F10, XK_F10 )
+        TO_KEY( F11, XK_F11 )
+        TO_KEY( F12, XK_F12 )
+        }
+#undef  TO_KEY
+
+        return dp::Key::INVALID;
+    }
+
+    dp::Key getKey(
+        const XKeyEvent &   _EVENT
+    )
+    {
+        auto &  event = const_cast< XKeyEvent & >( _EVENT );
+
+        const auto  KEY_SYM = XLookupKeysym(
+            &event
+            , 0
+        );
+
+        return toKey( KEY_SYM );
+    }
+
+    const dp::Utf32Char * getCharPtr(
+        const XKeyEvent &   _EVENT
+        , dp::Utf32Char &   _ch
+    )
+    {
+        auto &  event = const_cast< XKeyEvent & >( _EVENT );
+
+        dp::StringChar  stringChar;
+
+        auto    length = XLookupString(
+            &event
+            , &stringChar
+            , 1
+            , nullptr
+            , nullptr
+        );
+
+        if( length < 1 ) {
+            return nullptr;
+        } else if( stringChar < 0x20 || stringChar > 0x7e ) {
+            return nullptr;
+        }
+
+        _ch = stringChar;
+
+        return &_ch;
+    }
+
+    void key(
+        dp::Window &        _window
+        , const XKeyEvent & _EVENT
+        , dp::Bool          _pressed
+    )
+    {
+        const auto  KEY = getKey(
+            _EVENT
+        );
+
+        dp::Utf32Char   ch;
+
+        const auto  CH_PTR = getCharPtr(
+            _EVENT
+            , ch
+        );
+
+        dp::callKeyEventHandler(
+            _window
+            , KEY
+            , CH_PTR
+            , _pressed
+        );
+    }
+
+    void keyPress(
+        dp::Window &        _window
+        , const XKeyEvent & _EVENT
+    )
+    {
+        key(
+            _window
+            , _EVENT
+            , true
+        );
+    }
+
+    void keyRelease(
+        dp::Window &        _window
+        , const XKeyEvent & _EVENT
+    )
+    {
+        key(
+            _window
+            , _EVENT
+            , false
+        );
+    }
+
     void mainThreadProc(
         dp::Window &                _window
         , std::mutex &              _mutex
@@ -480,6 +673,20 @@ namespace {
                     , _size
                     , position
                     , event.xconfigure
+                );
+                break;
+
+            case KeyPress:
+                keyPress(
+                    _window
+                    , event.xkey
+                );
+                break;
+
+            case KeyRelease:
+                keyRelease(
+                    _window
+                    , event.xkey
                 );
                 break;
 
@@ -576,7 +783,9 @@ namespace {
 
         attributes.event_mask =
             ExposureMask |
-            StructureNotifyMask
+            StructureNotifyMask |
+            KeyPressMask |
+            KeyReleaseMask
         ;
 
         errno = 0;
