@@ -157,4 +157,19 @@ namespace dp {
     {
         _info.paintEventHandler = _EVENT_HANDLER;
     }
+
+    const WindowKeyEventHandler & getKeyEventHandler(
+        const WindowInfo &  _INFO
+    )
+    {
+        return _INFO.keyEventHandler;
+    }
+
+    void setKeyEventHandler(
+        WindowInfo &                    _info
+        , const WindowKeyEventHandler & _EVENT_HANDLER
+    )
+    {
+        _info.keyEventHandler = _EVENT_HANDLER;
+    }
 }

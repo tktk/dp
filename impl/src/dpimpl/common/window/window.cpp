@@ -222,6 +222,13 @@ namespace dp {
         return _window.mutexForPaintEventHandler;
     }
 
+    std::mutex & getMutexForKeyEventHandler(
+        Window &    _window
+    )
+    {
+        return _window.mutexForKeyEventHandler;
+    }
+
     void callCloseEventHandler(
         Window &    _window
     )

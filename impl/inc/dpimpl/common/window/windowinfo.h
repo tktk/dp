@@ -12,6 +12,7 @@ namespace dp {
         WindowBeginPaintEventHandler    beginPaintEventHandler;
         WindowEndPaintEventHandler      endPaintEventHandler;
         WindowPaintEventHandler         paintEventHandler;
+        WindowKeyEventHandler           keyEventHandler;
     };
 }
 
