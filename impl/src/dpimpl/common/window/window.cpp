@@ -3,6 +3,7 @@
 
 #include "dpimpl/common/window/window.h"
 #include "dpimpl/common/window/windowinfo.h"
+#include "dp/window/key.h"
 #include "dp/common/primitives.h"
 
 #include <new>
@@ -325,6 +326,26 @@ namespace dp {
                 , _y
                 , _width
                 , _height
+            );
+        }
+    }
+
+    void callKeyEventHandler(
+        Window &            _window
+        , Key               _key
+        , const Utf32Char * _char
+        , Bool              _pressed
+    )
+    {
+        std::unique_lock< decltype( _window.mutexForKeyEventHandler ) > lock( _window.mutexForKeyEventHandler );
+
+        const auto &    EVENT_HANDLER = _window.infoUnique->keyEventHandler;
+        if( EVENT_HANDLER != nullptr ) {
+            EVENT_HANDLER(
+                _window
+                , _key
+                , _char
+                , _pressed
             );
         }
     }

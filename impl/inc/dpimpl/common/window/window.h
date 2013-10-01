@@ -11,6 +11,7 @@
 
 #include "dp/window/window.h"
 #include "dp/window/windowflags.h"
+#include "dp/window/key.h"
 #include "dp/common/memory.h"
 #include "dp/common/primitives.h"
 
@@ -47,6 +48,13 @@ namespace dp {
         , Int
         , Int
         , Int
+    );
+
+    void callKeyEventHandler(
+        Window &
+        , Key
+        , const Utf32Char *
+        , Bool
     );
 
     struct WindowImpl;
