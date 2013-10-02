@@ -69,6 +69,23 @@ namespace dp {
         )
     > WindowKeyEventHandler;
 
+    typedef std::function<
+        void(
+            Window &
+            , ULong
+            , Bool
+        )
+    > WindowMouseButtonEventHandler;
+
+    typedef std::function<
+        void(
+            Window &
+            , ULong
+            , Int
+            , Int
+        )
+    > WindowMouseMotionEventHandler;
+
     DPEXPORT Window * newWindow(
         const WindowInfo &
         , const Utf32 &
@@ -140,6 +157,14 @@ namespace dp {
     );
 
     DPEXPORT std::mutex & getMutexForKeyEventHandler(
+        Window &
+    );
+
+    DPEXPORT std::mutex & getMutexForMouseButtonEventHandler(
+        Window &
+    );
+
+    DPEXPORT std::mutex & getMutexForMouseMotionEventHandler(
         Window &
     );
 
@@ -244,6 +269,24 @@ namespace dp {
     DPEXPORT void setKeyEventHandler(
         WindowInfo &
         , const WindowKeyEventHandler &
+    );
+
+    DPEXPORT const WindowMouseButtonEventHandler & getMouseButtonEventHandler(
+        const WindowInfo &
+    );
+
+    DPEXPORT void setMouseButtonEventHandler(
+        WindowInfo &
+        , const WindowMouseButtonEventHandler &
+    );
+
+    DPEXPORT const WindowMouseMotionEventHandler & getMouseMotionEventHandler(
+        const WindowInfo &
+    );
+
+    DPEXPORT void setMouseMotionEventHandler(
+        WindowInfo &
+        , const WindowMouseMotionEventHandler &
     );
 
     typedef Unique< Window >::type WindowUnique;
