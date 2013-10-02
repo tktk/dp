@@ -230,6 +230,20 @@ namespace dp {
         return _window.mutexForKeyEventHandler;
     }
 
+    std::mutex & getMutexForMouseButtonEventHandler(
+        Window &    _window
+    )
+    {
+        return _window.mutexForMouseButtonEventHandler;
+    }
+
+    std::mutex & getMutexForMouseMotionEventHandler(
+        Window &    _window
+    )
+    {
+        return _window.mutexForMouseMotionEventHandler;
+    }
+
     void callCloseEventHandler(
         Window &    _window
     )

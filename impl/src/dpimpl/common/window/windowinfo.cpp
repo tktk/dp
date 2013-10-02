@@ -14,6 +14,8 @@ namespace {
         , const dp::WindowEndPaintEventHandler &    _END_PAINT_EVENT_HANDLER
         , const dp::WindowPaintEventHandler &       _PAINT_EVENT_HANDLER
         , const dp::WindowKeyEventHandler &         _KEY_EVENT_HANDLER
+        , const dp::WindowMouseButtonEventHandler & _MOUSE_BUTTON_EVENT_HANDLER
+        , const dp::WindowMouseMotionEventHandler & _MOUSE_MOTION_EVENT_HANDLER
     )
     {
         dp::WindowInfoUnique    infoUnique( new( std::nothrow )dp::WindowInfo );
@@ -30,6 +32,8 @@ namespace {
         info.endPaintEventHandler = _END_PAINT_EVENT_HANDLER;
         info.paintEventHandler = _PAINT_EVENT_HANDLER;
         info.keyEventHandler = _KEY_EVENT_HANDLER;
+        info.mouseButtonEventHandler = _MOUSE_BUTTON_EVENT_HANDLER;
+        info.mouseMotionEventHandler = _MOUSE_MOTION_EVENT_HANDLER;
 
         return infoUnique.release();
     }
@@ -41,6 +45,8 @@ namespace dp {
     {
         return ::newWindowInfo(
             nullptr
+            , nullptr
+            , nullptr
             , nullptr
             , nullptr
             , nullptr
@@ -62,6 +68,8 @@ namespace dp {
             , _OTHER.endPaintEventHandler
             , _OTHER.paintEventHandler
             , _OTHER.keyEventHandler
+            , _OTHER.mouseButtonEventHandler
+            , _OTHER.mouseMotionEventHandler
         );
     }
 
@@ -175,5 +183,35 @@ namespace dp {
     )
     {
         _info.keyEventHandler = _EVENT_HANDLER;
+    }
+
+    const WindowMouseButtonEventHandler & getMouseButtonEventHandler(
+        const WindowInfo &  _INFO
+    )
+    {
+        return _INFO.mouseButtonEventHandler;
+    }
+
+    void setMouseButtonEventHandler(
+        WindowInfo &                            _info
+        , const WindowMouseButtonEventHandler & _EVENT_HANDLER
+    )
+    {
+        _info.mouseButtonEventHandler = _EVENT_HANDLER;
+    }
+
+    const WindowMouseMotionEventHandler & getMouseMotionEventHandler(
+        const WindowInfo &  _INFO
+    )
+    {
+        return _INFO.mouseMotionEventHandler;
+    }
+
+    void setMouseMotionEventHandler(
+        WindowInfo &                            _info
+        , const WindowMouseMotionEventHandler & _EVENT_HANDLER
+    )
+    {
+        _info.mouseMotionEventHandler = _EVENT_HANDLER;
     }
 }

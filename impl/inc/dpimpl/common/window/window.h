@@ -93,6 +93,8 @@ namespace dp {
         std::mutex          mutexForEndPaintEventHandler;
         std::mutex          mutexForPaintEventHandler;
         std::mutex          mutexForKeyEventHandler;
+        std::mutex          mutexForMouseButtonEventHandler;
+        std::mutex          mutexForMouseMotionEventHandler;
 
         WindowImplUnique    implUnique;
     };

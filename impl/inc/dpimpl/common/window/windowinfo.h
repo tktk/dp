@@ -13,6 +13,8 @@ namespace dp {
         WindowEndPaintEventHandler      endPaintEventHandler;
         WindowPaintEventHandler         paintEventHandler;
         WindowKeyEventHandler           keyEventHandler;
+        WindowMouseButtonEventHandler   mouseButtonEventHandler;
+        WindowMouseMotionEventHandler   mouseMotionEventHandler;
     };
 }
 
