@@ -364,6 +364,44 @@ namespace dp {
         }
     }
 
+    void callMouseButtonEventHandler(
+        Window &    _window
+        , ULong     _index
+        , Bool      _pressed
+    )
+    {
+        std::unique_lock< decltype( _window.mutexForMouseButtonEventHandler ) > lock( _window.mutexForMouseButtonEventHandler );
+
+        const auto &    EVENT_HANDLER = _window.infoUnique->mouseButtonEventHandler;
+        if( EVENT_HANDLER != nullptr ) {
+            EVENT_HANDLER(
+                _window
+                , _index
+                , _pressed
+            );
+        }
+    }
+
+    void callMouseMotionEventHandler(
+        Window &    _window
+        , ULong     _index
+        , Int       _x
+        , Int       _y
+    )
+    {
+        std::unique_lock< decltype( _window.mutexForMouseMotionEventHandler ) > lock( _window.mutexForMouseMotionEventHandler );
+
+        const auto &    EVENT_HANDLER = _window.infoUnique->mouseMotionEventHandler;
+        if( EVENT_HANDLER != nullptr ) {
+            EVENT_HANDLER(
+                _window
+                , _index
+                , _x
+                , _y
+            );
+        }
+    }
+
     void free(
         WindowImpl &    _impl
     )

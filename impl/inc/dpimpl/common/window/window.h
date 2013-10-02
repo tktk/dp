@@ -57,6 +57,19 @@ namespace dp {
         , Bool
     );
 
+    void callMouseButtonEventHandler(
+        Window &
+        , ULong
+        , Bool
+    );
+
+    void callMouseMotionEventHandler(
+        Window &
+        , ULong
+        , Int
+        , Int
+    );
+
     struct WindowImpl;
 
     Bool initializeWindowImpl(
