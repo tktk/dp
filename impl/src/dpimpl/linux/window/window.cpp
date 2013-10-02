@@ -617,6 +617,45 @@ namespace {
         );
     }
 
+    void button(
+        dp::Window &            _window
+        , const XButtonEvent &  _EVENT
+        , dp::Bool              _pressed
+    )
+    {
+        const auto  INDEX = _EVENT.button - 1;
+
+        dp::callMouseButtonEventHandler(
+            _window
+            , INDEX
+            , _pressed
+        );
+    }
+
+    void buttonPress(
+        dp::Window &            _window
+        , const XButtonEvent &  _EVENT
+    )
+    {
+        button(
+            _window
+            , _EVENT
+            , true
+        );
+    }
+
+    void buttonRelease(
+        dp::Window &            _window
+        , const XButtonEvent &  _EVENT
+    )
+    {
+        button(
+            _window
+            , _EVENT
+            , false
+        );
+    }
+
     void mainThreadProc(
         dp::Window &                _window
         , std::mutex &              _mutex
@@ -690,7 +729,19 @@ namespace {
                 );
                 break;
 
-            //TODO
+            case ButtonPress:
+                buttonPress(
+                    _window
+                    , event.xbutton
+                );
+                break;
+
+            case ButtonRelease:
+                buttonRelease(
+                    _window
+                    , event.xbutton
+                );
+                break;
 
             default:
                 // ここに到達することはない
@@ -785,7 +836,9 @@ namespace {
             ExposureMask |
             StructureNotifyMask |
             KeyPressMask |
-            KeyReleaseMask
+            KeyReleaseMask |
+            ButtonPressMask |
+            ButtonReleaseMask
         ;
 
         errno = 0;
