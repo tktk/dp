@@ -384,7 +384,6 @@ namespace dp {
 
     void callMouseMotionEventHandler(
         Window &    _window
-        , ULong     _index
         , Int       _x
         , Int       _y
     )
@@ -395,7 +394,6 @@ namespace dp {
         if( EVENT_HANDLER != nullptr ) {
             EVENT_HANDLER(
                 _window
-                , _index
                 , _x
                 , _y
             );

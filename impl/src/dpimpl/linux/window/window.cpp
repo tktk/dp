@@ -656,6 +656,18 @@ namespace {
         );
     }
 
+    void motionNotify(
+        dp::Window &            _window
+        , const XMotionEvent &  _EVENT
+    )
+    {
+        dp::callMouseMotionEventHandler(
+            _window
+            , _EVENT.x
+            , _EVENT.y
+        );
+    }
+
     void mainThreadProc(
         dp::Window &                _window
         , std::mutex &              _mutex
@@ -740,6 +752,13 @@ namespace {
                 buttonRelease(
                     _window
                     , event.xbutton
+                );
+                break;
+
+            case MotionNotify:
+                motionNotify(
+                    _window
+                    , event.xmotion
                 );
                 break;
 
@@ -838,7 +857,8 @@ namespace {
             KeyPressMask |
             KeyReleaseMask |
             ButtonPressMask |
-            ButtonReleaseMask
+            ButtonReleaseMask |
+            PointerMotionMask
         ;
 
         errno = 0;

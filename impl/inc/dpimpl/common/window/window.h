@@ -65,7 +65,6 @@ namespace dp {
 
     void callMouseMotionEventHandler(
         Window &
-        , ULong
         , Int
         , Int
     );

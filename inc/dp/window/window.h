@@ -80,7 +80,6 @@ namespace dp {
     typedef std::function<
         void(
             Window &
-            , ULong
             , Int
             , Int
         )
