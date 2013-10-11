@@ -844,8 +844,12 @@ namespace dp {
         GL_UNIFORM_BLOCK_ACTIVE_UNIFORM_INDICES = 0x8A43,
         GL_UNIFORM_BLOCK_REFERENCED_BY_VERTEX_SHADER = 0x8A44,
         GL_UNIFORM_BLOCK_REFERENCED_BY_FRAGMENT_SHADER = 0x8A46,
+    };
+    enum {
         GL_INVALID_INDEX = 0xFFFFFFFFu,
+    };
 
+    enum {
         // GL_VERSION_3_2
         GL_CONTEXT_CORE_PROFILE_BIT = 0x00000001,
         GL_CONTEXT_COMPATIBILITY_PROFILE_BIT = 0x00000002,
@@ -888,7 +892,11 @@ namespace dp {
         GL_TIMEOUT_EXPIRED = 0x911B,
         GL_CONDITION_SATISFIED = 0x911C,
         GL_WAIT_FAILED = 0x911D,
+    };
+    enum {
         GL_TIMEOUT_IGNORED = 0xFFFFFFFFFFFFFFFFull,
+    };
+    enum {
         GL_SYNC_FLUSH_COMMANDS_BIT = 0x00000001,
         GL_SAMPLE_POSITION = 0x8E50,
         GL_SAMPLE_MASK = 0x8E51,
@@ -4483,12 +4491,16 @@ namespace dp {
         GL_TRANSFORM_FEEDBACK_BUFFER_NV = 0x8C8E,
         GL_TRANSFORM_FEEDBACK_BUFFER_BINDING_NV = 0x8C8F,
         GL_LAYER_NV = 0x8DAA,
+    };
+    enum {
         GL_NEXT_BUFFER_NV = -2,
         GL_SKIP_COMPONENTS4_NV = -3,
         GL_SKIP_COMPONENTS3_NV = -4,
         GL_SKIP_COMPONENTS2_NV = -5,
         GL_SKIP_COMPONENTS1_NV = -6,
+    };
 
+    enum {
         // GL_NV_transform_feedback2
         GL_TRANSFORM_FEEDBACK_NV = 0x8E22,
         GL_TRANSFORM_FEEDBACK_BUFFER_PAUSED_NV = 0x8E23,
