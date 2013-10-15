@@ -14,8 +14,6 @@
 #include "dp/common/memory.h"
 #include "dp/common/primitives.h"
 
-#include <mutex>
-
 namespace dp {
     void callConnectEventHandler(
         DisplayManager &
@@ -38,8 +36,6 @@ namespace dp {
     struct DisplayManager
     {
         DisplayManagerInfoUnique    infoUnique;
-        std::mutex                  mutexForConnectEventHandler;
-
         DisplayManagerImplUnique    implUnique;
     };
 }

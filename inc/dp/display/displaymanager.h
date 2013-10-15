@@ -6,7 +6,6 @@
 #include "dp/display/displaykey.h"
 #include "dp/util/import.h"
 
-#include <mutex>
 #include <functional>
 #include <memory>
 
@@ -28,18 +27,6 @@ namespace dp {
     );
 
     DPEXPORT void free(
-        DisplayManager &
-    );
-
-    DPEXPORT const DisplayManagerInfo & getInfo(
-        const DisplayManager &
-    );
-
-    DPEXPORT DisplayManagerInfo & getInfoMutable(
-        DisplayManager &
-    );
-
-    DPEXPORT std::mutex & getMutexForConnectEventHandler(
         DisplayManager &
     );
 
