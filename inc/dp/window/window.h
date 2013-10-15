@@ -7,7 +7,6 @@
 #include "dp/common/primitives.h"
 #include "dp/util/import.h"
 
-#include <mutex>
 #include <functional>
 #include <memory>
 
@@ -120,50 +119,6 @@ namespace dp {
     );
 
     DPEXPORT void free(
-        Window &
-    );
-
-    DPEXPORT const WindowInfo & getInfo(
-        const Window &
-    );
-
-    DPEXPORT WindowInfo & getInfoMutable(
-        Window &
-    );
-
-    DPEXPORT std::mutex & getMutexForCloseEventHandler(
-        Window &
-    );
-
-    DPEXPORT std::mutex & getMutexForPositionEventHandler(
-        Window &
-    );
-
-    DPEXPORT std::mutex & getMutexForSizeEventHandler(
-        Window &
-    );
-
-    DPEXPORT std::mutex & getMutexForBeginPaintEventHandler(
-        Window &
-    );
-
-    DPEXPORT std::mutex & getMutexForEndPaintEventHandler(
-        Window &
-    );
-
-    DPEXPORT std::mutex & getMutexForPaintEventHandler(
-        Window &
-    );
-
-    DPEXPORT std::mutex & getMutexForKeyEventHandler(
-        Window &
-    );
-
-    DPEXPORT std::mutex & getMutexForMouseButtonEventHandler(
-        Window &
-    );
-
-    DPEXPORT std::mutex & getMutexForMouseMotionEventHandler(
         Window &
     );
 

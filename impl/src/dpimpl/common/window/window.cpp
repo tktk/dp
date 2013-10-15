@@ -7,7 +7,6 @@
 #include "dp/common/primitives.h"
 
 #include <new>
-#include <mutex>
 #include <functional>
 
 namespace {
@@ -167,89 +166,10 @@ namespace dp {
         delete &_window;
     }
 
-    const WindowInfo & getInfo(
-        const Window &  _WINDOW
-    )
-    {
-        return *( _WINDOW.infoUnique );
-    }
-
-    WindowInfo & getInfoMutable(
-        Window &    _window
-    )
-    {
-        return *( _window.infoUnique );
-    }
-
-    std::mutex & getMutexForCloseEventHandler(
-        Window &    _window
-    )
-    {
-        return _window.mutexForCloseEventHandler;
-    }
-
-    std::mutex & getMutexForPositionEventHandler(
-        Window &    _window
-    )
-    {
-        return _window.mutexForPositionEventHandler;
-    }
-
-    std::mutex & getMutexForSizeEventHandler(
-        Window &    _window
-    )
-    {
-        return _window.mutexForSizeEventHandler;
-    }
-
-    std::mutex & getMutexForBeginPaintEventHandler(
-        Window &    _window
-    )
-    {
-        return _window.mutexForBeginPaintEventHandler;
-    }
-
-    std::mutex & getMutexForEndPaintEventHandler(
-        Window &    _window
-    )
-    {
-        return _window.mutexForEndPaintEventHandler;
-    }
-
-    std::mutex & getMutexForPaintEventHandler(
-        Window &    _window
-    )
-    {
-        return _window.mutexForPaintEventHandler;
-    }
-
-    std::mutex & getMutexForKeyEventHandler(
-        Window &    _window
-    )
-    {
-        return _window.mutexForKeyEventHandler;
-    }
-
-    std::mutex & getMutexForMouseButtonEventHandler(
-        Window &    _window
-    )
-    {
-        return _window.mutexForMouseButtonEventHandler;
-    }
-
-    std::mutex & getMutexForMouseMotionEventHandler(
-        Window &    _window
-    )
-    {
-        return _window.mutexForMouseMotionEventHandler;
-    }
-
     void callCloseEventHandler(
         Window &    _window
     )
     {
-        std::unique_lock< decltype( _window.mutexForCloseEventHandler ) >   lock( _window.mutexForCloseEventHandler );
-
         const auto &    EVENT_HANDLER = _window.infoUnique->closeEventHandler;
         if( EVENT_HANDLER != nullptr ) {
             EVENT_HANDLER(
@@ -264,8 +184,6 @@ namespace dp {
         , Int       _y
     )
     {
-        std::unique_lock< decltype( _window.mutexForPositionEventHandler ) >    lock( _window.mutexForPositionEventHandler );
-
         const auto &    EVENT_HANDLER = _window.infoUnique->positionEventHandler;
         if( EVENT_HANDLER != nullptr ) {
             EVENT_HANDLER(
@@ -282,8 +200,6 @@ namespace dp {
         , Int       _height
     )
     {
-        std::unique_lock< decltype( _window.mutexForSizeEventHandler ) >    lock( _window.mutexForSizeEventHandler );
-
         const auto &    EVENT_HANDLER = _window.infoUnique->sizeEventHandler;
         if( EVENT_HANDLER != nullptr ) {
             EVENT_HANDLER(
@@ -298,8 +214,6 @@ namespace dp {
         Window &    _window
     )
     {
-        std::unique_lock< decltype( _window.mutexForBeginPaintEventHandler ) >  lock( _window.mutexForBeginPaintEventHandler );
-
         const auto &    EVENT_HANDLER = _window.infoUnique->beginPaintEventHandler;
         if( EVENT_HANDLER != nullptr ) {
             EVENT_HANDLER(
@@ -312,8 +226,6 @@ namespace dp {
         Window &    _window
     )
     {
-        std::unique_lock< decltype( _window.mutexForEndPaintEventHandler ) >    lock( _window.mutexForEndPaintEventHandler );
-
         const auto &    EVENT_HANDLER = _window.infoUnique->endPaintEventHandler;
         if( EVENT_HANDLER != nullptr ) {
             EVENT_HANDLER(
@@ -330,8 +242,6 @@ namespace dp {
         , Int       _height
     )
     {
-        std::unique_lock< decltype( _window.mutexForPaintEventHandler ) >   lock( _window.mutexForPaintEventHandler );
-
         const auto &    EVENT_HANDLER = _window.infoUnique->paintEventHandler;
         if( EVENT_HANDLER != nullptr ) {
             EVENT_HANDLER(
@@ -351,8 +261,6 @@ namespace dp {
         , Bool              _pressed
     )
     {
-        std::unique_lock< decltype( _window.mutexForKeyEventHandler ) > lock( _window.mutexForKeyEventHandler );
-
         const auto &    EVENT_HANDLER = _window.infoUnique->keyEventHandler;
         if( EVENT_HANDLER != nullptr ) {
             EVENT_HANDLER(
@@ -370,8 +278,6 @@ namespace dp {
         , Bool      _pressed
     )
     {
-        std::unique_lock< decltype( _window.mutexForMouseButtonEventHandler ) > lock( _window.mutexForMouseButtonEventHandler );
-
         const auto &    EVENT_HANDLER = _window.infoUnique->mouseButtonEventHandler;
         if( EVENT_HANDLER != nullptr ) {
             EVENT_HANDLER(
@@ -388,8 +294,6 @@ namespace dp {
         , Int       _y
     )
     {
-        std::unique_lock< decltype( _window.mutexForMouseMotionEventHandler ) > lock( _window.mutexForMouseMotionEventHandler );
-
         const auto &    EVENT_HANDLER = _window.infoUnique->mouseMotionEventHandler;
         if( EVENT_HANDLER != nullptr ) {
             EVENT_HANDLER(

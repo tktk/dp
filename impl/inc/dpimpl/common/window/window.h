@@ -15,8 +15,6 @@
 #include "dp/common/memory.h"
 #include "dp/common/primitives.h"
 
-#include <mutex>
-
 namespace dp {
     void callCloseEventHandler(
         Window &
@@ -98,16 +96,6 @@ namespace dp {
     struct Window
     {
         WindowInfoUnique    infoUnique;
-        std::mutex          mutexForCloseEventHandler;
-        std::mutex          mutexForPositionEventHandler;
-        std::mutex          mutexForSizeEventHandler;
-        std::mutex          mutexForBeginPaintEventHandler;
-        std::mutex          mutexForEndPaintEventHandler;
-        std::mutex          mutexForPaintEventHandler;
-        std::mutex          mutexForKeyEventHandler;
-        std::mutex          mutexForMouseButtonEventHandler;
-        std::mutex          mutexForMouseMotionEventHandler;
-
         WindowImplUnique    implUnique;
     };
 }
