@@ -90,6 +90,10 @@ namespace {
         dp::AudioPlayer &   _audioPlayer
     )
     {
+        dp::callStartEventHandler(
+            _audioPlayer
+        );
+
         auto &  impl = *( _audioPlayer.implUnique );
 
         auto &  paStream = *( impl.paStreamUnique );
@@ -107,7 +111,6 @@ namespace {
             ) == false ) {
                 break;
             }
-            bufferSize = 1000000;
 
             if( buffer.size() < bufferSize ) {
                 buffer.resize( bufferSize );

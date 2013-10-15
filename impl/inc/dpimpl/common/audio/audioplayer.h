@@ -17,14 +17,18 @@
 #include <mutex>
 
 namespace dp {
-    ULong callPlayEventHandler(
+    void callStartEventHandler(
         AudioPlayer &
-        , void *
-        , ULong
     );
 
     void callEndEventHandler(
         AudioPlayer &
+    );
+
+    ULong callPlayEventHandler(
+        AudioPlayer &
+        , void *
+        , ULong
     );
 
     struct AudioPlayerImpl;
@@ -46,8 +50,9 @@ namespace dp {
     struct AudioPlayer
     {
         AudioPlayerInfoUnique   infoUnique;
-        std::mutex              mutexForPlayEventHandler;
+        std::mutex              mutexForStartEventHandler;
         std::mutex              mutexForEndEventHandler;
+        std::mutex              mutexForPlayEventHandler;
 
         AudioPlayerImplUnique   implUnique;
     };

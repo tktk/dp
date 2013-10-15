@@ -75,11 +75,11 @@ namespace dp {
         return *( _audioPlayer.infoUnique );
     }
 
-    std::mutex & getMutexForPlayEventHandler(
+    std::mutex & getMutexForStartEventHandler(
         AudioPlayer &   _audioPlayer
     )
     {
-        return _audioPlayer.mutexForPlayEventHandler;
+        return _audioPlayer.mutexForStartEventHandler;
     }
 
     std::mutex & getMutexForEndEventHandler(
@@ -87,6 +87,41 @@ namespace dp {
     )
     {
         return _audioPlayer.mutexForEndEventHandler;
+    }
+
+    std::mutex & getMutexForPlayEventHandler(
+        AudioPlayer &   _audioPlayer
+    )
+    {
+        return _audioPlayer.mutexForPlayEventHandler;
+    }
+
+    void callStartEventHandler(
+        AudioPlayer &   _audioPlayer
+    )
+    {
+        std::unique_lock< decltype( _audioPlayer.mutexForStartEventHandler ) >  lock( _audioPlayer.mutexForStartEventHandler );
+
+        const auto &    EVENT_HANDLER = _audioPlayer.infoUnique->startEventHandler;
+        if( EVENT_HANDLER != nullptr ) {
+            EVENT_HANDLER(
+                _audioPlayer
+            );
+        }
+    }
+
+    void callEndEventHandler(
+        AudioPlayer &   _audioPlayer
+    )
+    {
+        std::unique_lock< decltype( _audioPlayer.mutexForEndEventHandler ) >    lock( _audioPlayer.mutexForEndEventHandler );
+
+        const auto &    EVENT_HANDLER = _audioPlayer.infoUnique->endEventHandler;
+        if( EVENT_HANDLER != nullptr ) {
+            EVENT_HANDLER(
+                _audioPlayer
+            );
+        }
     }
 
     ULong callPlayEventHandler(
@@ -106,20 +141,6 @@ namespace dp {
             );
         } else {
             return 0;
-        }
-    }
-
-    void callEndEventHandler(
-        AudioPlayer &   _audioPlayer
-    )
-    {
-        std::unique_lock< decltype( _audioPlayer.mutexForEndEventHandler ) >    lock( _audioPlayer.mutexForEndEventHandler );
-
-        const auto &    EVENT_HANDLER = _audioPlayer.infoUnique->endEventHandler;
-        if( EVENT_HANDLER != nullptr ) {
-            EVENT_HANDLER(
-                _audioPlayer
-            );
         }
     }
 

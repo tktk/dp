@@ -17,18 +17,24 @@ namespace dp {
     struct AudioPlayerInfo;
 
     typedef std::function<
-        ULong(
+        void(
             AudioPlayer &
-            , void *
-            , ULong
         )
-    > AudioPlayerPlayEventHandler;
+    > AudioPlayerStartEventHandler;
 
     typedef std::function<
         void(
             AudioPlayer &
         )
     > AudioPlayerEndEventHandler;
+
+    typedef std::function<
+        ULong(
+            AudioPlayer &
+            , void *
+            , ULong
+        )
+    > AudioPlayerPlayEventHandler;
 
     DPEXPORT AudioPlayer * newAudioPlayer(
         const SpeakerKey &
@@ -50,11 +56,15 @@ namespace dp {
         AudioPlayer &
     );
 
-    DPEXPORT std::mutex & getMutexForPlayEventHandler(
+    DPEXPORT std::mutex & getMutexForStartEventHandler(
         AudioPlayer &
     );
 
     DPEXPORT std::mutex & getMutexForEndEventHandler(
+        AudioPlayer &
+    );
+
+    DPEXPORT std::mutex & getMutexForPlayEventHandler(
         AudioPlayer &
     );
 
@@ -74,13 +84,13 @@ namespace dp {
         AudioPlayerInfo &
     );
 
-    DPEXPORT const AudioPlayerPlayEventHandler & getPlayEventHandler(
+    DPEXPORT const AudioPlayerStartEventHandler & getStartEventHandler(
         const AudioPlayerInfo &
     );
 
-    DPEXPORT void setPlayEventHandler(
+    DPEXPORT void setStartEventHandler(
         AudioPlayerInfo &
-        , const AudioPlayerPlayEventHandler &
+        , const AudioPlayerStartEventHandler &
     );
 
     DPEXPORT const AudioPlayerEndEventHandler & getEndEventHandler(
@@ -90,6 +100,15 @@ namespace dp {
     DPEXPORT void setEndEventHandler(
         AudioPlayerInfo &
         , const AudioPlayerEndEventHandler &
+    );
+
+    DPEXPORT const AudioPlayerPlayEventHandler & getPlayEventHandler(
+        const AudioPlayerInfo &
+    );
+
+    DPEXPORT void setPlayEventHandler(
+        AudioPlayerInfo &
+        , const AudioPlayerPlayEventHandler &
     );
 
     typedef Unique< AudioPlayer >::type AudioPlayerUnique;

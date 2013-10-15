@@ -7,8 +7,9 @@
 
 namespace {
     dp::AudioPlayerInfo * newAudioPlayerInfo(
-        const dp::AudioPlayerPlayEventHandler &     _PLAY_EVENT_HANDLER
+        const dp::AudioPlayerStartEventHandler &    _START_EVENT_HANDLER
         , const dp::AudioPlayerEndEventHandler &    _END_EVENT_HANDLER
+        , const dp::AudioPlayerPlayEventHandler &   _PLAY_EVENT_HANDLER
     )
     {
         dp::AudioPlayerInfoUnique   infoUnique( new( std::nothrow )dp::AudioPlayerInfo );
@@ -18,8 +19,9 @@ namespace {
 
         auto &  info = *infoUnique;
 
-        info.playEventHandler = _PLAY_EVENT_HANDLER;
+        info.startEventHandler = _START_EVENT_HANDLER;
         info.endEventHandler = _END_EVENT_HANDLER;
+        info.playEventHandler = _PLAY_EVENT_HANDLER;
 
         return infoUnique.release();
     }
@@ -32,6 +34,7 @@ namespace dp {
         return ::newAudioPlayerInfo(
             nullptr
             , nullptr
+            , nullptr
         );
     }
 
@@ -40,8 +43,9 @@ namespace dp {
     )
     {
         return ::newAudioPlayerInfo(
-            _OTHER.playEventHandler
+            _OTHER.startEventHandler
             , _OTHER.endEventHandler
+            , _OTHER.playEventHandler
         );
     }
 
@@ -52,19 +56,19 @@ namespace dp {
         delete &_info;
     }
 
-    const AudioPlayerPlayEventHandler & getPlayEventHandler(
+    const AudioPlayerStartEventHandler & getStartEventHandler(
         const AudioPlayerInfo & _INFO
     )
     {
-        return _INFO.playEventHandler;
+        return _INFO.startEventHandler;
     }
 
-    void setPlayEventHandler(
+    void setStartEventHandler(
         AudioPlayerInfo &                       _info
-        , const AudioPlayerPlayEventHandler &   _EVENT_HANDLER
+        , const AudioPlayerStartEventHandler &  _EVENT_HANDLER
     )
     {
-        _info.playEventHandler = _EVENT_HANDLER;
+        _info.startEventHandler = _EVENT_HANDLER;
     }
 
     const AudioPlayerEndEventHandler & getEndEventHandler(
@@ -80,5 +84,20 @@ namespace dp {
     )
     {
         _info.endEventHandler = _EVENT_HANDLER;
+    }
+
+    const AudioPlayerPlayEventHandler & getPlayEventHandler(
+        const AudioPlayerInfo & _INFO
+    )
+    {
+        return _INFO.playEventHandler;
+    }
+
+    void setPlayEventHandler(
+        AudioPlayerInfo &                       _info
+        , const AudioPlayerPlayEventHandler &   _EVENT_HANDLER
+    )
+    {
+        _info.playEventHandler = _EVENT_HANDLER;
     }
 }

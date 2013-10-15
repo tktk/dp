@@ -333,7 +333,7 @@ namespace dp {
             paStream
             , name.c_str()
             , nullptr
-            , PA_STREAM_NOFLAGS
+            , PA_STREAM_START_CORKED
             , nullptr
             , nullptr
         ) != 0 ) {

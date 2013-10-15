@@ -6,8 +6,9 @@
 namespace dp {
     struct AudioPlayerInfo
     {
-        AudioPlayerPlayEventHandler playEventHandler;
-        AudioPlayerEndEventHandler  endEventHandler;
+        AudioPlayerStartEventHandler    startEventHandler;
+        AudioPlayerEndEventHandler      endEventHandler;
+        AudioPlayerPlayEventHandler     playEventHandler;
     };
 }
 
