@@ -6,7 +6,6 @@
 #include "dp/common/primitives.h"
 #include "dp/util/import.h"
 
-#include <mutex>
 #include <functional>
 #include <memory>
 
@@ -53,22 +52,6 @@ namespace dp {
     DPEXPORT Bool getAxes(
         const GamePad &
         , ULong &
-    );
-
-    DPEXPORT const GamePadInfo & getInfo(
-        const GamePad &
-    );
-
-    DPEXPORT GamePadInfo & getInfoMutable(
-        GamePad &
-    );
-
-    DPEXPORT std::mutex & getMutexForButtonEventHandler(
-        GamePad &
-    );
-
-    DPEXPORT std::mutex & getMutexForAxisEventHandler(
-        GamePad &
     );
 
     DPEXPORT GamePadInfo * newGamePadInfo(

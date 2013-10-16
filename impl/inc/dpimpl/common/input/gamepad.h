@@ -14,8 +14,6 @@
 #include "dp/common/memory.h"
 #include "dp/common/primitives.h"
 
-#include <mutex>
-
 namespace dp {
     void callButtonEventHandler(
         GamePad &
@@ -45,9 +43,6 @@ namespace dp {
     struct GamePad
     {
         GamePadInfoUnique   infoUnique;
-        std::mutex          mutexForButtonEventHandler;
-        std::mutex          mutexForAxisEventHandler;
-
         GamePadImplUnique   implUnique;
     };
 }

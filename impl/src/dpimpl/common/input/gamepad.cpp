@@ -54,42 +54,12 @@ namespace dp {
         delete &_gamePad;
     }
 
-    const GamePadInfo & getInfo(
-        const GamePad & _GAME_PAD
-    )
-    {
-        return *( _GAME_PAD.infoUnique );
-    }
-
-    GamePadInfo & getInfoMutable(
-        GamePad &   _gamePad
-    )
-    {
-        return *( _gamePad.infoUnique );
-    }
-
-    std::mutex & getMutexForButtonEventHandler(
-        GamePad &   _gamePad
-    )
-    {
-        return _gamePad.mutexForButtonEventHandler;
-    }
-
-    std::mutex & getMutexForAxisEventHandler(
-        GamePad &   _gamePad
-    )
-    {
-        return _gamePad.mutexForAxisEventHandler;
-    }
-
     void callButtonEventHandler(
         GamePad &   _gamePad
         , ULong     _index
         , Bool      _pressed
     )
     {
-        std::unique_lock< decltype( _gamePad.mutexForButtonEventHandler ) > lock( _gamePad.mutexForButtonEventHandler );
-
         const auto &    EVENT_HANDLER = _gamePad.infoUnique->buttonEventHandler;
         if( EVENT_HANDLER != nullptr ) {
             EVENT_HANDLER(
@@ -106,8 +76,6 @@ namespace dp {
         , Long      _value
     )
     {
-        std::unique_lock< decltype( _gamePad.mutexForAxisEventHandler ) >   lock( _gamePad.mutexForAxisEventHandler );
-
         const auto &    EVENT_HANDLER = _gamePad.infoUnique->axisEventHandler;
         if( EVENT_HANDLER != nullptr ) {
             EVENT_HANDLER(
