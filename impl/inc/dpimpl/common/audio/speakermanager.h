@@ -14,8 +14,6 @@
 #include "dp/common/memory.h"
 #include "dp/common/primitives.h"
 
-#include <mutex>
-
 namespace dp {
     void callConnectEventHandler(
         SpeakerManager &
@@ -38,8 +36,6 @@ namespace dp {
     struct SpeakerManager
     {
         SpeakerManagerInfoUnique    infoUnique;
-        std::mutex                  mutexForConnectEventHandler;
-
         SpeakerManagerImplUnique    implUnique;
     };
 }

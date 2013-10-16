@@ -6,7 +6,6 @@
 #include "dp/audio/speakerkey.h"
 #include "dp/util/import.h"
 
-#include <mutex>
 #include <functional>
 #include <memory>
 
@@ -28,18 +27,6 @@ namespace dp {
     );
 
     DPEXPORT void free(
-        SpeakerManager &
-    );
-
-    DPEXPORT const SpeakerManagerInfo & getInfo(
-        const SpeakerManager &
-    );
-
-    DPEXPORT SpeakerManagerInfo & getInfoMutable(
-        SpeakerManager &
-    );
-
-    DPEXPORT std::mutex & getMutexForConnectEventHandler(
         SpeakerManager &
     );
 

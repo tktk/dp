@@ -6,7 +6,6 @@
 #include "dp/audio/speakerkey.h"
 #include "dp/common/primitives.h"
 
-#include <mutex>
 #include <new>
 #include <utility>
 
@@ -54,35 +53,12 @@ namespace dp {
         delete &_manager;
     }
 
-    const SpeakerManagerInfo & getInfo(
-        const SpeakerManager &  _MANAGER
-    )
-    {
-        return *( _MANAGER.infoUnique );
-    }
-
-    SpeakerManagerInfo & getInfoMutable(
-        SpeakerManager &    _manager
-    )
-    {
-        return *( _manager.infoUnique );
-    }
-
-    std::mutex & getMutexForConnectEventHandler(
-        SpeakerManager &    _manager
-    )
-    {
-        return _manager.mutexForConnectEventHandler;
-    }
-
     void callConnectEventHandler(
         SpeakerManager &        _manager
         , SpeakerKeyUnique &&   _keyUnique
         , Bool                  _connected
     )
     {
-        std::unique_lock< decltype( _manager.mutexForConnectEventHandler ) >    lock( _manager.mutexForConnectEventHandler );
-
         const auto &    EVENT_HANDLER = _manager.infoUnique->connectEventHandler;
         if( EVENT_HANDLER != nullptr ) {
             EVENT_HANDLER(
