@@ -6,7 +6,6 @@
 #include "dp/input/gamepadkey.h"
 #include "dp/util/import.h"
 
-#include <mutex>
 #include <functional>
 #include <memory>
 
@@ -28,18 +27,6 @@ namespace dp {
     );
 
     DPEXPORT void free(
-        GamePadManager &
-    );
-
-    DPEXPORT const GamePadManagerInfo & getInfo(
-        const GamePadManager &
-    );
-
-    DPEXPORT GamePadManagerInfo & getInfoMutable(
-        GamePadManager &
-    );
-
-    DPEXPORT std::mutex & getMutexForConnectEventHandler(
         GamePadManager &
     );
 
