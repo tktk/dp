@@ -14,8 +14,6 @@
 #include "dp/common/memory.h"
 #include "dp/common/primitives.h"
 
-#include <mutex>
-
 namespace dp {
     void callStartEventHandler(
         AudioPlayer &
@@ -50,10 +48,6 @@ namespace dp {
     struct AudioPlayer
     {
         AudioPlayerInfoUnique   infoUnique;
-        std::mutex              mutexForStartEventHandler;
-        std::mutex              mutexForEndEventHandler;
-        std::mutex              mutexForPlayEventHandler;
-
         AudioPlayerImplUnique   implUnique;
     };
 }

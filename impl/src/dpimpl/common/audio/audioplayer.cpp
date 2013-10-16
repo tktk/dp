@@ -61,47 +61,10 @@ namespace dp {
         delete &_audioPlayer;
     }
 
-    const AudioPlayerInfo & getInfo(
-        const AudioPlayer & _AUDIO_PLAYER
-    )
-    {
-        return *( _AUDIO_PLAYER.infoUnique );
-    }
-
-    AudioPlayerInfo & getInfoMutable(
-        AudioPlayer &   _audioPlayer
-    )
-    {
-        return *( _audioPlayer.infoUnique );
-    }
-
-    std::mutex & getMutexForStartEventHandler(
-        AudioPlayer &   _audioPlayer
-    )
-    {
-        return _audioPlayer.mutexForStartEventHandler;
-    }
-
-    std::mutex & getMutexForEndEventHandler(
-        AudioPlayer &   _audioPlayer
-    )
-    {
-        return _audioPlayer.mutexForEndEventHandler;
-    }
-
-    std::mutex & getMutexForPlayEventHandler(
-        AudioPlayer &   _audioPlayer
-    )
-    {
-        return _audioPlayer.mutexForPlayEventHandler;
-    }
-
     void callStartEventHandler(
         AudioPlayer &   _audioPlayer
     )
     {
-        std::unique_lock< decltype( _audioPlayer.mutexForStartEventHandler ) >  lock( _audioPlayer.mutexForStartEventHandler );
-
         const auto &    EVENT_HANDLER = _audioPlayer.infoUnique->startEventHandler;
         if( EVENT_HANDLER != nullptr ) {
             EVENT_HANDLER(
@@ -114,8 +77,6 @@ namespace dp {
         AudioPlayer &   _audioPlayer
     )
     {
-        std::unique_lock< decltype( _audioPlayer.mutexForEndEventHandler ) >    lock( _audioPlayer.mutexForEndEventHandler );
-
         const auto &    EVENT_HANDLER = _audioPlayer.infoUnique->endEventHandler;
         if( EVENT_HANDLER != nullptr ) {
             EVENT_HANDLER(
@@ -130,8 +91,6 @@ namespace dp {
         , ULong         _bufferSize
     )
     {
-        std::unique_lock< decltype( _audioPlayer.mutexForPlayEventHandler ) >   lock( _audioPlayer.mutexForPlayEventHandler );
-
         const auto &    EVENT_HANDLER = _audioPlayer.infoUnique->playEventHandler;
         if( EVENT_HANDLER != nullptr ) {
             return EVENT_HANDLER(

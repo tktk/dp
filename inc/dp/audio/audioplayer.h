@@ -7,7 +7,6 @@
 #include "dp/common/primitives.h"
 #include "dp/util/import.h"
 
-#include <mutex>
 #include <functional>
 #include <memory>
 
@@ -45,26 +44,6 @@ namespace dp {
     );
 
     DPEXPORT void free(
-        AudioPlayer &
-    );
-
-    DPEXPORT const AudioPlayerInfo & getInfo(
-        const AudioPlayer &
-    );
-
-    DPEXPORT AudioPlayerInfo & getInfoMutable(
-        AudioPlayer &
-    );
-
-    DPEXPORT std::mutex & getMutexForStartEventHandler(
-        AudioPlayer &
-    );
-
-    DPEXPORT std::mutex & getMutexForEndEventHandler(
-        AudioPlayer &
-    );
-
-    DPEXPORT std::mutex & getMutexForPlayEventHandler(
         AudioPlayer &
     );
 
