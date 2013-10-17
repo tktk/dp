@@ -14,7 +14,7 @@ namespace dp {
         , const GamePadInfo &   _INFO
     )
     {
-        GamePadUnique   gamePadUnique( new( std::nothrow )GamePad );
+        auto    gamePadUnique = dp::unique( new( std::nothrow )GamePad );
         if( gamePadUnique.get() == nullptr ) {
             return nullptr;
         }

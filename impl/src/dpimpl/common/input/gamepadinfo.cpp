@@ -11,7 +11,7 @@ namespace {
         , const dp::GamePadAxisEventHandler &   _AXIS_EVENT_HANDLER
     )
     {
-        dp::GamePadInfoUnique   infoUnique( new( std::nothrow )dp::GamePadInfo );
+        auto    infoUnique = dp::unique( new( std::nothrow )dp::GamePadInfo );
         if( infoUnique.get() == nullptr ) {
             return nullptr;
         }
