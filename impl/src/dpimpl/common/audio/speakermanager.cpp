@@ -14,7 +14,7 @@ namespace dp {
         const SpeakerManagerInfo &  _INFO
     )
     {
-        SpeakerManagerUnique    managerUnique( new( std::nothrow )SpeakerManager );
+        auto    managerUnique = unique( new( std::nothrow )SpeakerManager );
         if( managerUnique.get() == nullptr ) {
             return nullptr;
         }
