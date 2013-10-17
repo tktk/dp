@@ -10,7 +10,7 @@ namespace {
         const dp::DisplayManagerConnectEventHandler &   _CONNECT_EVENT_HANDLER
     )
     {
-        dp::DisplayManagerInfoUnique    infoUnique( new( std::nothrow )dp::DisplayManagerInfo );
+        auto    infoUnique = dp::unique( new( std::nothrow )dp::DisplayManagerInfo );
         if( infoUnique.get() == nullptr ) {
             return nullptr;
         }

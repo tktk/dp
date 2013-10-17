@@ -14,7 +14,7 @@ namespace dp {
         const DisplayManagerInfo &  _INFO
     )
     {
-        DisplayManagerUnique    managerUnique( new( std::nothrow )DisplayManager );
+        auto    managerUnique = unique( new( std::nothrow )DisplayManager );
         if( managerUnique.get() == nullptr ) {
             return nullptr;
         }

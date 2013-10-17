@@ -14,7 +14,7 @@ namespace dp {
         const GamePadManagerInfo &  _INFO
     )
     {
-        auto    managerUnique = dp::unique( new( std::nothrow )GamePadManager );
+        auto    managerUnique = unique( new( std::nothrow )GamePadManager );
         if( managerUnique.get() == nullptr ) {
             return nullptr;
         }
