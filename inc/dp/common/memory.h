@@ -17,6 +17,16 @@ namespace dp {
     };
 
     template< typename T >
+    typename Unique< typename std::remove_pointer< T >::type >::type unique(
+        T   _ptr
+    )
+    {
+        return typename Unique< typename std::remove_pointer< T >::type >::type(
+            _ptr
+        );
+    }
+
+    template< typename T >
     std::shared_ptr< typename std::remove_pointer< T >::type > shared(
         T   _ptr
     )
@@ -24,6 +34,16 @@ namespace dp {
         return std::shared_ptr< typename std::remove_pointer< T >::type >(
             _ptr
             , Free< typename std::remove_pointer< T >::type >()
+        );
+    }
+
+    template< typename T >
+    std::weak_ptr< typename T::element_type > weak(
+        T   _shared
+    )
+    {
+        return std::weak_ptr< typename T::element_type >(
+            _shared
         );
     }
 }
