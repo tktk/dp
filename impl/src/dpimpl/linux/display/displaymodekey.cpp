@@ -15,7 +15,7 @@ namespace {
         const RRMode &  _MODE
     )
     {
-        dp::DisplayModeKeyUnique    keyUnique( new( std::nothrow )dp::DisplayModeKey );
+        auto    keyUnique = dp::unique( new( std::nothrow )dp::DisplayModeKey );
         if( keyUnique.get() == nullptr ) {
             return nullptr;
         }
@@ -73,7 +73,7 @@ namespace {
             }
 
             _modeKeyUniques.push_back(
-                dp::DisplayModeKeyUnique(
+                dp::unique(
                     dp::newDisplayModeKey(
                         MODE
                     )
