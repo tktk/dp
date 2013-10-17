@@ -17,7 +17,7 @@ namespace {
         , dp::Bool              _connected
     )
     {
-        dp::SpeakerKeyUnique    keyUnique(
+        auto    keyUnique = dp::unique(
             dp::newSpeakerKey(
                 _index
             )

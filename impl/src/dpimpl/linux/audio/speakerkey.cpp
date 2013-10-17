@@ -11,7 +11,7 @@ namespace {
         dp::UInt    _index
     )
     {
-        dp::SpeakerKeyUnique    keyUnique( new( std::nothrow )dp::SpeakerKey );
+        auto    keyUnique = dp::unique( new( std::nothrow )dp::SpeakerKey );
         if( keyUnique.get() == nullptr ) {
             return nullptr;
         }
