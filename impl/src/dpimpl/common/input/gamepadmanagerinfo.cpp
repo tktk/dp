@@ -10,7 +10,7 @@ namespace {
         const dp::GamePadManagerConnectEventHandler &   _CONNECT_EVENT_HANDLER
     )
     {
-        dp::GamePadManagerInfoUnique    infoUnique( new( std::nothrow )dp::GamePadManagerInfo );
+        auto    infoUnique = dp::unique( new( std::nothrow )dp::GamePadManagerInfo );
         if( infoUnique.get() == nullptr ) {
             return nullptr;
         }
