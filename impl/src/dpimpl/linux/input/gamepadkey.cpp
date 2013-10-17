@@ -11,7 +11,7 @@ namespace {
         const dp::String &  _PATH
     )
     {
-        dp::GamePadKeyUnique    keyUnique( new( std::nothrow )dp::GamePadKey );
+        auto    keyUnique = dp::unique( new( std::nothrow )dp::GamePadKey );
         if( keyUnique.get() == nullptr ) {
             return nullptr;
         }
