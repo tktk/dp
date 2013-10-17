@@ -18,7 +18,7 @@ namespace dp {
         , UInt                      _channels
     )
     {
-        AudioPlayerUnique   audioPlayerUnique( new( std::nothrow )AudioPlayer );
+        auto    audioPlayerUnique = unique( new( std::nothrow )AudioPlayer );
         if( audioPlayerUnique.get() == nullptr ) {
             return nullptr;
         }

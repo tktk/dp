@@ -12,7 +12,7 @@ namespace {
         , const dp::AudioPlayerPlayEventHandler &   _PLAY_EVENT_HANDLER
     )
     {
-        dp::AudioPlayerInfoUnique   infoUnique( new( std::nothrow )dp::AudioPlayerInfo );
+        auto    infoUnique = dp::unique( new( std::nothrow )dp::AudioPlayerInfo );
         if( infoUnique.get() == nullptr ) {
             return nullptr;
         }
