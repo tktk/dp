@@ -36,7 +36,7 @@ namespace dp {
         const DisplayModeKey &  _MODE_KEY
     )
     {
-        DisplayModeUnique   modeUnique( new( std::nothrow )DisplayMode );
+        auto    modeUnique = unique( new( std::nothrow )DisplayMode );
         if( modeUnique.get() == nullptr ) {
             return nullptr;
         }
