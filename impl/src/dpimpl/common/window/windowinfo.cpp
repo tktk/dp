@@ -18,7 +18,7 @@ namespace {
         , const dp::WindowMouseMotionEventHandler & _MOUSE_MOTION_EVENT_HANDLER
     )
     {
-        dp::WindowInfoUnique    infoUnique( new( std::nothrow )dp::WindowInfo );
+        auto    infoUnique = dp::unique( new( std::nothrow )dp::WindowInfo );
         if( infoUnique.get() == nullptr ) {
             return nullptr;
         }

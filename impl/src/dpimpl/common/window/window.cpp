@@ -21,7 +21,7 @@ namespace {
         , const InitializeWindowImpl &  _INITIALIZE_WINDOW_IMPL
     )
     {
-        dp::WindowUnique    windowUnique( new( std::nothrow )dp::Window );
+        auto    windowUnique = dp::unique( new( std::nothrow )dp::Window );
         if( windowUnique.get() == nullptr ) {
             return nullptr;
         }
