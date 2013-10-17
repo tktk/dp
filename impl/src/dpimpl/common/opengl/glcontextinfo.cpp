@@ -33,7 +33,7 @@ namespace {
         , dp::Int   _accumAlphaBits
     )
     {
-        dp::GLContextInfoUnique infoUnique( new( std::nothrow )dp::GLContextInfo );
+        auto    infoUnique = dp::unique( new( std::nothrow )dp::GLContextInfo );
         if( infoUnique.get() == nullptr ) {
             return nullptr;
         }

@@ -200,7 +200,7 @@ namespace {
         , GLXContext                _shareList
     )
     {
-        dp::GLContextUnique glContextUnique( new( std::nothrow )dp::GLContext );
+        auto    glContextUnique = dp::unique( new( std::nothrow )dp::GLContext );
         if( glContextUnique.get() == nullptr ) {
             return nullptr;
         }

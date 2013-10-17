@@ -152,7 +152,7 @@ namespace {
         , dp::Bool                  _connected
     )
     {
-        dp::GamePadKeyUnique    keyUnique(
+        auto    keyUnique = dp::unique(
             dp::newGamePadKey(
                 _PATH
             )
