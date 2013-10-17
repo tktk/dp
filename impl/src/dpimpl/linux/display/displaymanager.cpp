@@ -18,7 +18,7 @@ namespace {
         , dp::Bool              _connected
     )
     {
-        dp::DisplayKeyUnique    keyUnique(
+        auto    keyUnique = dp::unique(
             dp::newDisplayKey(
                 _CRTC
             )

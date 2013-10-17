@@ -79,7 +79,7 @@ namespace dp {
         const DisplayKey &  _KEY
     )
     {
-        DisplayUnique   displayUnique( new( std::nothrow )Display );
+        auto    displayUnique = unique( new( std::nothrow )Display );
         if( displayUnique.get() == nullptr ) {
             return nullptr;
         }

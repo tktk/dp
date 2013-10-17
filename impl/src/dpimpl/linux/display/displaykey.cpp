@@ -12,7 +12,7 @@ namespace {
         const RRCrtc &  _CRTC
     )
     {
-        dp::DisplayKeyUnique    keyUnique( new( std::nothrow )dp::DisplayKey );
+        auto    keyUnique = dp::unique( new( std::nothrow )dp::DisplayKey );
         if( keyUnique.get() == nullptr ) {
             return nullptr;
         }
