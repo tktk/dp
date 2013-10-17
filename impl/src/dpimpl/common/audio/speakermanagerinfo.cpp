@@ -10,7 +10,7 @@ namespace {
         const dp::SpeakerManagerConnectEventHandler &   _CONNECT_EVENT_HANDLER
     )
     {
-        dp::SpeakerManagerInfoUnique    infoUnique( new( std::nothrow )dp::SpeakerManagerInfo );
+        auto    infoUnique = dp::unique( new( std::nothrow )dp::SpeakerManagerInfo );
         if( infoUnique.get() == nullptr ) {
             return nullptr;
         }
