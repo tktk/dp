@@ -18,7 +18,7 @@ namespace {
         , dp::DisplayRotate         _rotate
     )
     {
-        dp::DisplayUnique   displayUnique( new( std::nothrow )dp::Display );
+        auto    displayUnique = dp::unique( new( std::nothrow )dp::Display );
         if( displayUnique.get() == nullptr ) {
             return nullptr;
         }
@@ -51,7 +51,7 @@ namespace dp {
         , DisplayRotate         _rotate
     )
     {
-        DisplayUnique   displayUnique(
+        auto    displayUnique = unique(
             ::newDisplay(
                 _MODE_KEY
                 , _x
@@ -80,7 +80,7 @@ namespace dp {
         const Display & _DISPLAY
     )
     {
-        DisplayUnique   displayUnique(
+        auto    displayUnique = unique(
             ::newDisplay(
                 *( _DISPLAY.modeKeyUnique )
                 , _DISPLAY.x
@@ -141,7 +141,7 @@ namespace dp {
             return false;
         }
 
-        DisplayModeKeyUnique    modeKeyUnique(
+        auto    modeKeyUnique = unique(
             clone(
                 _MODE_KEY
             )
