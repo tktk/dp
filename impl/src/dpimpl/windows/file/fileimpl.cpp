@@ -1,12 +1,11 @@
-﻿#include "dpimpl/util/export.h"
-#include "dp/file/filew.h"
-
+﻿#include "dpimpl/common/file/fileimpl.h"
 #include "dp/common/primitives.h"
 
 namespace dp {
-    Bool initializeFileImplW(
+    Bool write(
         FileImpl &      _impl
-        , const Utf32 & _FILE_PATH
+        , const void *  _DATA
+        , ULong         _size
     )
     {
         //TODO

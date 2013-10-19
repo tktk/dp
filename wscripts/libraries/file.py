@@ -13,6 +13,7 @@ def build(
     }
 
     osSources = {
+        'fileimpl',
         'filew',
     }
 
