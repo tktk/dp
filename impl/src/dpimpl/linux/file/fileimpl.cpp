@@ -46,7 +46,13 @@ namespace dp {
         , ULong         _size
     )
     {
-        //TODO
-        return false;
+        auto &  file = *( _impl.fileUnique );
+
+        return std::fwrite(
+            _DATA
+            , _size
+            , 1
+            , &file
+        );
     }
 }
