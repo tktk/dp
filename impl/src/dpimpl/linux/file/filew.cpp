@@ -10,7 +10,10 @@ namespace dp {
         , const Utf32 & _FILE_PATH
     )
     {
-        //TODO
-        return false;
+        return initializeFileImpl(
+            _impl
+            , _FILE_PATH
+            , "w"
+        );
     }
 }
