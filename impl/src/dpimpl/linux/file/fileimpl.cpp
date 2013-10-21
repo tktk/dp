@@ -40,6 +40,22 @@ namespace dp {
         return true;
     }
 
+    ULong read(
+        FileImpl &  _impl
+        , void *    _data
+        , ULong     _size
+    )
+    {
+        auto &  file = *( _impl.fileUnique );
+
+        return std::fread(
+            _data
+            , 1
+            , _size
+            , &file
+        );
+    }
+
     Bool write(
         FileImpl &      _impl
         , const void *  _DATA
@@ -53,6 +69,6 @@ namespace dp {
             , _size
             , 1
             , &file
-        );
+        ) == 1;
     }
 }

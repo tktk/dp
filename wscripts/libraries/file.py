@@ -9,11 +9,13 @@ def build(
     _librariesSet,
 ):
     sources = {
+        'filer',
         'filew',
     }
 
     osSources = {
         'fileimpl',
+        'filer',
         'filew',
     }
 
