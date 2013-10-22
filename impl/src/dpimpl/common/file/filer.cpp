@@ -37,10 +37,25 @@ namespace dp {
         delete &_file;
     }
 
-    ULong read(
+    Bool read(
         FileR &     _file
         , void *    _data
         , ULong     _size
+        , ULong &   _count
+    )
+    {
+        return read(
+            _file.impl
+            , _data
+            , _size
+            , _count
+        );
+    }
+
+    Bool read(
+        FileR &     _file
+        , void *    _data
+        , ULong &   _size
     )
     {
         return read(

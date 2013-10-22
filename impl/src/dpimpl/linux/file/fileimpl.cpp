@@ -40,19 +40,40 @@ namespace dp {
         return true;
     }
 
-    ULong read(
+    Bool read(
         FileImpl &  _impl
         , void *    _data
         , ULong     _size
+        , ULong &   _count
     )
     {
         auto &  file = *( _impl.fileUnique );
 
-        return std::fread(
+        _count = std::fread(
             _data
+            , _size
+            , _count
+            , &file
+        );
+
+        if( std::ferror( &file ) != 0 ) {
+            return false;
+        }
+
+        return true;
+    }
+
+    Bool read(
+        FileImpl &  _impl
+        , void *    _data
+        , ULong &   _size
+    )
+    {
+        return read(
+            _impl
+            , _data
             , 1
             , _size
-            , &file
         );
     }
 
@@ -60,15 +81,36 @@ namespace dp {
         FileImpl &      _impl
         , const void *  _DATA
         , ULong         _size
+        , ULong &       _count
     )
     {
         auto &  file = *( _impl.fileUnique );
 
-        return std::fwrite(
+        _count = std::fwrite(
             _DATA
             , _size
-            , 1
+            , _count
             , &file
-        ) == 1;
+        );
+
+        if( std::ferror( &file ) != 0 ) {
+            return false;
+        }
+
+        return true;
+    }
+
+    Bool write(
+        FileImpl &      _impl
+        , const void *  _DATA
+        , ULong &       _size
+    )
+    {
+        return write(
+            _impl
+            , _DATA
+            , 1
+            , _size
+        );
     }
 }

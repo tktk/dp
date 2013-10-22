@@ -22,6 +22,13 @@ namespace dp {
         FileW &
         , const void *
         , ULong
+        , ULong &
+    );
+
+    DPEXPORT Bool write(
+        FileW &
+        , const void *
+        , ULong &
     );
 
     //TODO

@@ -18,10 +18,17 @@ namespace dp {
         FileR &
     );
 
-    DPEXPORT ULong read(
+    DPEXPORT Bool read(
         FileR &
         , void *
         , ULong
+        , ULong &
+    );
+
+    DPEXPORT Bool read(
+        FileR &
+        , void *
+        , ULong &
     );
 
     //TODO

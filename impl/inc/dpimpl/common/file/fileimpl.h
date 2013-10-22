@@ -14,16 +14,30 @@
 namespace dp {
     struct FileImpl;
 
-    ULong read(
+    Bool read(
         FileImpl &
         , void *
         , ULong
+        , ULong &
+    );
+
+    Bool read(
+        FileImpl &
+        , void *
+        , ULong &
     );
 
     Bool write(
         FileImpl &
         , const void *
         , ULong
+        , ULong &
+    );
+
+    Bool write(
+        FileImpl &
+        , const void *
+        , ULong &
     );
 }
 

@@ -41,6 +41,21 @@ namespace dp {
         FileW &         _file
         , const void *  _DATA
         , ULong         _size
+        , ULong &       _count
+    )
+    {
+        return write(
+            _file.impl
+            , _DATA
+            , _size
+            , _count
+        );
+    }
+
+    Bool write(
+        FileW &         _file
+        , const void *  _DATA
+        , ULong &       _size
     )
     {
         return write(
