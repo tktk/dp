@@ -1,9 +1,9 @@
-﻿#include "dpimpl/common/file/filew.h"
+﻿#include "dpimpl/common/file/filerw.h"
 #include "dpimpl/linux/file/fileimpl.h"
 #include "dp/common/primitives.h"
 
 namespace dp {
-    Bool initializeFileImplW(
+    Bool initializeFileImplRW(
         FileImpl &      _impl
         , const Utf32 & _FILE_PATH
     )
@@ -11,7 +11,7 @@ namespace dp {
         return initializeFileImpl(
             _impl
             , _FILE_PATH
-            , "w"
+            , "w+"
         );
     }
 }

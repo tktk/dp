@@ -11,12 +11,14 @@ def build(
     sources = {
         'filer',
         'filew',
+        'filerw',
     }
 
     osSources = {
         'fileimpl',
         'filer',
         'filew',
+        'filerw',
     }
 
     buildPartialLibrary(
