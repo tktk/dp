@@ -64,4 +64,26 @@ namespace dp {
             , _size
         );
     }
+
+    Bool getPosition(
+        FileW &     _file
+        , Long &    _position
+    )
+    {
+        return getPosition(
+            _file.impl
+            , _position
+        );
+    }
+
+    Bool setPosition(
+        FileW & _file
+        , Long  _position
+    )
+    {
+        return setPosition(
+            _file.impl
+            , _position
+        );
+    }
 }

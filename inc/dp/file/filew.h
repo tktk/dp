@@ -31,6 +31,16 @@ namespace dp {
         , ULong &
     );
 
+    DPEXPORT Bool getPosition(
+        FileW &
+        , Long &
+    );
+
+    DPEXPORT Bool setPosition(
+        FileW &
+        , Long
+    );
+
     //TODO
 
     typedef Unique< FileW >::type FileWUnique;
