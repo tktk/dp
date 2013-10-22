@@ -4,6 +4,42 @@
 
 #include <cstdio>
 
+namespace {
+    dp::Bool tell(
+        dp::FileImpl &  _impl
+        , dp::Long &    _position
+    )
+    {
+        auto &  file = *( _impl.fileUnique );
+
+        _position = ftello64( &file );
+        if( _position < 0 ) {
+            return false;
+        }
+
+        return true;
+    }
+
+    dp::Bool seek(
+        dp::FileImpl &  _impl
+        , dp::Long      _position
+        , dp::Int       _whence
+    )
+    {
+        auto &  file = *( _impl.fileUnique );
+
+        if( fseeko64(
+            &file
+            , _position
+            , _whence
+        ) != 0 ) {
+            return false;
+        }
+
+        return true;
+    }
+}
+
 namespace dp {
     void FreeFile::operator()(
         FILE *  _file
@@ -111,6 +147,29 @@ namespace dp {
             , _DATA
             , 1
             , _size
+        );
+    }
+
+    Bool getPosition(
+        FileImpl &  _impl
+        , Long &    _position
+    )
+    {
+        return tell(
+            _impl
+            , _position
+        );
+    }
+
+    Bool setPosition(
+        FileImpl &  _impl
+        , Long      _position
+    )
+    {
+        return seek(
+            _impl
+            , _position
+            , SEEK_SET
         );
     }
 }

@@ -43,4 +43,22 @@ namespace dp {
         //TODO
         return false;
     }
+
+    Bool getPosition(
+        FileImpl &  _impl
+        , Long &    _position
+    )
+    {
+        //TODO
+        return false;
+    }
+
+    Bool setPosition(
+        FileImpl &  _impl
+        , Long      _position
+    )
+    {
+        //TODO
+        return false;
+    }
 }

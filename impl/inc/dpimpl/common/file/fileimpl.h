@@ -39,6 +39,16 @@ namespace dp {
         , const void *
         , ULong &
     );
+
+    Bool getPosition(
+        FileImpl &
+        , Long &
+    );
+
+    Bool setPosition(
+        FileImpl &
+        , Long
+    );
 }
 
 #endif  // DPIMPL_COMMON_FILE_FILEIMPL_H
