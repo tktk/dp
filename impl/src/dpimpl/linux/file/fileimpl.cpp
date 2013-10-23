@@ -3,6 +3,7 @@
 #include "dp/common/primitives.h"
 
 #include <cstdio>
+#include <unistd.h>
 
 namespace {
     dp::Bool tell(
@@ -32,6 +33,28 @@ namespace {
             &file
             , _position
             , _whence
+        ) != 0 ) {
+            return false;
+        }
+
+        return true;
+    }
+
+    dp::Bool truncate_(
+        dp::FileImpl &  _impl
+        , dp::Long      _length
+    )
+    {
+        auto &  file = *( _impl.fileUnique );
+
+        auto    fd = fileno( &file );
+        if( fd == -1 ) {
+            return false;
+        }
+
+        if( ftruncate64(
+            fd
+            , _length
         ) != 0 ) {
             return false;
         }
@@ -194,6 +217,17 @@ namespace dp {
             _impl
             , _position
             , SEEK_CUR
+        );
+    }
+
+    Bool truncate(
+        FileImpl &  _impl
+        , Long      _length
+    )
+    {
+        return truncate_(
+            _impl
+            , _length
         );
     }
 }

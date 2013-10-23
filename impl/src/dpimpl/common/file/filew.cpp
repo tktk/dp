@@ -156,4 +156,15 @@ namespace dp {
             , _position
         );
     }
+
+    Bool truncate(
+        FileW & _file
+        , Long  _length
+    )
+    {
+        return truncate(
+            _file.impl
+            , _length
+        );
+    }
 }

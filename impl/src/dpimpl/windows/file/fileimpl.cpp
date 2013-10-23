@@ -79,4 +79,13 @@ namespace dp {
         //TODO
         return false;
     }
+
+    Bool truncate(
+        FileImpl &  _impl
+        , Long      _length
+    )
+    {
+        //TODO
+        return false;
+    }
 }

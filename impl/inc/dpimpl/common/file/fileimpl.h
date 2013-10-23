@@ -59,6 +59,11 @@ namespace dp {
         FileImpl &
         , Long
     );
+
+    Bool truncate(
+        FileImpl &
+        , Long
+    );
 }
 
 #endif  // DPIMPL_COMMON_FILE_FILEIMPL_H
