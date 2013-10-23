@@ -14,6 +14,10 @@ namespace dp {
         const Utf32 &
     );
 
+    DPEXPORT FileW * newFileWAppend(
+        const Utf32 &
+    );
+
     DPEXPORT void free(
         FileW &
     );

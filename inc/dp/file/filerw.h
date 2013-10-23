@@ -14,6 +14,14 @@ namespace dp {
         const Utf32 &
     );
 
+    DPEXPORT FileRW * newFileWR(
+        const Utf32 &
+    );
+
+    DPEXPORT FileRW * newFileRWAppend(
+        const Utf32 &
+    );
+
     DPEXPORT void free(
         FileRW &
     );
