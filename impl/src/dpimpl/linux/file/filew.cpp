@@ -14,4 +14,16 @@ namespace dp {
             , "w"
         );
     }
+
+    Bool initializeFileImplA(
+        FileImpl &      _impl
+        , const Utf32 & _FILE_PATH
+    )
+    {
+        return initializeFileImpl(
+            _impl
+            , _FILE_PATH
+            , "a"
+        );
+    }
 }

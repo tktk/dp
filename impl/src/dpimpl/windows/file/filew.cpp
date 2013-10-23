@@ -11,4 +11,13 @@ namespace dp {
         //TODO
         return false;
     }
+
+    Bool initializeFileImplA(
+        FileImpl &      _impl
+        , const Utf32 & _FILE_PATH
+    )
+    {
+        //TODO
+        return false;
+    }
 }

@@ -14,6 +14,11 @@ namespace dp {
         FileImpl &
         , const Utf32 &
     );
+
+    Bool initializeFileImplA(
+        FileImpl &
+        , const Utf32 &
+    );
 }
 
 #endif  // DPIMPL_COMMON_FILE_FILEW_H

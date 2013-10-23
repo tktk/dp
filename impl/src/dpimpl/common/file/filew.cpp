@@ -6,13 +6,20 @@
 #include "dp/common/primitives.h"
 
 #include <new>
+#include <functional>
 
-namespace dp {
-    FileW * newFileW(
-        const Utf32 &   _FILE_PATH
+namespace {
+    typedef std::function<
+        dp::Bool(
+            dp::FileImpl &
+        )
+    > Initializer;
+
+    dp::FileW * newFileW(
+        const Initializer & _INITIALIZER
     )
     {
-        auto    fileUnique = unique( new( std::nothrow )FileW );
+        auto    fileUnique = unique( new( std::nothrow )dp::FileW );
         if( fileUnique.get() == nullptr ) {
             return nullptr;
         }
@@ -20,14 +27,55 @@ namespace dp {
         auto &  file = *fileUnique;
 
         auto &  impl = file.impl;
-        if( initializeFileImplW(
+        if( _INITIALIZER(
             impl
-            , _FILE_PATH
         ) == false ) {
             return nullptr;
         }
 
         return fileUnique.release();
+    }
+}
+
+namespace dp {
+    FileW * newFileW(
+        const Utf32 &   _FILE_PATH
+    )
+    {
+        return ::newFileW(
+            [
+                &_FILE_PATH
+            ]
+            (
+                FileImpl &  _impl
+            )
+            {
+                return initializeFileImplW(
+                    _impl
+                    , _FILE_PATH
+                );
+            }
+        );
+    }
+
+    FileW * newFileA(
+        const Utf32 &   _FILE_PATH
+    )
+    {
+        return ::newFileW(
+            [
+                &_FILE_PATH
+            ]
+            (
+                FileImpl &  _impl
+            )
+            {
+                return initializeFileImplA(
+                    _impl
+                    , _FILE_PATH
+                );
+            }
+        );
     }
 
     void free(
