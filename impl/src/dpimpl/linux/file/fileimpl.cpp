@@ -172,4 +172,16 @@ namespace dp {
             , SEEK_SET
         );
     }
+
+    Bool setPositionFromEnd(
+        FileImpl &  _impl
+        , Long      _position
+    )
+    {
+        return seek(
+            _impl
+            , _position
+            , SEEK_END
+        );
+    }
 }

@@ -86,4 +86,15 @@ namespace dp {
             , _position
         );
     }
+
+    Bool setPositionFromEnd(
+        FileW & _file
+        , Long  _position
+    )
+    {
+        return setPositionFromEnd(
+            _file.impl
+            , _position
+        );
+    }
 }

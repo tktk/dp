@@ -49,6 +49,11 @@ namespace dp {
         FileImpl &
         , Long
     );
+
+    Bool setPositionFromEnd(
+        FileImpl &
+        , Long
+    );
 }
 
 #endif  // DPIMPL_COMMON_FILE_FILEIMPL_H
