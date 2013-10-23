@@ -14,7 +14,7 @@ namespace dp {
         const Utf32 &
     );
 
-    DPEXPORT FileW * newFileWAppend(
+    DPEXPORT FileW * newFileA(
         const Utf32 &
     );
 
