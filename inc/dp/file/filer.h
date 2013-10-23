@@ -51,8 +51,6 @@ namespace dp {
         , Long
     );
 
-    //TODO
-
     typedef Unique< FileR >::type FileRUnique;
 
     typedef std::shared_ptr< FileR > FileRShared;

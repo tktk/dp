@@ -72,7 +72,10 @@ namespace dp {
         , Long
     );
 
-    //TODO
+    DPEXPORT Bool truncate(
+        FileRW &
+        , Long
+    );
 
     typedef Unique< FileRW >::type FileRWUnique;
 
