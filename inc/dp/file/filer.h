@@ -41,6 +41,11 @@ namespace dp {
         , Long
     );
 
+    DPEXPORT Bool setPositionFromEnd(
+        FileR &
+        , Long
+    );
+
     //TODO
 
     typedef Unique< FileR >::type FileRUnique;
