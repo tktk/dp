@@ -184,4 +184,16 @@ namespace dp {
             , SEEK_END
         );
     }
+
+    Bool movePosition(
+        FileImpl &  _impl
+        , Long      _position
+    )
+    {
+        return seek(
+            _impl
+            , _position
+            , SEEK_CUR
+        );
+    }
 }

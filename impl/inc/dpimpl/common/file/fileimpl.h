@@ -54,6 +54,11 @@ namespace dp {
         FileImpl &
         , Long
     );
+
+    Bool movePosition(
+        FileImpl &
+        , Long
+    );
 }
 
 #endif  // DPIMPL_COMMON_FILE_FILEIMPL_H

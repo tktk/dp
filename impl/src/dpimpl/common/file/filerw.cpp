@@ -125,4 +125,15 @@ namespace dp {
             , _position
         );
     }
+
+    Bool movePosition(
+        FileRW &    _file
+        , Long      _position
+    )
+    {
+        return movePosition(
+            _file.impl
+            , _position
+        );
+    }
 }

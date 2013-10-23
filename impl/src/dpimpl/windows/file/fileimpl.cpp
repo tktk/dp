@@ -70,4 +70,13 @@ namespace dp {
         //TODO
         return false;
     }
+
+    Bool movePosition(
+        FileImpl &  _impl
+        , Long      _position
+    )
+    {
+        //TODO
+        return false;
+    }
 }
