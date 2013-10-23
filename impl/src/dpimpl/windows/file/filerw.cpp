@@ -11,4 +11,22 @@ namespace dp {
         //TODO
         return false;
     }
+
+    Bool initializeFileImplWR(
+        FileImpl &
+        , const Utf32 &
+    )
+    {
+        //TODO
+        return false;
+    }
+
+    Bool initializeFileImplAR(
+        FileImpl &
+        , const Utf32 &
+    )
+    {
+        //TODO
+        return false;
+    }
 }

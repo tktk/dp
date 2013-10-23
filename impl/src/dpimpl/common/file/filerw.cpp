@@ -6,13 +6,20 @@
 #include "dp/common/primitives.h"
 
 #include <new>
+#include <functional>
 
-namespace dp {
-    FileRW * newFileRW(
-        const Utf32 &   _FILE_PATH
+namespace {
+    typedef std::function<
+        dp::Bool(
+            dp::FileImpl &
+        )
+    > Initializer;
+
+    dp::FileRW * newFileRW(
+        const Initializer & _INITIALIZER
     )
     {
-        auto    fileUnique = unique( new( std::nothrow )FileRW );
+        auto    fileUnique = unique( new( std::nothrow )dp::FileRW );
         if( fileUnique.get() == nullptr ) {
             return nullptr;
         }
@@ -20,14 +27,75 @@ namespace dp {
         auto &  file = *fileUnique;
 
         auto &  impl = file.impl;
-        if( initializeFileImplRW(
+        if( _INITIALIZER(
             impl
-            , _FILE_PATH
         ) == false ) {
             return nullptr;
         }
 
         return fileUnique.release();
+    }
+}
+
+namespace dp {
+    FileRW * newFileRW(
+        const Utf32 &   _FILE_PATH
+    )
+    {
+        return ::newFileRW(
+            [
+                &_FILE_PATH
+            ]
+            (
+                dp::FileImpl &  _impl
+            )
+            {
+                return initializeFileImplRW(
+                    _impl
+                    , _FILE_PATH
+                );
+            }
+        );
+    }
+
+    FileRW * newFileWR(
+        const Utf32 &   _FILE_PATH
+    )
+    {
+        return ::newFileRW(
+            [
+                &_FILE_PATH
+            ]
+            (
+                dp::FileImpl &  _impl
+            )
+            {
+                return initializeFileImplWR(
+                    _impl
+                    , _FILE_PATH
+                );
+            }
+        );
+    }
+
+    FileRW * newFileAR(
+        const Utf32 &   _FILE_PATH
+    )
+    {
+        return ::newFileRW(
+            [
+                &_FILE_PATH
+            ]
+            (
+                dp::FileImpl &  _impl
+            )
+            {
+                return initializeFileImplAR(
+                    _impl
+                    , _FILE_PATH
+                );
+            }
+        );
     }
 
     void free(

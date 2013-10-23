@@ -14,6 +14,16 @@ namespace dp {
         FileImpl &
         , const Utf32 &
     );
+
+    Bool initializeFileImplWR(
+        FileImpl &
+        , const Utf32 &
+    );
+
+    Bool initializeFileImplAR(
+        FileImpl &
+        , const Utf32 &
+    );
 }
 
 #endif  // DPIMPL_COMMON_FILE_FILERW_H
