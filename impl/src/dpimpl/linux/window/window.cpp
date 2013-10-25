@@ -682,7 +682,7 @@ namespace {
 
         const auto &    ENDED = impl.ended;
 
-        auto &  xDisplay = dp::getXDisplay();
+        auto &  xDisplay = *( impl.xDisplayUnique );
         auto &  xWindow = impl.xWindow;
 
         XEvent  event;
@@ -832,6 +832,16 @@ namespace {
         , dp::WindowFlags   _flags
     )
     {
+        auto &  impl = *( _window.implUnique );
+
+        auto &  xDisplayUnique = impl.xDisplayUnique;
+        xDisplayUnique.reset( dp::newXDisplay() );
+        if( xDisplayUnique.get() == nullptr ) {
+            return false;
+        }
+
+        auto &  xDisplay = *xDisplayUnique;
+
         dp::String  titleString;
         if( dp::toString(
             titleString
@@ -840,14 +850,11 @@ namespace {
             return false;
         }
 
-        auto &  impl = *( _window.implUnique );
-
         impl.ended = false;
 
         auto &  xWindow = impl.xWindow;
 
-        auto &  xDisplay = dp::getXDisplay();
-        auto &  xRootWindow = dp::getXRootWindow();
+        auto &  xRootWindow = DefaultRootWindow( &xDisplay );
 
         XSetWindowAttributes    attributes;
 
@@ -998,7 +1005,9 @@ namespace dp {
             return false;
         }
 
-        auto &  xDisplay = getXDisplay();
+        auto &  impl = *( _window.implUnique );
+
+        auto &  xDisplay = *( impl.xDisplayUnique );
 
         XFlush( &xDisplay );
 
@@ -1025,9 +1034,10 @@ namespace dp {
             return false;
         }
 
-        auto &  xWindow = _window.implUnique->xWindow;
+        auto &  impl = *( _window.implUnique );
 
-        auto &  xDisplay = getXDisplay();
+        auto &  xDisplay = *( impl.xDisplayUnique );
+        auto &  xWindow = impl.xWindow;
 
         XMoveWindow(
             &xDisplay
@@ -1045,8 +1055,10 @@ namespace dp {
         Window &    _window
     )
     {
-        auto &  xDisplay = dp::getXDisplay();
-        auto &  xWindow = _window.implUnique->xWindow;
+        auto &  impl = *( _window.implUnique );
+
+        auto &  xDisplay = *( impl.xDisplayUnique );
+        auto &  xWindow = impl.xWindow;
 
         XEvent  event;
         event.xclient.display = &xDisplay;
@@ -1076,8 +1088,10 @@ namespace dp {
             return false;
         }
 
-        auto &  xDisplay = getXDisplay();
-        auto &  xWindow = _window.implUnique->xWindow;
+        auto &  impl = *( _window.implUnique );
+
+        auto &  xDisplay = *( impl.xDisplayUnique );
+        auto &  xWindow = impl.xWindow;
 
         ::setTitle(
             xDisplay
@@ -1096,8 +1110,10 @@ namespace dp {
         , Int       _y
     )
     {
-        auto &  xDisplay = getXDisplay();
-        auto &  xWindow = _window.implUnique->xWindow;
+        auto &  impl = *( _window.implUnique );
+
+        auto &  xDisplay = *( impl.xDisplayUnique );
+        auto &  xWindow = impl.xWindow;
 
         XMoveWindow(
             &xDisplay
@@ -1114,8 +1130,10 @@ namespace dp {
         , Int       _height
     )
     {
-        auto &  xDisplay = getXDisplay();
-        auto &  xWindow = _window.implUnique->xWindow;
+        auto &  impl = *( _window.implUnique );
+
+        auto &  xDisplay = *( impl.xDisplayUnique );
+        auto &  xWindow = impl.xWindow;
 
         XResizeWindow(
             &xDisplay
@@ -1134,8 +1152,10 @@ namespace dp {
         , Int       _height
     )
     {
-        auto &  xDisplay = getXDisplay();
-        auto &  xWindow = _window.implUnique->xWindow;
+        auto &  impl = *( _window.implUnique );
+
+        auto &  xDisplay = *( impl.xDisplayUnique );
+        auto &  xWindow = impl.xWindow;
 
         XEvent  event;
 
@@ -1164,8 +1184,7 @@ namespace dp {
     {
         _impl->ended = true;
 
-        auto &  xDisplay = dp::getXDisplay();
-
+        auto &  xDisplay = *( _impl->xDisplayUnique );
         auto &  xWindow = _impl->xWindow;
 
         XEvent  event;

@@ -53,6 +53,7 @@ namespace dp {
     public:
         Bool    ended;
 
+        XDisplayUnique      xDisplayUnique;
         ::Window            xWindow;
         XWindowDestroyer    xWindowDestroyer;
 
