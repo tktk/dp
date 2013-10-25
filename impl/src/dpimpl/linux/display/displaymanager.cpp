@@ -185,7 +185,7 @@ namespace {
 
         auto &  xDisplay = *( impl.xDisplayUnique );
 
-        auto &  xWindow = impl.xWindow;
+        auto    xWindow = DefaultRootWindow( &xDisplay );
 
         XRRSelectInput(
             &xDisplay
@@ -221,9 +221,7 @@ namespace dp {
 
         auto &  xDisplay = *xDisplayUnique;
 
-        auto &  xWindow = impl.xWindow;
-
-        xWindow = DefaultRootWindow( &xDisplay );
+        auto    xWindow = DefaultRootWindow( &xDisplay );
 
         // スレッド終了イベント用にStructureNotifyMaskを許可
         XSelectInput(
@@ -259,7 +257,8 @@ namespace dp {
         _impl->ended = true;
 
         auto &  xDisplay = *( _impl->xDisplayUnique );
-        auto &  xWindow = _impl->xWindow;
+
+        auto    xWindow = DefaultRootWindow( &xDisplay );
 
         XEvent  event;
         event.type = ClientMessage;
