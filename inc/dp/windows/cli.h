@@ -13,10 +13,14 @@ dp::Int wmain(
 {
     dp::Args    args( _argc );
 
-    dp::initArgs(
+    if( dp::initArgs(
         args
         , _argv
-    );
+    ) == false ) {
+        //TODO
+
+        return 1;
+    }
 
     return dpMain(
         args

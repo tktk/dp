@@ -53,7 +53,7 @@ namespace {
             length = newLength;
         }
 
-        if( dp::toUtf32(
+        if( dp::stringToUtf32(
             _result
             , buffer
         ) == false ) {

@@ -19,7 +19,7 @@ namespace {
         const Initializer & _INITIALIZER
     )
     {
-        auto    fileUnique = unique( new( std::nothrow )dp::FileRW );
+        auto    fileUnique = dp::unique( new( std::nothrow )dp::FileRW );
         if( fileUnique.get() == nullptr ) {
             return nullptr;
         }

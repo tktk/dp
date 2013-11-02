@@ -20,7 +20,7 @@ namespace dp {
         , const Utf32 &
     );
 
-    DPEXPORT Bool toUtf8(
+    DPEXPORT Bool stringToUtf8(
         Utf8 &
         , const String &
     );
@@ -35,7 +35,7 @@ namespace dp {
         , const Utf32 &
     );
 
-    DPEXPORT Bool toUtf16(
+    DPEXPORT Bool stringToUtf16(
         Utf16 &
         , const String &
     );
@@ -50,7 +50,7 @@ namespace dp {
         , const Utf32 &
     );
 
-    DPEXPORT Bool toUtf32(
+    DPEXPORT Bool stringToUtf32(
         Utf32 &
         , const String &
     );

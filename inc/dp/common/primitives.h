@@ -18,10 +18,10 @@ namespace dp {
     typedef float Float;
     typedef double Double;
 
-    typedef Byte StringChar;
-    typedef UByte Utf8Char;
-    typedef UShort Utf16Char;
-    typedef UInt Utf32Char;
+    typedef char StringChar;
+    typedef char Utf8Char;
+    typedef char16_t Utf16Char;
+    typedef char32_t Utf32Char;
 
     typedef std::basic_string< StringChar > String;
     typedef std::basic_string< Utf8Char > Utf8;

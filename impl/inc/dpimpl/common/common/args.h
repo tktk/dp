@@ -5,12 +5,19 @@
 #include "dp/common/stringconverter.h"
 
 #include <vector>
+#include <functional>
 
 namespace dp {
     template< class ARG_T >
-    void initArgsImpl(
+    Bool initArgsImpl(
         Args &                          _args
         , typename ARG_T::value_type ** _argv
+        , const std::function<
+            Bool(
+                Args::value_type &
+                , const ARG_T &
+            )
+        >                               _TO_UTF32
     )
     {
         auto    argv = _argv;
@@ -20,11 +27,15 @@ namespace dp {
             const auto  ARG = *argv;
             argv++;
 
-            toUtf32(
+            if( _TO_UTF32(
                 arg
                 , ARG_T( ARG )
-            );
+            ) == false ) {
+                return false;
+            }
         }
+
+        return true;
     }
 }
 

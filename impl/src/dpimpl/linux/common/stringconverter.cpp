@@ -287,7 +287,7 @@ namespace dp {
         );
     }
 
-    Bool toUtf8(
+    Bool stringToUtf8(
         Utf8 &              _utf8
         , const String &    _STRING
     )
@@ -323,7 +323,7 @@ namespace dp {
         );
     }
 
-    Bool toUtf16(
+    Bool stringToUtf16(
         Utf16 &             _utf16
         , const String &    _STRING
     )
@@ -359,7 +359,7 @@ namespace dp {
         );
     }
 
-    Bool toUtf32(
+    Bool stringToUtf32(
         Utf32 &             _utf32
         , const String &    _STRING
     )

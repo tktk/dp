@@ -17,10 +17,14 @@ dp::Int WINAPI wWinMain(
 {
     dp::Args    args( __argc );
 
-    dp::initArgs(
+    if( dp::initArgs(
         args
         , __wargv
-    );
+    ) == false ) {
+        //TODO
+
+        return 1;
+    }
 
     return dpMain(
         args

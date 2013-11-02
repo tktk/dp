@@ -6,14 +6,24 @@
 #include "dp/common/primitives.h"
 
 namespace dp {
-    void initArgs(
+    Bool initArgs(
         Args &          _args
         , wchar_t **    _argv
     )
     {
-        initArgsImpl< Utf16 >(
+        return initArgsImpl< Utf16 >(
             _args
             , reinterpret_cast< Utf16Char ** >( _argv )
+            , [](
+                Utf32 &         _to
+                , const Utf16 & _FROM
+            )
+            {
+                return toUtf32(
+                    _to
+                    , _FROM
+                );
+            }
         );
     }
 }

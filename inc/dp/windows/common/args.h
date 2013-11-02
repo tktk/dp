@@ -5,7 +5,7 @@
 #include "dp/util/import.h"
 
 namespace dp {
-    DPEXPORT void initArgs(
+    DPEXPORT Bool initArgs(
         Args &
         , wchar_t **
     );
