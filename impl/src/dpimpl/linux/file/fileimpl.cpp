@@ -5,6 +5,14 @@
 #include <cstdio>
 #include <unistd.h>
 
+template<>
+void free(
+    const FILE &    _FILE
+)
+{
+    std::fclose( const_cast< FILE * >( &_FILE ) );
+}
+
 namespace {
     dp::Bool tell(
         dp::FileImpl &  _impl
@@ -64,13 +72,6 @@ namespace {
 }
 
 namespace dp {
-    void FreeFile::operator()(
-        FILE *  _file
-    ) const
-    {
-        std::fclose( _file );
-    }
-
     Bool initializeFileImpl(
         FileImpl &              _impl
         , const Utf32 &         _FILE_PATH
