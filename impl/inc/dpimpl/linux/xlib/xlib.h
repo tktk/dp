@@ -9,25 +9,19 @@
 
 typedef int Bool;
 
+#include "dp/common/memory.h"
 #include "dp/util/import.h"
 
-#include <memory>
+template<>
+inline void free(
+    const ::Display &   _DISPLAY
+)
+{
+    XCloseDisplay( const_cast< ::Display * >( &_DISPLAY ) );
+}
 
 namespace dp {
-    struct FreeXDisplay
-    {
-        void operator()(
-            ::Display * _display
-        )
-        {
-            XCloseDisplay( _display );
-        }
-    };
-
-    typedef std::unique_ptr<
-        ::Display
-        , FreeXDisplay
-    > XDisplayUnique;
+    typedef dp::Unique< ::Display >::type XDisplayUnique;
 
     inline ::Display * newXDisplay(
     )
