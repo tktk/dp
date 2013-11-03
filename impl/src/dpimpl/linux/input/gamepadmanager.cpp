@@ -3,37 +3,54 @@
 #include "dp/input/gamepadmanager.h"
 #include "dpimpl/linux/input/gamepadkey.h"
 #include "dp/input/gamepadkey.h"
-#include "dp/common/primitives.h"
 #include "dp/common/thread.h"
 #include "dpimpl/linux/common/thread.h"
+#include "dp/common/memory.h"
+#include "dp/common/primitives.h"
 
 #include <libudev.h>
 #include <poll.h>
 #include <thread>
-#include <memory>
 #include <vector>
 #include <mutex>
 #include <condition_variable>
 #include <utility>
 #include <cstring>
 
+template<>
+void free(
+    const udev &    _UDEV
+)
+{
+    udev_unref( const_cast< udev * >( &_UDEV ) );
+}
+
+template<>
+void free(
+    const udev_monitor &    _MONITOR
+)
+{
+    udev_monitor_unref( const_cast< udev_monitor * >( &_MONITOR ) );
+}
+
+template<>
+void free(
+    const udev_device & _DEVICE
+)
+{
+    udev_device_unref( const_cast< udev_device * >( &_DEVICE ) );
+}
+
+template<>
+void free(
+    const udev_enumerate &  _ENUMERATE
+)
+{
+    udev_enumerate_unref( const_cast< udev_enumerate * >( &_ENUMERATE ) );
+}
+
 namespace {
     const auto  SUBSYSTEM = "input";
-
-    struct FreeUdev
-    {
-        void operator()(
-            udev *  _udev
-        ) const
-        {
-            udev_unref( _udev );
-        }
-    };
-
-    typedef std::unique_ptr<
-        udev
-        , FreeUdev
-    > UdevUnique;
 
     udev * newUdev(
     )
@@ -41,26 +58,11 @@ namespace {
         return udev_new();
     }
 
-    struct FreeUdevMonitor
-    {
-        void operator()(
-            udev_monitor *  _monitor
-        ) const
-        {
-            udev_monitor_unref( _monitor );
-        }
-    };
-
-    typedef std::unique_ptr<
-        udev_monitor
-        , FreeUdevMonitor
-    > UdevMonitorUnique;
-
     udev_monitor * newUdevMonitor(
         udev &  _udev
     )
     {
-        UdevMonitorUnique   monitorUnique(
+        auto    monitorUnique = dp::unique(
             udev_monitor_new_from_netlink(
                 &_udev
                 , "udev"
@@ -87,43 +89,15 @@ namespace {
         return monitorUnique.release();
     }
 
-    struct FreeUdevDevice
-    {
-        void operator()(
-            udev_device *   _device
-        ) const
-        {
-            udev_device_unref( _device );
-        }
-    };
-
-    typedef std::unique_ptr<
-        udev_device
-        , FreeUdevDevice
-    > UdevDeviceUnique;
+    typedef dp::Unique< udev_device >::type UdevDeviceUnique;
 
     typedef std::vector< UdevDeviceUnique > UdevDeviceUniques;
-
-    struct FreeUdevEnumerate
-    {
-        void operator()(
-            udev_enumerate *    _enumerate
-        ) const
-        {
-            udev_enumerate_unref( _enumerate );
-        }
-    };
-
-    typedef std::unique_ptr<
-        udev_enumerate
-        , FreeUdevEnumerate
-    > UdevEnumerateUnique;
 
     udev_enumerate * newUdevEnumerate(
         udev &  _udev
     )
     {
-        UdevEnumerateUnique enumerateUnique(
+        auto    enumerateUnique = dp::unique(
             udev_enumerate_new( &_udev )
         );
         if( enumerateUnique.get() == nullptr ) {
@@ -221,7 +195,7 @@ namespace {
         , udev &                _udev
     )
     {
-        UdevEnumerateUnique enumerateUnique(
+        auto    enumerateUnique = dp::unique(
             newUdevEnumerate(
                 _udev
             )
@@ -241,7 +215,7 @@ namespace {
                 continue;
             }
 
-            UdevDeviceUnique    deviceUnique(
+            auto    deviceUnique = dp::unique(
                 udev_device_new_from_syspath(
                     &_udev
                     , SYSPATH
@@ -294,7 +268,7 @@ namespace {
                 }
             }
 
-            UdevDeviceUnique    deviceUnique(
+            auto    deviceUnique = dp::unique(
                 udev_monitor_receive_device( &_monitor )
             );
             if( deviceUnique.get() == nullptr ) {
@@ -468,14 +442,14 @@ namespace {
         dp::GamePadManager &    _manager
     )
     {
-        UdevUnique  udevUnique( newUdev() );
+        auto    udevUnique = dp::unique( newUdev() );
         if( udevUnique.get() == nullptr ) {
             return;
         }
 
         auto &  udev = *udevUnique;
 
-        UdevMonitorUnique   monitorUnique(
+        auto    monitorUnique = dp::unique(
             newUdevMonitor(
                 udev
             )
