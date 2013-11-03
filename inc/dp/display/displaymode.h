@@ -5,18 +5,15 @@
 #include "dp/common/memory.h"
 #include "dp/common/primitives.h"
 #include "dp/util/import.h"
+#include "dp/util/struct.h"
 
 #include <memory>
 
-namespace dp {
-    struct DisplayMode;
+DPSTRUCT( dp, DisplayMode )
 
+namespace dp {
     DPEXPORT DisplayMode * newDisplayMode(
         const DisplayModeKey &
-    );
-
-    DPEXPORT void free(
-        DisplayMode &
     );
 
     DPEXPORT Int getWidth(

@@ -27,6 +27,14 @@ namespace {
     }
 }
 
+template<>
+void free(
+    const dp::AudioPlayerInfo & _INFO
+)
+{
+    delete &_INFO;
+}
+
 namespace dp {
     AudioPlayerInfo * newAudioPlayerInfo(
     )
@@ -47,13 +55,6 @@ namespace dp {
             , _OTHER.endEventHandler
             , _OTHER.playEventHandler
         );
-    }
-
-    void free(
-        AudioPlayerInfo &   _info
-    )
-    {
-        delete &_info;
     }
 
     const AudioPlayerStartEventHandler & getStartEventHandler(

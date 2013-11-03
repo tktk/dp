@@ -7,6 +7,14 @@
 
 #include <new>
 
+template<>
+void free(
+    const dp::FileR &   _FILE
+)
+{
+    delete &_FILE;
+}
+
 namespace dp {
     FileR * newFileR(
         const Utf32 &   _FILE_PATH
@@ -28,13 +36,6 @@ namespace dp {
         }
 
         return fileUnique.release();
-    }
-
-    void free(
-        FileR & _file
-    )
-    {
-        delete &_file;
     }
 
     Bool read(

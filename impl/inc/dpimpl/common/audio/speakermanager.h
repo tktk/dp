@@ -13,6 +13,9 @@
 #include "dp/audio/speakerkey.h"
 #include "dp/common/memory.h"
 #include "dp/common/primitives.h"
+#include "dp/util/struct.h"
+
+DPSTRUCT( dp, SpeakerManagerImpl )
 
 namespace dp {
     void callConnectEventHandler(
@@ -21,14 +24,8 @@ namespace dp {
         , Bool
     );
 
-    struct SpeakerManagerImpl;
-
     Bool initializeSpeakerManagerImpl(
         SpeakerManager &
-    );
-
-    void free(
-        SpeakerManagerImpl &
     );
 
     typedef Unique< SpeakerManagerImpl >::type SpeakerManagerImplUnique;

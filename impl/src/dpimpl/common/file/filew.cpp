@@ -37,6 +37,14 @@ namespace {
     }
 }
 
+template<>
+void free(
+    const dp::FileW &   _FILE
+)
+{
+    delete &_FILE;
+}
+
 namespace dp {
     FileW * newFileW(
         const Utf32 &   _FILE_PATH
@@ -76,13 +84,6 @@ namespace dp {
                 );
             }
         );
-    }
-
-    void free(
-        FileW & _file
-    )
-    {
-        delete &_file;
     }
 
     Bool write(

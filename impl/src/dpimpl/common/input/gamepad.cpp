@@ -8,6 +8,22 @@
 
 #include <new>
 
+template<>
+void free(
+    const dp::GamePad & _GAME_PAD
+)
+{
+    delete &_GAME_PAD;
+}
+
+template<>
+void free(
+    const dp::GamePadImpl & _IMPL
+)
+{
+    delete &_IMPL;
+}
+
 namespace dp {
     GamePad * newGamePad(
         const GamePadKey &      _KEY
@@ -47,13 +63,6 @@ namespace dp {
         return gamePadUnique.release();
     }
 
-    void free(
-        GamePad &   _gamePad
-    )
-    {
-        delete &_gamePad;
-    }
-
     void callButtonEventHandler(
         GamePad &   _gamePad
         , ULong     _index
@@ -84,12 +93,5 @@ namespace dp {
                 , _value
             );
         }
-    }
-
-    void free(
-        GamePadImpl &   _impl
-    )
-    {
-        delete &_impl;
     }
 }

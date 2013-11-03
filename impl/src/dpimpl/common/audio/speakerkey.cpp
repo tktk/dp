@@ -3,11 +3,10 @@
 
 #include "dpimpl/common/audio/speakerkey.h"
 
-namespace dp {
-    void free(
-        SpeakerKey &    _key
-    )
-    {
-        delete &_key;
-    }
+template<>
+void free(
+    const dp::SpeakerKey &  _KEY
+)
+{
+    delete &_KEY;
 }

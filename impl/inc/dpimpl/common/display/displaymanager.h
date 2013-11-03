@@ -13,6 +13,9 @@
 #include "dp/display/displaykey.h"
 #include "dp/common/memory.h"
 #include "dp/common/primitives.h"
+#include "dp/util/struct.h"
+
+DPSTRUCT( dp, DisplayManagerImpl )
 
 namespace dp {
     void callConnectEventHandler(
@@ -21,14 +24,8 @@ namespace dp {
         , Bool
     );
 
-    struct DisplayManagerImpl;
-
     Bool initializeDisplayManagerImpl(
         DisplayManager &
-    );
-
-    void free(
-        DisplayManagerImpl &
     );
 
     typedef Unique< DisplayManagerImpl >::type DisplayManagerImplUnique;

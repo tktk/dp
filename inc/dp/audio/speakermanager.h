@@ -5,15 +5,16 @@
 #include "dp/common/primitives.h"
 #include "dp/audio/speakerkey.h"
 #include "dp/util/import.h"
+#include "dp/util/struct.h"
 
 #include <functional>
 #include <memory>
 
+DPSTRUCT( dp, SpeakerManager )
+
+DPSTRUCT( dp, SpeakerManagerInfo )
+
 namespace dp {
-    struct SpeakerManager;
-
-    struct SpeakerManagerInfo;
-
     typedef std::function<
         void(
             SpeakerManager &
@@ -26,19 +27,11 @@ namespace dp {
         const SpeakerManagerInfo &
     );
 
-    DPEXPORT void free(
-        SpeakerManager &
-    );
-
     DPEXPORT SpeakerManagerInfo * newSpeakerManagerInfo(
     );
 
     DPEXPORT SpeakerManagerInfo * clone(
         const SpeakerManagerInfo &
-    );
-
-    DPEXPORT void free(
-        SpeakerManagerInfo &
     );
 
     DPEXPORT const SpeakerManagerConnectEventHandler & getConnectEventHandler(

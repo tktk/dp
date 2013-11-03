@@ -5,27 +5,19 @@
 #include "dp/common/memory.h"
 #include "dp/common/primitives.h"
 #include "dp/util/import.h"
+#include "dp/util/struct.h"
 
 #include <memory>
 #include <vector>
 
-namespace dp {
-    struct DisplayModeKey;
+DPKEYSTRUCT( dp, DisplayModeKey )
 
+namespace dp {
     DPEXPORT DisplayModeKey * clone(
         const DisplayModeKey &
     );
 
-    DPEXPORT void free(
-        DisplayModeKey &
-    );
-
     DPEXPORT Bool equals(
-        const DisplayModeKey &
-        , const DisplayModeKey &
-    );
-
-    DPEXPORT Bool less(
         const DisplayModeKey &
         , const DisplayModeKey &
     );

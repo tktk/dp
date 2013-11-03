@@ -6,15 +6,16 @@
 #include "dp/common/memory.h"
 #include "dp/common/primitives.h"
 #include "dp/util/import.h"
+#include "dp/util/struct.h"
 
 #include <functional>
 #include <memory>
 
+DPSTRUCT( dp, Window )
+
+DPSTRUCT( dp, WindowInfo )
+
 namespace dp {
-    struct Window;
-
-    struct WindowInfo;
-
     typedef std::function<
         void(
             Window &
@@ -118,10 +119,6 @@ namespace dp {
         , WindowFlags
     );
 
-    DPEXPORT void free(
-        Window &
-    );
-
     DPEXPORT void close(
         Window &
     );
@@ -156,10 +153,6 @@ namespace dp {
 
     DPEXPORT WindowInfo * clone(
         const WindowInfo &
-    );
-
-    DPEXPORT void free(
-        WindowInfo &
     );
 
     DPEXPORT const WindowCloseEventHandler & getCloseEventHandler(

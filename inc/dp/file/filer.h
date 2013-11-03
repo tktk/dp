@@ -4,18 +4,15 @@
 #include "dp/common/memory.h"
 #include "dp/common/primitives.h"
 #include "dp/util/import.h"
+#include "dp/util/struct.h"
 
 #include <memory>
 
-namespace dp {
-    struct FileR;
+DPSTRUCT( dp, FileR )
 
+namespace dp {
     DPEXPORT FileR * newFileR(
         const Utf32 &
-    );
-
-    DPEXPORT void free(
-        FileR &
     );
 
     DPEXPORT Bool read(

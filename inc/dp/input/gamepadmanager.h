@@ -5,15 +5,16 @@
 #include "dp/common/primitives.h"
 #include "dp/input/gamepadkey.h"
 #include "dp/util/import.h"
+#include "dp/util/struct.h"
 
 #include <functional>
 #include <memory>
 
+DPSTRUCT( dp, GamePadManager )
+
+DPSTRUCT( dp, GamePadManagerInfo )
+
 namespace dp {
-    struct GamePadManager;
-
-    struct GamePadManagerInfo;
-
     typedef std::function<
         void(
             GamePadManager &
@@ -26,19 +27,11 @@ namespace dp {
         const GamePadManagerInfo &
     );
 
-    DPEXPORT void free(
-        GamePadManager &
-    );
-
     DPEXPORT GamePadManagerInfo * newGamePadManagerInfo(
     );
 
     DPEXPORT GamePadManagerInfo * clone(
         const GamePadManagerInfo &
-    );
-
-    DPEXPORT void free(
-        GamePadManagerInfo &
     );
 
     DPEXPORT const GamePadManagerConnectEventHandler & getConnectEventHandler(

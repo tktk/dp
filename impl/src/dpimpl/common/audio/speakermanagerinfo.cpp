@@ -23,6 +23,14 @@ namespace {
     }
 }
 
+template<>
+void free(
+    const dp::SpeakerManagerInfo &  _INFO
+)
+{
+    delete &_INFO;
+}
+
 namespace dp {
     SpeakerManagerInfo * newSpeakerManagerInfo(
     )
@@ -39,13 +47,6 @@ namespace dp {
         return ::newSpeakerManagerInfo(
             _OTHER.connectEventHandler
         );
-    }
-
-    void free(
-        SpeakerManagerInfo &    _info
-    )
-    {
-        delete &_info;
     }
 
     const SpeakerManagerConnectEventHandler & getConnectEventHandler(

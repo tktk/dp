@@ -3,15 +3,26 @@
 
 #include "dp/common/primitives.h"
 
+template< typename T >
+void free(
+    const T &
+);
+
+template< typename T >
+dp::Bool less(
+    const T &
+    , const T &
+);
+
 namespace dp {
     template< typename T >
     struct Free
     {
         void operator()(
-            T * _obj
+            const T * _OBJ
         ) const
         {
-            free( *_obj );
+            ::free( *_OBJ );
         }
     };
 
@@ -23,7 +34,7 @@ namespace dp {
             , const T & _KEY2
         ) const
         {
-            return less(
+            return ::less(
                 *_KEY1
                 , *_KEY2
             );

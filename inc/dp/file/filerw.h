@@ -4,12 +4,13 @@
 #include "dp/common/memory.h"
 #include "dp/common/primitives.h"
 #include "dp/util/import.h"
+#include "dp/util/struct.h"
 
 #include <memory>
 
-namespace dp {
-    struct FileRW;
+DPSTRUCT( dp, FileRW )
 
+namespace dp {
     DPEXPORT FileRW * newFileRW(
         const Utf32 &
     );
@@ -20,10 +21,6 @@ namespace dp {
 
     DPEXPORT FileRW * newFileAR(
         const Utf32 &
-    );
-
-    DPEXPORT void free(
-        FileRW &
     );
 
     DPEXPORT Bool read(

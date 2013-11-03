@@ -4,14 +4,15 @@
 #include "dpimpl/common/display/displaymode.h"
 #include "dp/common/primitives.h"
 
-namespace dp {
-    void free(
-        DisplayMode &   _mode
-    )
-    {
-        delete &_mode;
-    }
+template<>
+void free(
+    const dp::DisplayMode & _MODE
+)
+{
+    delete &_MODE;
+}
 
+namespace dp {
     Int getWidth(
         const DisplayMode & _MODE
     )

@@ -3,11 +3,10 @@
 
 #include "dpimpl/common/display/displaymodekey.h"
 
-namespace dp {
-    void free(
-        DisplayModeKey &    _modeKey
-    )
-    {
-        delete &_modeKey;
-    }
+template<>
+void free(
+    const dp::DisplayModeKey &  _KEY
+)
+{
+    delete &_KEY;
 }

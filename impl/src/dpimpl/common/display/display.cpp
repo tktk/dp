@@ -43,6 +43,14 @@ namespace {
     }
 }
 
+template<>
+void free(
+    const dp::Display & _DISPLAY
+)
+{
+    delete &_DISPLAY;
+}
+
 namespace dp {
     Display * newDisplay(
         const DisplayModeKey &  _MODE_KEY
@@ -98,13 +106,6 @@ namespace dp {
         display.height = _DISPLAY.height;
 
         return displayUnique.release();
-    }
-
-    void free(
-        Display &   _display
-    )
-    {
-        delete &_display;
     }
 
     Int getWidth(

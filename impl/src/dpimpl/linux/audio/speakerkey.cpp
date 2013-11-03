@@ -24,6 +24,15 @@ namespace {
     }
 }
 
+template<>
+dp::Bool less(
+    const dp::SpeakerKey &      _KEY1
+    , const dp::SpeakerKey &    _KEY2
+)
+{
+    return _KEY1.index < _KEY2.index;
+}
+
 namespace dp {
     SpeakerKey * clone(
         const SpeakerKey &  _OTHER
@@ -40,14 +49,6 @@ namespace dp {
     )
     {
         return _KEY1.index == _KEY2.index;
-    }
-
-    Bool less(
-        const SpeakerKey &      _KEY1
-        , const SpeakerKey &    _KEY2
-    )
-    {
-        return _KEY1.index < _KEY2.index;
     }
 
     SpeakerKey * newSpeakerKey(

@@ -13,6 +13,9 @@
 #include "dp/audio/audioformat.h"
 #include "dp/common/memory.h"
 #include "dp/common/primitives.h"
+#include "dp/util/struct.h"
+
+DPSTRUCT( dp, AudioPlayerImpl )
 
 namespace dp {
     void callStartEventHandler(
@@ -29,18 +32,12 @@ namespace dp {
         , ULong
     );
 
-    struct AudioPlayerImpl;
-
     Bool initializeAudioPlayerImpl(
         AudioPlayer &
         , const SpeakerKey &
         , AudioFormat
         , UInt
         , UInt
-    );
-
-    void free(
-        AudioPlayerImpl &
     );
 
     typedef Unique< AudioPlayerImpl >::type AudioPlayerImplUnique;

@@ -3,11 +3,10 @@
 
 #include "dpimpl/common/opengl/glcontext.h"
 
-namespace dp {
-    void free(
-        GLContext & _glContext
-    )
-    {
-        delete &_glContext;
-    }
+template<>
+void free(
+    const dp::GLContext &   _GL_CONTEXT
+)
+{
+    delete &_GL_CONTEXT;
 }

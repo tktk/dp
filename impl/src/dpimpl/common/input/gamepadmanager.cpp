@@ -9,6 +9,22 @@
 #include <new>
 #include <utility>
 
+template<>
+void free(
+    const dp::GamePadManager &  _MANAGER
+)
+{
+    delete &_MANAGER;
+}
+
+template<>
+void free(
+    const dp::GamePadManagerImpl &  _IMPL
+)
+{
+    delete &_IMPL;
+}
+
 namespace dp {
     GamePadManager * newGamePadManager(
         const GamePadManagerInfo &  _INFO
@@ -46,13 +62,6 @@ namespace dp {
         return managerUnique.release();
     }
 
-    void free(
-        GamePadManager &  _manager
-    )
-    {
-        delete &_manager;
-    }
-
     void callConnectEventHandler(
         GamePadManager &        _manager
         , GamePadKeyUnique &&   _keyUnique
@@ -67,12 +76,5 @@ namespace dp {
                 , _connected
             );
         }
-    }
-
-    void free(
-        GamePadManagerImpl &    _impl
-    )
-    {
-        delete &_impl;
     }
 }

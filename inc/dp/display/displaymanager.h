@@ -5,15 +5,16 @@
 #include "dp/common/primitives.h"
 #include "dp/display/displaykey.h"
 #include "dp/util/import.h"
+#include "dp/util/struct.h"
 
 #include <functional>
 #include <memory>
 
+DPSTRUCT( dp, DisplayManager )
+
+DPSTRUCT( dp, DisplayManagerInfo )
+
 namespace dp {
-    struct DisplayManager;
-
-    struct DisplayManagerInfo;
-
     typedef std::function<
         void(
             DisplayManager &
@@ -26,19 +27,11 @@ namespace dp {
         const DisplayManagerInfo &
     );
 
-    DPEXPORT void free(
-        DisplayManager &
-    );
-
     DPEXPORT DisplayManagerInfo * newDisplayManagerInfo(
     );
 
     DPEXPORT DisplayManagerInfo * clone(
         const DisplayManagerInfo &
-    );
-
-    DPEXPORT void free(
-        DisplayManagerInfo &
     );
 
     DPEXPORT const DisplayManagerConnectEventHandler & getConnectEventHandler(

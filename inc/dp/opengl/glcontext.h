@@ -5,14 +5,15 @@
 #include "dp/common/memory.h"
 #include "dp/common/primitives.h"
 #include "dp/util/import.h"
+#include "dp/util/struct.h"
 
 #include <memory>
 
+DPSTRUCT( dp, GLContext )
+
+DPSTRUCT( dp, GLContextInfo )
+
 namespace dp {
-    struct GLContext;
-
-    struct GLContextInfo;
-
     DPEXPORT GLContext * newGLContext(
         const GLContextInfo &
     );
@@ -20,10 +21,6 @@ namespace dp {
     DPEXPORT GLContext * newGLContext(
         const GLContextInfo &
         , GLContext &
-    );
-
-    DPEXPORT void free(
-        GLContext &
     );
 
     DPEXPORT void glMakeCurrent(
@@ -44,10 +41,6 @@ namespace dp {
 
     DPEXPORT GLContextInfo * clone(
         const GLContextInfo &
-    );
-
-    DPEXPORT void free(
-        GLContextInfo &
     );
 
     DPEXPORT Bool getDoubleBuffer(

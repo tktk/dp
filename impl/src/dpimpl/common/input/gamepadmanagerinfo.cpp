@@ -23,6 +23,14 @@ namespace {
     }
 }
 
+template<>
+void free(
+    const dp::GamePadManagerInfo &  _INFO
+)
+{
+    delete &_INFO;
+}
+
 namespace dp {
     GamePadManagerInfo * newGamePadManagerInfo(
     )
@@ -39,13 +47,6 @@ namespace dp {
         return ::newGamePadManagerInfo(
             _OTHER.connectEventHandler
         );
-    }
-
-    void free(
-        GamePadManagerInfo &    _info
-    )
-    {
-        delete &_info;
     }
 
     const GamePadManagerConnectEventHandler & getConnectEventHandler(

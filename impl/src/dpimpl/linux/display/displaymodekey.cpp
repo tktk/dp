@@ -85,6 +85,15 @@ namespace {
     }
 }
 
+template<>
+dp::Bool less(
+    const dp::DisplayModeKey &      _KEY1
+    , const dp::DisplayModeKey &    _KEY2
+)
+{
+    return _KEY1.mode < _KEY2.mode;
+}
+
 namespace dp {
     DisplayModeKey * clone(
         const DisplayModeKey &  _KEY
@@ -101,14 +110,6 @@ namespace dp {
     )
     {
         return _KEY1.mode == _KEY2.mode;
-    }
-
-    Bool less(
-        const DisplayModeKey &      _KEY1
-        , const DisplayModeKey &    _KEY2
-    )
-    {
-        return _KEY1.mode < _KEY2.mode;
     }
 
     Bool enumDisplayModeKeyUniques(

@@ -13,6 +13,9 @@
 #include "dp/input/gamepadkey.h"
 #include "dp/common/memory.h"
 #include "dp/common/primitives.h"
+#include "dp/util/struct.h"
+
+DPSTRUCT( dp, GamePadImpl )
 
 namespace dp {
     void callButtonEventHandler(
@@ -27,15 +30,9 @@ namespace dp {
         , Long
     );
 
-    struct GamePadImpl;
-
     Bool initializeGamePadImpl(
         GamePad &
         , const GamePadKey &
-    );
-
-    void free(
-        GamePadImpl &
     );
 
     typedef Unique< GamePadImpl >::type GamePadImplUnique;

@@ -4,26 +4,18 @@
 #include "dp/common/memory.h"
 #include "dp/common/primitives.h"
 #include "dp/util/import.h"
+#include "dp/util/struct.h"
 
 #include <memory>
 
-namespace dp {
-    struct DisplayKey;
+DPKEYSTRUCT( dp, DisplayKey )
 
+namespace dp {
     DPEXPORT DisplayKey * clone(
         const DisplayKey &
     );
 
-    DPEXPORT void free(
-        DisplayKey &
-    );
-
     DPEXPORT Bool equals(
-        const DisplayKey &
-        , const DisplayKey &
-    );
-
-    DPEXPORT Bool less(
         const DisplayKey &
         , const DisplayKey &
     );

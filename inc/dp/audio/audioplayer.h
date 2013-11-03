@@ -6,15 +6,16 @@
 #include "dp/common/memory.h"
 #include "dp/common/primitives.h"
 #include "dp/util/import.h"
+#include "dp/util/struct.h"
 
 #include <functional>
 #include <memory>
 
+DPSTRUCT( dp, AudioPlayer )
+
+DPSTRUCT( dp, AudioPlayerInfo )
+
 namespace dp {
-    struct AudioPlayer;
-
-    struct AudioPlayerInfo;
-
     typedef std::function<
         void(
             AudioPlayer &
@@ -43,10 +44,6 @@ namespace dp {
         , UInt
     );
 
-    DPEXPORT void free(
-        AudioPlayer &
-    );
-
     DPEXPORT void pause(
         AudioPlayer &
         , Bool
@@ -57,10 +54,6 @@ namespace dp {
 
     DPEXPORT AudioPlayerInfo * clone(
         const AudioPlayerInfo &
-    );
-
-    DPEXPORT void free(
-        AudioPlayerInfo &
     );
 
     DPEXPORT const AudioPlayerStartEventHandler & getStartEventHandler(

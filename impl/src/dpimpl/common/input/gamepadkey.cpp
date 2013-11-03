@@ -3,11 +3,10 @@
 
 #include "dpimpl/common/input/gamepadkey.h"
 
-namespace dp {
-    void free(
-        GamePadKey &    _key
-    )
-    {
-        delete &_key;
-    }
+template<>
+void free(
+    const dp::GamePadKey &  _KEY
+)
+{
+    delete &_KEY;
 }

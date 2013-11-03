@@ -9,6 +9,22 @@
 
 #include <new>
 
+template<>
+void free(
+    const dp::AudioPlayer & _AUDIO_PLAYER
+)
+{
+    delete &_AUDIO_PLAYER;
+}
+
+template<>
+void free(
+    const dp::AudioPlayerImpl & _IMPL
+)
+{
+    delete &_IMPL;
+}
+
 namespace dp {
     AudioPlayer * newAudioPlayer(
         const SpeakerKey &          _KEY
@@ -54,13 +70,6 @@ namespace dp {
         return audioPlayerUnique.release();
     }
 
-    void free(
-        AudioPlayer &   _audioPlayer
-    )
-    {
-        delete &_audioPlayer;
-    }
-
     void callStartEventHandler(
         AudioPlayer &   _audioPlayer
     )
@@ -101,12 +110,5 @@ namespace dp {
         } else {
             return 0;
         }
-    }
-
-    void free(
-        AudioPlayerImpl &   _impl
-    )
-    {
-        delete &_impl;
     }
 }

@@ -24,6 +24,16 @@ namespace {
     }
 }
 
+template<>
+dp::Bool less(
+    const dp::SpeakerKey &      _KEY1
+    , const dp::SpeakerKey &    _KEY2
+)
+{
+    //TODO
+    return false;
+}
+
 namespace dp {
     SpeakerKey * clone(
         const SpeakerKey &  _OTHER
@@ -35,15 +45,6 @@ namespace dp {
     }
 
     Bool equals(
-        const SpeakerKey &      _KEY1
-        , const SpeakerKey &    _KEY2
-    )
-    {
-        //TODO
-        return false;
-    }
-
-    Bool less(
         const SpeakerKey &      _KEY1
         , const SpeakerKey &    _KEY2
     )

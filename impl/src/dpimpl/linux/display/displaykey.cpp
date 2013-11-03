@@ -25,6 +25,15 @@ namespace {
     }
 }
 
+template<>
+dp::Bool less(
+    const dp::DisplayKey &      _KEY1
+    , const dp::DisplayKey &    _KEY2
+)
+{
+    return _KEY1.crtc < _KEY2.crtc;
+}
+
 namespace dp {
     DisplayKey * clone(
         const DisplayKey &  _OTHER
@@ -41,14 +50,6 @@ namespace dp {
     )
     {
         return _KEY1.crtc == _KEY2.crtc;
-    }
-
-    Bool less(
-        const DisplayKey &      _KEY1
-        , const DisplayKey &    _KEY2
-    )
-    {
-        return _KEY1.crtc < _KEY2.crtc;
     }
 
     DisplayKey * newDisplayKey(

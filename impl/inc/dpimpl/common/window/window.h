@@ -14,6 +14,9 @@
 #include "dp/window/key.h"
 #include "dp/common/memory.h"
 #include "dp/common/primitives.h"
+#include "dp/util/struct.h"
+
+DPSTRUCT( dp, WindowImpl )
 
 namespace dp {
     void callCloseEventHandler(
@@ -67,8 +70,6 @@ namespace dp {
         , Int
     );
 
-    struct WindowImpl;
-
     Bool initializeWindowImpl(
         Window &
         , const Utf32 &
@@ -85,10 +86,6 @@ namespace dp {
         , Int
         , Int
         , WindowFlags
-    );
-
-    void free(
-        WindowImpl &
     );
 
     typedef Unique< WindowImpl >::type WindowImplUnique;

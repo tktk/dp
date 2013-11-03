@@ -7,12 +7,13 @@
 #include "dp/common/memory.h"
 #include "dp/common/primitives.h"
 #include "dp/util/import.h"
+#include "dp/util/struct.h"
 
 #include <memory>
 
-namespace dp {
-    struct Display;
+DPSTRUCT( dp, Display )
 
+namespace dp {
     DPEXPORT Display * newDisplay(
         const DisplayModeKey &
         , Int
@@ -26,10 +27,6 @@ namespace dp {
 
     DPEXPORT Display * clone(
         const Display &
-    );
-
-    DPEXPORT void free(
-        Display &
     );
 
     DPEXPORT Int getWidth(

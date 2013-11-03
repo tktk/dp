@@ -23,6 +23,14 @@ namespace {
     }
 }
 
+template<>
+void free(
+    const dp::DisplayManagerInfo &  _INFO
+)
+{
+    delete &_INFO;
+}
+
 namespace dp {
     DisplayManagerInfo * newDisplayManagerInfo(
     )
@@ -39,13 +47,6 @@ namespace dp {
         return ::newDisplayManagerInfo(
             _OTHER.connectEventHandler
         );
-    }
-
-    void free(
-        DisplayManagerInfo &    _info
-    )
-    {
-        delete &_info;
     }
 
     const DisplayManagerConnectEventHandler & getConnectEventHandler(

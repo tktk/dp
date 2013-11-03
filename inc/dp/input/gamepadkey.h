@@ -4,26 +4,18 @@
 #include "dp/common/memory.h"
 #include "dp/common/primitives.h"
 #include "dp/util/import.h"
+#include "dp/util/struct.h"
 
 #include <memory>
 
-namespace dp {
-    struct GamePadKey;
+DPKEYSTRUCT( dp, GamePadKey )
 
+namespace dp {
     DPEXPORT GamePadKey * clone(
         const GamePadKey &
     );
 
-    DPEXPORT void free(
-        GamePadKey &
-    );
-
     DPEXPORT Bool equals(
-        const GamePadKey &
-        , const GamePadKey &
-    );
-
-    DPEXPORT Bool less(
         const GamePadKey &
         , const GamePadKey &
     );

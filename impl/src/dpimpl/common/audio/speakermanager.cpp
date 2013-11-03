@@ -9,6 +9,22 @@
 #include <new>
 #include <utility>
 
+template<>
+void free(
+    const dp::SpeakerManager &  _MANAGER
+)
+{
+    delete &_MANAGER;
+}
+
+template<>
+void free(
+    const dp::SpeakerManagerImpl &  _IMPL
+)
+{
+    delete &_IMPL;
+}
+
 namespace dp {
     SpeakerManager * newSpeakerManager(
         const SpeakerManagerInfo &  _INFO
@@ -46,13 +62,6 @@ namespace dp {
         return managerUnique.release();
     }
 
-    void free(
-        SpeakerManager &    _manager
-    )
-    {
-        delete &_manager;
-    }
-
     void callConnectEventHandler(
         SpeakerManager &        _manager
         , SpeakerKeyUnique &&   _keyUnique
@@ -67,12 +76,5 @@ namespace dp {
                 , _connected
             );
         }
-    }
-
-    void free(
-        SpeakerManagerImpl &    _impl
-    )
-    {
-        delete &_impl;
     }
 }

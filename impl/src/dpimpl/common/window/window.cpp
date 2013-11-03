@@ -54,6 +54,22 @@ namespace {
     }
 }
 
+template<>
+void free(
+    const dp::Window &  _WINDOW
+)
+{
+    delete &_WINDOW;
+}
+
+template<>
+void free(
+    const dp::WindowImpl &  _IMPL
+)
+{
+    delete &_IMPL;
+}
+
 namespace dp {
     Window * newWindow(
         const WindowInfo &  _INFO
@@ -157,13 +173,6 @@ namespace dp {
                 );
             }
         );
-    }
-
-    void free(
-        Window &    _window
-    )
-    {
-        delete &_window;
     }
 
     void callCloseEventHandler(
@@ -302,12 +311,5 @@ namespace dp {
                 , _y
             );
         }
-    }
-
-    void free(
-        WindowImpl &    _impl
-    )
-    {
-        delete &_impl;
     }
 }

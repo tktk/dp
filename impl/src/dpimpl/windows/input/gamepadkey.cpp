@@ -22,6 +22,16 @@ namespace {
     }
 }
 
+template<>
+dp::Bool less(
+    const dp::GamePadKey &      _KEY1
+    , const dp::GamePadKey &    _KEY2
+)
+{
+    //TODO
+    return false;
+}
+
 namespace dp {
     GamePadKey * clone(
         const GamePadKey &  _OTHER
@@ -33,15 +43,6 @@ namespace dp {
     }
 
     Bool equals(
-        const GamePadKey &      _KEY1
-        , const GamePadKey &    _KEY2
-    )
-    {
-        //TODO
-        return false;
-    }
-
-    Bool less(
         const GamePadKey &      _KEY1
         , const GamePadKey &    _KEY2
     )

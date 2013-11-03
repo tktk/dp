@@ -37,6 +37,14 @@ namespace {
     }
 }
 
+template<>
+void free(
+    const dp::FileRW &  _FILE
+)
+{
+    delete &_FILE;
+}
+
 namespace dp {
     FileRW * newFileRW(
         const Utf32 &   _FILE_PATH
@@ -96,13 +104,6 @@ namespace dp {
                 );
             }
         );
-    }
-
-    void free(
-        FileRW &    _file
-    )
-    {
-        delete &_file;
     }
 
     Bool read(

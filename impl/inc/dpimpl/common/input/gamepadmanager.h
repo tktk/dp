@@ -13,6 +13,9 @@
 #include "dp/input/gamepadkey.h"
 #include "dp/common/memory.h"
 #include "dp/common/primitives.h"
+#include "dp/util/struct.h"
+
+DPSTRUCT( dp, GamePadManagerImpl )
 
 namespace dp {
     void callConnectEventHandler(
@@ -21,14 +24,8 @@ namespace dp {
         , Bool
     );
 
-    struct GamePadManagerImpl;
-
     Bool initializeGamePadManagerImpl(
         GamePadManager &
-    );
-
-    void free(
-        GamePadManagerImpl &
     );
 
     typedef Unique< GamePadManagerImpl >::type GamePadManagerImplUnique;

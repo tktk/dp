@@ -68,6 +68,14 @@ namespace {
     }
 }
 
+template<>
+void free(
+    const dp::GLContextInfo &   _INFO
+)
+{
+    delete &_INFO;
+}
+
 namespace dp {
     GLContextInfo * newGLContextInfo(
     )
@@ -128,13 +136,6 @@ namespace dp {
             , _OTHER.existsAccumAlphaBits_
             , _OTHER.accumAlphaBits
         );
-    }
-
-    void free(
-        GLContextInfo & _info
-    )
-    {
-        delete &_info;
     }
 
     Bool getDoubleBuffer(

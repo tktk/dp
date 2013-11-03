@@ -9,6 +9,22 @@
 #include <new>
 #include <utility>
 
+template<>
+void free(
+    const dp::DisplayManager &  _MANAGER
+)
+{
+    delete &_MANAGER;
+}
+
+template<>
+void free(
+    const dp::DisplayManagerImpl &  _IMPL
+)
+{
+    delete &_IMPL;
+}
+
 namespace dp {
     DisplayManager * newDisplayManager(
         const DisplayManagerInfo &  _INFO
@@ -46,13 +62,6 @@ namespace dp {
         return managerUnique.release();
     }
 
-    void free(
-        DisplayManager &    _manager
-    )
-    {
-        delete &_manager;
-    }
-
     void callConnectEventHandler(
         DisplayManager &        _manager
         , DisplayKeyUnique &&   _keyUnique
@@ -67,12 +76,5 @@ namespace dp {
                 , _connected
             );
         }
-    }
-
-    void free(
-        DisplayManagerImpl &    _impl
-    )
-    {
-        delete &_impl;
     }
 }

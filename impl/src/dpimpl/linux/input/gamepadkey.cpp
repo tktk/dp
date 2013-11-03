@@ -24,6 +24,15 @@ namespace {
     }
 }
 
+template<>
+dp::Bool less(
+    const dp::GamePadKey &      _KEY1
+    , const dp::GamePadKey &    _KEY2
+)
+{
+    return _KEY1.path < _KEY2.path;
+}
+
 namespace dp {
     GamePadKey * clone(
         const GamePadKey &  _OTHER
@@ -40,14 +49,6 @@ namespace dp {
     )
     {
         return _KEY1.path == _KEY2.path;
-    }
-
-    Bool less(
-        const GamePadKey &      _KEY1
-        , const GamePadKey &    _KEY2
-    )
-    {
-        return _KEY1.path < _KEY2.path;
     }
 
     GamePadKey * newGamePadKey(

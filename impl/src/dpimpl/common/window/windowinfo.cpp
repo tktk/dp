@@ -39,6 +39,14 @@ namespace {
     }
 }
 
+template<>
+void free(
+    const dp::WindowInfo &  _INFO
+)
+{
+    delete &_INFO;
+}
+
 namespace dp {
     WindowInfo * newWindowInfo(
     )
@@ -71,13 +79,6 @@ namespace dp {
             , _OTHER.mouseButtonEventHandler
             , _OTHER.mouseMotionEventHandler
         );
-    }
-
-    void free(
-        WindowInfo &    _info
-    )
-    {
-        delete &_info;
     }
 
     const WindowCloseEventHandler & getCloseEventHandler(

@@ -4,22 +4,19 @@
 #include "dp/common/memory.h"
 #include "dp/common/primitives.h"
 #include "dp/util/import.h"
+#include "dp/util/struct.h"
 
 #include <memory>
 
-namespace dp {
-    struct FileW;
+DPSTRUCT( dp, FileW )
 
+namespace dp {
     DPEXPORT FileW * newFileW(
         const Utf32 &
     );
 
     DPEXPORT FileW * newFileA(
         const Utf32 &
-    );
-
-    DPEXPORT void free(
-        FileW &
     );
 
     DPEXPORT Bool write(

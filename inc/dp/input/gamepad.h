@@ -5,15 +5,16 @@
 #include "dp/common/memory.h"
 #include "dp/common/primitives.h"
 #include "dp/util/import.h"
+#include "dp/util/struct.h"
 
 #include <functional>
 #include <memory>
 
+DPSTRUCT( dp, GamePad )
+
+DPSTRUCT( dp, GamePadInfo )
+
 namespace dp {
-    struct GamePad;
-
-    struct GamePadInfo;
-
     typedef std::function<
         void(
             GamePad &
@@ -33,10 +34,6 @@ namespace dp {
     DPEXPORT GamePad * newGamePad(
         const GamePadKey &
         , const GamePadInfo &
-    );
-
-    DPEXPORT void free(
-        GamePad &
     );
 
     DPEXPORT Bool getName(
@@ -59,10 +56,6 @@ namespace dp {
 
     DPEXPORT GamePadInfo * clone(
         const GamePadInfo &
-    );
-
-    DPEXPORT void free(
-        GamePadInfo &
     );
 
     DPEXPORT const GamePadButtonEventHandler & getButtonEventHandler(

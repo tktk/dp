@@ -4,6 +4,16 @@
 #include "dp/display/displaykey.h"
 #include "dp/common/primitives.h"
 
+template<>
+dp::Bool less(
+    const dp::DisplayModeKey &
+    , const dp::DisplayModeKey &
+)
+{
+    //TODO
+    return false;
+}
+
 namespace dp {
     DisplayModeKey * clone(
         const DisplayModeKey &
@@ -14,15 +24,6 @@ namespace dp {
     }
 
     Bool equals(
-        const DisplayModeKey &
-        , const DisplayModeKey &
-    )
-    {
-        //TODO
-        return false;
-    }
-
-    Bool less(
         const DisplayModeKey &
         , const DisplayModeKey &
     )

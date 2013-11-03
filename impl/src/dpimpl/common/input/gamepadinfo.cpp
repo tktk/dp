@@ -25,6 +25,14 @@ namespace {
     }
 }
 
+template<>
+void free(
+    const dp::GamePadInfo & _INFO
+)
+{
+    delete &_INFO;
+}
+
 namespace dp {
     GamePadInfo * newGamePadInfo(
     )
@@ -43,13 +51,6 @@ namespace dp {
             _OTHER.buttonEventHandler
             , _OTHER.axisEventHandler
         );
-    }
-
-    void free(
-        GamePadInfo &   _info
-    )
-    {
-        delete &_info;
     }
 
     const GamePadButtonEventHandler & getButtonEventHandler(
