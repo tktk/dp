@@ -41,27 +41,27 @@ namespace {
         auto &  info = *infoUnique;
 
         info.doubleBuffer = _doubleBuffer;
-        info.existsAuxBuffers = _existsAuxBuffers;
+        info.existsAuxBuffers_ = _existsAuxBuffers;
         info.auxBuffers = _auxBuffers;
-        info.existsRedBits = _existsRedBits;
+        info.existsRedBits_ = _existsRedBits;
         info.redBits = _redBits;
-        info.existsGreenBits = _existsGreenBits;
+        info.existsGreenBits_ = _existsGreenBits;
         info.greenBits = _greenBits;
-        info.existsBlueBits = _existsBlueBits;
+        info.existsBlueBits_ = _existsBlueBits;
         info.blueBits = _blueBits;
-        info.existsAlphaBits = _existsAlphaBits;
+        info.existsAlphaBits_ = _existsAlphaBits;
         info.alphaBits = _alphaBits;
-        info.existsDepthBits = _existsDepthBits;
+        info.existsDepthBits_ = _existsDepthBits;
         info.depthBits = _depthBits;
-        info.existsStencilBits = _existsStencilBits;
+        info.existsStencilBits_ = _existsStencilBits;
         info.stencilBits = _stencilBits;
-        info.existsAccumRedBits = _existsAccumRedBits;
+        info.existsAccumRedBits_ = _existsAccumRedBits;
         info.accumRedBits = _accumRedBits;
-        info.existsAccumGreenBits = _existsAccumGreenBits;
+        info.existsAccumGreenBits_ = _existsAccumGreenBits;
         info.accumGreenBits = _accumGreenBits;
-        info.existsAccumBlueBits = _existsAccumBlueBits;
+        info.existsAccumBlueBits_ = _existsAccumBlueBits;
         info.accumBlueBits = _accumBlueBits;
-        info.existsAccumAlphaBits = _existsAccumAlphaBits;
+        info.existsAccumAlphaBits_ = _existsAccumAlphaBits;
         info.accumAlphaBits = _accumAlphaBits;
 
         return infoUnique.release();
@@ -105,27 +105,27 @@ namespace dp {
     {
         return ::newGLContextInfo(
             _OTHER.doubleBuffer
-            , _OTHER.existsAuxBuffers
+            , _OTHER.existsAuxBuffers_
             , _OTHER.auxBuffers
-            , _OTHER.existsRedBits
+            , _OTHER.existsRedBits_
             , _OTHER.redBits
-            , _OTHER.existsGreenBits
+            , _OTHER.existsGreenBits_
             , _OTHER.greenBits
-            , _OTHER.existsBlueBits
+            , _OTHER.existsBlueBits_
             , _OTHER.blueBits
-            , _OTHER.existsAlphaBits
+            , _OTHER.existsAlphaBits_
             , _OTHER.alphaBits
-            , _OTHER.existsDepthBits
+            , _OTHER.existsDepthBits_
             , _OTHER.depthBits
-            , _OTHER.existsStencilBits
+            , _OTHER.existsStencilBits_
             , _OTHER.stencilBits
-            , _OTHER.existsAccumRedBits
+            , _OTHER.existsAccumRedBits_
             , _OTHER.accumRedBits
-            , _OTHER.existsAccumGreenBits
+            , _OTHER.existsAccumGreenBits_
             , _OTHER.accumGreenBits
-            , _OTHER.existsAccumBlueBits
+            , _OTHER.existsAccumBlueBits_
             , _OTHER.accumBlueBits
-            , _OTHER.existsAccumAlphaBits
+            , _OTHER.existsAccumAlphaBits_
             , _OTHER.accumAlphaBits
         );
     }
@@ -152,11 +152,11 @@ namespace dp {
         _info.doubleBuffer = _doubleBuffer;
     }
 
-    Bool isExistsAuxBuffers(
+    Bool existsAuxBuffers(
         const GLContextInfo &   _INFO
     )
     {
-        return _INFO.existsAuxBuffers;
+        return _INFO.existsAuxBuffers_;
     }
 
     Int getAuxBuffers(
@@ -172,21 +172,21 @@ namespace dp {
     )
     {
         _info.auxBuffers = _auxBuffers;
-        _info.existsAuxBuffers = true;
+        _info.existsAuxBuffers_ = true;
     }
 
     void clearAuxBuffers(
         GLContextInfo & _info
     )
     {
-        _info.existsAuxBuffers = false;
+        _info.existsAuxBuffers_ = false;
     }
 
-    Bool isExistsRedBits(
+    Bool existsRedBits(
         const GLContextInfo &   _INFO
     )
     {
-        return _INFO.existsRedBits;
+        return _INFO.existsRedBits_;
     }
 
     Int getRedBits(
@@ -202,21 +202,21 @@ namespace dp {
     )
     {
         _info.redBits = _redBits;
-        _info.existsRedBits = true;
+        _info.existsRedBits_ = true;
     }
 
     void clearRedBits(
         GLContextInfo & _info
     )
     {
-        _info.existsRedBits = false;
+        _info.existsRedBits_ = false;
     }
 
-    Bool isExistsGreenBits(
+    Bool existsGreenBits(
         const GLContextInfo &   _INFO
     )
     {
-        return _INFO.existsGreenBits;
+        return _INFO.existsGreenBits_;
     }
 
     Int getGreenBits(
@@ -232,21 +232,21 @@ namespace dp {
     )
     {
         _info.greenBits = _greenBits;
-        _info.existsGreenBits = true;
+        _info.existsGreenBits_ = true;
     }
 
     void clearGreenBits(
         GLContextInfo & _info
     )
     {
-        _info.existsGreenBits = false;
+        _info.existsGreenBits_ = false;
     }
 
-    Bool isExistsBlueBits(
+    Bool existsBlueBits(
         const GLContextInfo &   _INFO
     )
     {
-        return _INFO.existsBlueBits;
+        return _INFO.existsBlueBits_;
     }
 
     Int getBlueBits(
@@ -262,21 +262,21 @@ namespace dp {
     )
     {
         _info.blueBits = _blueBits;
-        _info.existsBlueBits = true;
+        _info.existsBlueBits_ = true;
     }
 
     void clearBlueBits(
         GLContextInfo & _info
     )
     {
-        _info.existsBlueBits = false;
+        _info.existsBlueBits_ = false;
     }
 
-    Bool isExistsAlphaBits(
+    Bool existsAlphaBits(
         const GLContextInfo &   _INFO
     )
     {
-        return _INFO.existsAlphaBits;
+        return _INFO.existsAlphaBits_;
     }
 
     Int getAlphaBits(
@@ -292,21 +292,21 @@ namespace dp {
     )
     {
         _info.alphaBits = _alphaBits;
-        _info.existsAlphaBits = true;
+        _info.existsAlphaBits_ = true;
     }
 
     void clearAlphaBits(
         GLContextInfo & _info
     )
     {
-        _info.existsAlphaBits = false;
+        _info.existsAlphaBits_ = false;
     }
 
-    Bool isExistsDepthBits(
+    Bool existsDepthBits(
         const GLContextInfo &   _INFO
     )
     {
-        return _INFO.existsDepthBits;
+        return _INFO.existsDepthBits_;
     }
 
     Int getDepthBits(
@@ -322,21 +322,21 @@ namespace dp {
     )
     {
         _info.depthBits = _depthBits;
-        _info.existsDepthBits = true;
+        _info.existsDepthBits_ = true;
     }
 
     void clearDepthBits(
         GLContextInfo & _info
     )
     {
-        _info.existsDepthBits = false;
+        _info.existsDepthBits_ = false;
     }
 
-    Bool isExistsStencilBits(
+    Bool existsStencilBits(
         const GLContextInfo &   _INFO
     )
     {
-        return _INFO.existsStencilBits;
+        return _INFO.existsStencilBits_;
     }
 
     Int getStencilBits(
@@ -352,21 +352,21 @@ namespace dp {
     )
     {
         _info.stencilBits = _stencilBits;
-        _info.existsStencilBits = true;
+        _info.existsStencilBits_ = true;
     }
 
     void clearStencilBits(
         GLContextInfo & _info
     )
     {
-        _info.existsStencilBits = false;
+        _info.existsStencilBits_ = false;
     }
 
-    Bool isExistsAccumRedBits(
+    Bool existsAccumRedBits(
         const GLContextInfo &   _INFO
     )
     {
-        return _INFO.existsAccumRedBits;
+        return _INFO.existsAccumRedBits_;
     }
 
     Int getAccumRedBits(
@@ -382,21 +382,21 @@ namespace dp {
     )
     {
         _info.accumRedBits = _accumRedBits;
-        _info.existsAccumRedBits = true;
+        _info.existsAccumRedBits_ = true;
     }
 
     void clearAccumRedBits(
         GLContextInfo & _info
     )
     {
-        _info.existsAccumRedBits = false;
+        _info.existsAccumRedBits_ = false;
     }
 
-    Bool isExistsAccumGreenBits(
+    Bool existsAccumGreenBits(
         const GLContextInfo &   _INFO
     )
     {
-        return _INFO.existsAccumGreenBits;
+        return _INFO.existsAccumGreenBits_;
     }
 
     Int getAccumGreenBits(
@@ -412,21 +412,21 @@ namespace dp {
     )
     {
         _info.accumGreenBits = _accumGreenBits;
-        _info.existsAccumGreenBits = true;
+        _info.existsAccumGreenBits_ = true;
     }
 
     void clearAccumGreenBits(
         GLContextInfo & _info
     )
     {
-        _info.existsAccumGreenBits = false;
+        _info.existsAccumGreenBits_ = false;
     }
 
-    Bool isExistsAccumBlueBits(
+    Bool existsAccumBlueBits(
         const GLContextInfo &   _INFO
     )
     {
-        return _INFO.existsAccumBlueBits;
+        return _INFO.existsAccumBlueBits_;
     }
 
     Int getAccumBlueBits(
@@ -442,21 +442,21 @@ namespace dp {
     )
     {
         _info.accumBlueBits = _accumBlueBits;
-        _info.existsAccumBlueBits = true;
+        _info.existsAccumBlueBits_ = true;
     }
 
     void clearAccumBlueBits(
         GLContextInfo & _info
     )
     {
-        _info.existsAccumBlueBits = false;
+        _info.existsAccumBlueBits_ = false;
     }
 
-    Bool isExistsAccumAlphaBits(
+    Bool existsAccumAlphaBits(
         const GLContextInfo &   _INFO
     )
     {
-        return _INFO.existsAccumAlphaBits;
+        return _INFO.existsAccumAlphaBits_;
     }
 
     Int getAccumAlphaBits(
@@ -472,13 +472,13 @@ namespace dp {
     )
     {
         _info.accumAlphaBits = _accumAlphaBits;
-        _info.existsAccumAlphaBits = true;
+        _info.existsAccumAlphaBits_ = true;
     }
 
     void clearAccumAlphaBits(
         GLContextInfo & _info
     )
     {
-        _info.existsAccumAlphaBits = false;
+        _info.existsAccumAlphaBits_ = false;
     }
 }

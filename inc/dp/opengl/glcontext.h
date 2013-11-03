@@ -59,7 +59,7 @@ namespace dp {
         , Bool
     );
 
-    DPEXPORT Bool isExistsAuxBuffers(
+    DPEXPORT Bool existsAuxBuffers(
         const GLContextInfo &
     );
 
@@ -76,7 +76,7 @@ namespace dp {
         GLContextInfo &
     );
 
-    DPEXPORT Bool isExistsRedBits(
+    DPEXPORT Bool existsRedBits(
         const GLContextInfo &
     );
 
@@ -93,7 +93,7 @@ namespace dp {
         GLContextInfo &
     );
 
-    DPEXPORT Bool isExistsGreenBits(
+    DPEXPORT Bool existsGreenBits(
         const GLContextInfo &
     );
 
@@ -110,7 +110,7 @@ namespace dp {
         GLContextInfo &
     );
 
-    DPEXPORT Bool isExistsBlueBits(
+    DPEXPORT Bool existsBlueBits(
         const GLContextInfo &
     );
 
@@ -127,7 +127,7 @@ namespace dp {
         GLContextInfo &
     );
 
-    DPEXPORT Bool isExistsAlphaBits(
+    DPEXPORT Bool existsAlphaBits(
         const GLContextInfo &
     );
 
@@ -144,7 +144,7 @@ namespace dp {
         GLContextInfo &
     );
 
-    DPEXPORT Bool isExistsDepthBits(
+    DPEXPORT Bool existsDepthBits(
         const GLContextInfo &
     );
 
@@ -161,7 +161,7 @@ namespace dp {
         GLContextInfo &
     );
 
-    DPEXPORT Bool isExistsStencilBits(
+    DPEXPORT Bool existsStencilBits(
         const GLContextInfo &
     );
 
@@ -178,7 +178,7 @@ namespace dp {
         GLContextInfo &
     );
 
-    DPEXPORT Bool isExistsAccumRedBits(
+    DPEXPORT Bool existsAccumRedBits(
         const GLContextInfo &
     );
 
@@ -195,7 +195,7 @@ namespace dp {
         GLContextInfo &
     );
 
-    DPEXPORT Bool isExistsAccumGreenBits(
+    DPEXPORT Bool existsAccumGreenBits(
         const GLContextInfo &
     );
 
@@ -212,7 +212,7 @@ namespace dp {
         GLContextInfo &
     );
 
-    DPEXPORT Bool isExistsAccumBlueBits(
+    DPEXPORT Bool existsAccumBlueBits(
         const GLContextInfo &
     );
 
@@ -229,7 +229,7 @@ namespace dp {
         GLContextInfo &
     );
 
-    DPEXPORT Bool isExistsAccumAlphaBits(
+    DPEXPORT Bool existsAccumAlphaBits(
         const GLContextInfo &
     );
 

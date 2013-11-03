@@ -7,27 +7,27 @@ namespace dp {
     struct GLContextInfo
     {
         Bool    doubleBuffer;
-        Bool    existsAuxBuffers;
+        Bool    existsAuxBuffers_;
         Int     auxBuffers;
-        Bool    existsRedBits;
+        Bool    existsRedBits_;
         Int     redBits;
-        Bool    existsGreenBits;
+        Bool    existsGreenBits_;
         Int     greenBits;
-        Bool    existsBlueBits;
+        Bool    existsBlueBits_;
         Int     blueBits;
-        Bool    existsAlphaBits;
+        Bool    existsAlphaBits_;
         Int     alphaBits;
-        Bool    existsDepthBits;
+        Bool    existsDepthBits_;
         Int     depthBits;
-        Bool    existsStencilBits;
+        Bool    existsStencilBits_;
         Int     stencilBits;
-        Bool    existsAccumRedBits;
+        Bool    existsAccumRedBits_;
         Int     accumRedBits;
-        Bool    existsAccumGreenBits;
+        Bool    existsAccumGreenBits_;
         Int     accumGreenBits;
-        Bool    existsAccumBlueBits;
+        Bool    existsAccumBlueBits_;
         Int     accumBlueBits;
-        Bool    existsAccumAlphaBits;
+        Bool    existsAccumAlphaBits_;
         Int     accumAlphaBits;
     };
 }

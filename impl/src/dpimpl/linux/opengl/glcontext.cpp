@@ -51,47 +51,47 @@ namespace {
         attrs.push_back( GLX_RGBA );
         attrs.push_back( GLX_DOUBLEBUFFER );
         attrs.push_back( _INFO.doubleBuffer ? True : False );
-        if( _INFO.existsAuxBuffers ) {
+        if( _INFO.existsAuxBuffers_ ) {
             attrs.push_back( GLX_AUX_BUFFERS );
             attrs.push_back( _INFO.auxBuffers );
         }
-        if( _INFO.existsRedBits ) {
+        if( _INFO.existsRedBits_ ) {
             attrs.push_back( GLX_RED_SIZE );
             attrs.push_back( _INFO.redBits );
         }
-        if( _INFO.existsGreenBits ) {
+        if( _INFO.existsGreenBits_ ) {
             attrs.push_back( GLX_GREEN_SIZE );
             attrs.push_back( _INFO.greenBits );
         }
-        if( _INFO.existsBlueBits ) {
+        if( _INFO.existsBlueBits_ ) {
             attrs.push_back( GLX_BLUE_SIZE );
             attrs.push_back( _INFO.blueBits );
         }
-        if( _INFO.existsAlphaBits ) {
+        if( _INFO.existsAlphaBits_ ) {
             attrs.push_back( GLX_ALPHA_SIZE );
             attrs.push_back( _INFO.alphaBits );
         }
-        if( _INFO.existsDepthBits ) {
+        if( _INFO.existsDepthBits_ ) {
             attrs.push_back( GLX_DEPTH_SIZE );
             attrs.push_back( _INFO.depthBits );
         }
-        if( _INFO.existsStencilBits ) {
+        if( _INFO.existsStencilBits_ ) {
             attrs.push_back( GLX_STENCIL_SIZE );
             attrs.push_back( _INFO.stencilBits );
         }
-        if( _INFO.existsAccumRedBits ) {
+        if( _INFO.existsAccumRedBits_ ) {
             attrs.push_back( GLX_ACCUM_RED_SIZE );
             attrs.push_back( _INFO.accumRedBits );
         }
-        if( _INFO.existsAccumGreenBits ) {
+        if( _INFO.existsAccumGreenBits_ ) {
             attrs.push_back( GLX_ACCUM_GREEN_SIZE );
             attrs.push_back( _INFO.accumGreenBits );
         }
-        if( _INFO.existsAccumBlueBits ) {
+        if( _INFO.existsAccumBlueBits_ ) {
             attrs.push_back( GLX_ACCUM_BLUE_SIZE );
             attrs.push_back( _INFO.accumBlueBits );
         }
-        if( _INFO.existsAccumAlphaBits ) {
+        if( _INFO.existsAccumAlphaBits_ ) {
             attrs.push_back( GLX_ACCUM_ALPHA_SIZE );
             attrs.push_back( _INFO.accumAlphaBits );
         }
