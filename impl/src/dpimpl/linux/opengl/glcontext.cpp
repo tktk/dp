@@ -5,15 +5,23 @@
 #include "dpimpl/common/opengl/glcontextinfo.h"
 #include "dp/opengl/types.h"
 #include "dpimpl/linux/window/window.h"
+#include "dp/common/memory.h"
 #include "dp/common/primitives.h"
 
 #include "dpimpl/linux/xlib/xlib.h"
 #include "dpimpl/linux/opengl/glx.h"
 #include <new>
-#include <memory>
 #include <vector>
 #include <functional>
 #include <utility>
+
+template<>
+void free(
+    const XVisualInfo & _INFO
+)
+{
+    XFree( const_cast< XVisualInfo * >( &_INFO ) );
+}
 
 namespace {
     dp::XDisplayUnique  xDisplayUnique;
@@ -26,21 +34,6 @@ namespace {
     > SwapInterval;
 
     SwapInterval    swapInterval;
-
-    struct FreeXVisualInfo
-    {
-        void operator()(
-            XVisualInfo *   _xVisualInfo
-        )
-        {
-            XFree( _xVisualInfo );
-        }
-    };
-
-    typedef std::unique_ptr<
-        XVisualInfo
-        , FreeXVisualInfo
-    > XVisualInfoUnique;
 
     XVisualInfo * newXVisualInfo(
         const dp::GLContextInfo &   _INFO
@@ -207,7 +200,7 @@ namespace {
 
         auto &  glContext = *glContextUnique;
 
-        XVisualInfoUnique    xVisualInfoUnique(
+        auto    xVisualInfoUnique = dp::unique(
             newXVisualInfo(
                 _INFO
             )
@@ -248,6 +241,19 @@ namespace {
             , _glxContext
         );
     }
+}
+
+template<>
+void free(
+    const dp::GLXContextEntity &    _CONTEXT
+)
+{
+    auto &  xDisplay = *xDisplayUnique;
+
+    glXDestroyContext(
+        &xDisplay
+        , const_cast< dp::GLXContextEntity * >( &_CONTEXT )
+    );
 }
 
 namespace dp {
@@ -323,18 +329,6 @@ namespace dp {
         glXSwapBuffers(
             &xDisplay
             , getXWindow( _window )
-        );
-    }
-
-    void GLContext::FreeGLXContext::operator()(
-        GLXContext  _glxContext
-    ) const
-    {
-        auto &  xDisplay = *xDisplayUnique;
-
-        glXDestroyContext(
-            &xDisplay
-            , _glxContext
         );
     }
 }

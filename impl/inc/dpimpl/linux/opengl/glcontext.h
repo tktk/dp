@@ -2,8 +2,8 @@
 #define DPIMPL_LINUX_OPENGL_GLCONTEXT_H
 
 #include "dpimpl/linux/opengl/glx.h"
+#include "dp/common/memory.h"
 
-#include <memory>
 #include <type_traits>
 
 namespace dp {
@@ -13,23 +13,11 @@ namespace dp {
     void finalizeGLContext(
     );
 
+    typedef std::remove_pointer< GLXContext >::type GLXContextEntity;
+
     struct GLContext
     {
-    private:
-        struct FreeGLXContext
-        {
-            void operator()(
-                GLXContext
-            ) const;
-        };
-
-        typedef std::unique_ptr<
-            std::remove_pointer< GLXContext >::type
-            , FreeGLXContext
-        > GLXContextUnique;
-
-    public:
-        GLXContextUnique    glxContextUnique;
+        Unique< GLXContextEntity >::type    glxContextUnique;
     };
 }
 
