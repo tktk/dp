@@ -1,6 +1,7 @@
 ﻿#ifndef DPIMPL_LINUX_AUDIO_PULSEAUDIO_H
 #define DPIMPL_LINUX_AUDIO_PULSEAUDIO_H
 
+#include "dp/common/memory.h"
 #include "dp/common/primitives.h"
 
 #include <pulse/context.h>
@@ -29,17 +30,7 @@ namespace dp {
     void paNotify(
     );
 
-    struct FreePAContext
-    {
-        void operator()(
-            pa_context *
-        ) const;
-    };
-
-    typedef std::unique_ptr<
-        pa_context
-        , FreePAContext
-    > PAContextUnique;
+    typedef Unique< pa_context >::type PAContextUnique;
 
     pa_context * newPAContext(
     );
@@ -60,33 +51,13 @@ namespace dp {
         pa_context &
     );
 
-    struct FreePAOperation
-    {
-        void operator()(
-            pa_operation *
-        ) const;
-    };
-
     void wait(
         pa_operation &
     );
 
-    typedef std::unique_ptr<
-        pa_operation
-        , FreePAOperation
-    > PAOperationUnique;
+    typedef Unique< pa_operation >::type PAOperationUnique;
 
-    struct FreePAStream
-    {
-        void operator()(
-            pa_stream *
-        ) const;
-    };
-
-    typedef std::unique_ptr<
-        pa_stream
-        , FreePAStream
-    > PAStreamUnique;
+    typedef Unique< pa_stream >::type PAStreamUnique;
 
     pa_stream * newPAStream(
         pa_context &
@@ -95,7 +66,7 @@ namespace dp {
         , UByte
     );
 
-    struct DissconnectPAStream
+    struct DisconnectPAStream
     {
         void operator()(
             pa_stream *
@@ -104,7 +75,7 @@ namespace dp {
 
     typedef std::unique_ptr<
         pa_stream
-        , DissconnectPAStream
+        , DisconnectPAStream
     > PAStreamDisconnector;
 
     pa_stream * connectPlayback(

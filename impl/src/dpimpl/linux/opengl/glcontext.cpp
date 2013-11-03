@@ -25,6 +25,22 @@ void free(
 
 namespace {
     dp::XDisplayUnique  xDisplayUnique;
+}
+
+template<>
+void free(
+    const dp::GLXContextEntity &    _CONTEXT
+)
+{
+    auto &  xDisplay = *xDisplayUnique;
+
+    glXDestroyContext(
+        &xDisplay
+        , const_cast< dp::GLXContextEntity * >( &_CONTEXT )
+    );
+}
+
+namespace {
     dp::Int             xDefaultScreen;
 
     typedef std::function<
@@ -241,19 +257,6 @@ namespace {
             , _glxContext
         );
     }
-}
-
-template<>
-void free(
-    const dp::GLXContextEntity &    _CONTEXT
-)
-{
-    auto &  xDisplay = *xDisplayUnique;
-
-    glXDestroyContext(
-        &xDisplay
-        , const_cast< dp::GLXContextEntity * >( &_CONTEXT )
-    );
 }
 
 namespace dp {

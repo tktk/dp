@@ -1,4 +1,5 @@
 ﻿#include "dpimpl/linux/audio/pulseaudio.h"
+#include "dp/common/memory.h"
 #include "dp/common/primitives.h"
 
 #include <pulse/thread-mainloop.h>
@@ -7,25 +8,61 @@
 #include <pulse/operation.h>
 #include <pulse/stream.h>
 #include <pulse/introspect.h>
-#include <memory>
+#include <utility>
+
+template<>
+void free(
+    const pa_threaded_mainloop &    _MAINLOOP
+)
+{
+    auto &  mainloop = const_cast< pa_threaded_mainloop & >( _MAINLOOP );
+
+    pa_threaded_mainloop_stop( &mainloop );
+
+    pa_threaded_mainloop_free( &mainloop );
+}
+
+template<>
+void free(
+    const pa_mainloop_api & _API
+)
+{
+    auto &  api = const_cast< pa_mainloop_api & >( _API );
+
+    api.quit(
+        &api
+        , 0
+    );
+}
+
+template<>
+void free(
+    const pa_context &  _CONTEXT
+)
+{
+    dp::PALock  lock;
+
+    pa_context_unref( const_cast< pa_context * >( &_CONTEXT ) );
+}
+
+template<>
+void free(
+    const pa_operation &    _OPERATION
+)
+{
+    pa_operation_unref( const_cast< pa_operation * >( &_OPERATION ) );
+}
+
+template<>
+void free(
+    const pa_stream &   _STREAM
+)
+{
+    pa_stream_unref( const_cast< pa_stream * >( &_STREAM ) );
+}
 
 namespace {
-    struct FreePAMainloop
-    {
-        void operator()(
-            pa_threaded_mainloop *  _paMainloop
-        ) const
-        {
-            pa_threaded_mainloop_stop( _paMainloop );
-
-            pa_threaded_mainloop_free( _paMainloop );
-        }
-    };
-
-    typedef std::unique_ptr<
-        pa_threaded_mainloop
-        , FreePAMainloop
-    > PAMainloopUnique;
+    typedef dp::Unique< pa_threaded_mainloop >::type PAMainloopUnique;
 
     pa_threaded_mainloop * newPAMainloop(
     )
@@ -42,23 +79,7 @@ namespace {
         return paMainloopUnique.release();
     }
 
-    struct FreePAMainloopApi
-    {
-        void operator()(
-            pa_mainloop_api *   _paMainloopApi
-        ) const
-        {
-            _paMainloopApi->quit(
-                _paMainloopApi
-                , 0
-            );
-        }
-    };
-
-    typedef std::unique_ptr<
-        pa_mainloop_api
-        , FreePAMainloopApi
-    > PAMainloopApiUnique;
+    typedef dp::Unique< pa_mainloop_api >::type PAMainloopApiUnique;
 
     pa_mainloop_api * newPAMainloopApi(
         pa_threaded_mainloop &  _paMainloop
@@ -210,15 +231,6 @@ namespace dp {
         );
     }
 
-    void FreePAContext::operator()(
-        pa_context *    _paContext
-    ) const
-    {
-        PALock  lock;
-
-        pa_context_unref( _paContext );
-    }
-
     pa_context * newPAContext(
     )
     {
@@ -254,13 +266,6 @@ namespace dp {
         return &_paContext;
     }
 
-    void FreePAOperation::operator()(
-        pa_operation *  _paOperation
-    ) const
-    {
-        pa_operation_unref( _paOperation );
-    }
-
     void wait(
         pa_operation &  _paOperation
     )
@@ -276,13 +281,6 @@ namespace dp {
         while( pa_operation_get_state( &_paOperation ) == PA_OPERATION_RUNNING ) {
             dp::paWait();
         }
-    }
-
-    void FreePAStream::operator()(
-        pa_stream * _paStream
-    ) const
-    {
-        pa_stream_unref( _paStream );
     }
 
     pa_stream * newPAStream(
@@ -305,7 +303,7 @@ namespace dp {
         );
     }
 
-    void DissconnectPAStream::operator()(
+    void DisconnectPAStream::operator()(
         pa_stream * _paStream
     ) const
     {
