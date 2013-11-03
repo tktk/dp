@@ -10,22 +10,34 @@
 typedef int Bool;
 
 #include "dpimpl/linux/xlib/xlib.h"
+#include "dp/common/memory.h"
+
+template<>
+inline void free(
+    const XRRScreenResources &  _RESOURCES
+)
+{
+    XRRFreeScreenResources( const_cast< XRRScreenResources * >( &_RESOURCES ) );
+}
+
+template<>
+inline void free(
+    const XRRCrtcInfo & _INFO
+)
+{
+    XRRFreeCrtcInfo( const_cast< XRRCrtcInfo * >( &_INFO ) );
+}
+
+template<>
+inline void free(
+    const XRROutputInfo &   _INFO
+)
+{
+    XRRFreeOutputInfo( const_cast< XRROutputInfo * >( &_INFO ) );
+}
 
 namespace dp {
-    struct FreeScreenResources
-    {
-        void operator()(
-            XRRScreenResources *    _screenResources
-        )
-        {
-            XRRFreeScreenResources( _screenResources );
-        }
-    };
-
-    typedef std::unique_ptr<
-        XRRScreenResources
-        , FreeScreenResources
-    > ScreenResourcesUnique;
+    typedef dp::Unique< XRRScreenResources >::type ScreenResourcesUnique;
 
     inline XRRScreenResources * newScreenResources(
         ::Display &     _xDisplay
@@ -38,20 +50,7 @@ namespace dp {
         );
     }
 
-    struct FreeCrtcInfo
-    {
-        void operator()(
-            XRRCrtcInfo *   _info
-        )
-        {
-            XRRFreeCrtcInfo( _info );
-        }
-    };
-
-    typedef std::unique_ptr<
-        XRRCrtcInfo
-        , FreeCrtcInfo
-    > CrtcInfoUnique;
+    typedef dp::Unique< XRRCrtcInfo >::type CrtcInfoUnique;
 
     inline XRRCrtcInfo * newCrtcInfo(
         ::Display &             _xDisplay
@@ -66,20 +65,7 @@ namespace dp {
         );
     }
 
-    struct FreeOutputInfo
-    {
-        void operator()(
-            XRROutputInfo * _info
-        )
-        {
-            XRRFreeOutputInfo( _info );
-        }
-    };
-
-    typedef std::unique_ptr<
-        XRROutputInfo
-        , FreeOutputInfo
-    > OutputInfoUnique;
+    typedef dp::Unique< XRROutputInfo >::type OutputInfoUnique;
 
     inline XRROutputInfo * newOutputInfo(
         ::Display &             _xDisplay
