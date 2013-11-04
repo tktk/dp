@@ -9,8 +9,6 @@
 #include "dp/util/import.h"
 #include "dp/util/struct.h"
 
-#include <memory>
-
 DPSTRUCT( dp, Display )
 
 namespace dp {
@@ -80,9 +78,9 @@ namespace dp {
 
     typedef Unique< Display >::type DisplayUnique;
 
-    typedef std::shared_ptr< Display > DisplayShared;
+    typedef Shared< Display >::type DisplayShared;
 
-    typedef std::weak_ptr< Display > DisplayWeak;
+    typedef Weak< Display >::type DisplayWeak;
 }
 
 #endif  // DP_DISPLAY_DISPLAY_H
