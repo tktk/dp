@@ -6,8 +6,6 @@
 #include "dp/util/import.h"
 #include "dp/util/struct.h"
 
-#include <memory>
-
 DPSTRUCT( dp, FileR )
 
 namespace dp {
@@ -50,9 +48,9 @@ namespace dp {
 
     typedef Unique< FileR >::type FileRUnique;
 
-    typedef std::shared_ptr< FileR > FileRShared;
+    typedef Shared< FileR >::type FileRShared;
 
-    typedef std::weak_ptr< FileR > FileRWeak;
+    typedef Weak< FileR >::type FileRWeak;
 }
 
 #endif  // DP_FILE_FILER_H
