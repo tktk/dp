@@ -8,7 +8,6 @@
 #include "dp/util/struct.h"
 
 #include <functional>
-#include <memory>
 
 DPSTRUCT( dp, DisplayManager )
 
@@ -45,15 +44,15 @@ namespace dp {
 
     typedef Unique< DisplayManager >::type DisplayManagerUnique;
 
-    typedef std::shared_ptr< DisplayManager > DisplayManagerShared;
+    typedef Shared< DisplayManager >::type DisplayManagerShared;
 
-    typedef std::weak_ptr< DisplayManager > DisplayManagerWeak;
+    typedef Weak< DisplayManager >::type DisplayManagerWeak;
 
     typedef Unique< DisplayManagerInfo >::type DisplayManagerInfoUnique;
 
-    typedef std::shared_ptr< DisplayManagerInfo > DisplayManagerInfoShared;
+    typedef Shared< DisplayManagerInfo >::type DisplayManagerInfoShared;
 
-    typedef std::weak_ptr< DisplayManagerInfo > DisplayManagerInfoWeak;
+    typedef Weak< DisplayManagerInfo >::type DisplayManagerInfoWeak;
 }
 
 #endif  // DP_DISPLAY_DISPLAYMANAGER_H
