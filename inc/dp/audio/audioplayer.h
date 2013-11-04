@@ -9,7 +9,6 @@
 #include "dp/util/struct.h"
 
 #include <functional>
-#include <memory>
 
 DPSTRUCT( dp, AudioPlayer )
 
@@ -85,15 +84,15 @@ namespace dp {
 
     typedef Unique< AudioPlayer >::type AudioPlayerUnique;
 
-    typedef std::shared_ptr< AudioPlayer > AudioPlayerShared;
+    typedef Shared< AudioPlayer >::type AudioPlayerShared;
 
-    typedef std::weak_ptr< AudioPlayer > AudioPlayerWeak;
+    typedef Weak< AudioPlayer >::type AudioPlayerWeak;
 
     typedef Unique< AudioPlayerInfo >::type AudioPlayerInfoUnique;
 
-    typedef std::shared_ptr< AudioPlayerInfo > AudioPlayerInfoShared;
+    typedef Shared< AudioPlayerInfo >::type AudioPlayerInfoShared;
 
-    typedef std::weak_ptr< AudioPlayerInfo > AudioPlayerInfoWeak;
+    typedef Weak< AudioPlayerInfo >::type AudioPlayerInfoWeak;
 }
 
 #endif  // DP_AUDIO_AUDIOPLAYER_H
