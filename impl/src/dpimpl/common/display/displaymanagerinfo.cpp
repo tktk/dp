@@ -24,7 +24,7 @@ namespace {
 }
 
 template<>
-void free(
+void dpFree(
     const dp::DisplayManagerInfo &  _INFO
 )
 {

@@ -40,7 +40,7 @@ namespace {
 }
 
 template<>
-void free(
+void dpFree(
     const dp::WindowInfo &  _INFO
 )
 {

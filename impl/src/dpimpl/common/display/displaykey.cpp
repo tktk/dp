@@ -4,7 +4,7 @@
 #include "dpimpl/common/display/displaykey.h"
 
 template<>
-void free(
+void dpFree(
     const dp::DisplayKey &  _KEY
 )
 {

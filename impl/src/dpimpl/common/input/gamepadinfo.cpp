@@ -26,7 +26,7 @@ namespace {
 }
 
 template<>
-void free(
+void dpFree(
     const dp::GamePadInfo & _INFO
 )
 {

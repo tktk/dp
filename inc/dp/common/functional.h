@@ -4,12 +4,12 @@
 #include "dp/common/primitives.h"
 
 template< typename T >
-void free(
+void dpFree(
     const T &
 );
 
 template< typename T >
-dp::Bool less(
+dp::Bool dpLess(
     const T &
     , const T &
 );
@@ -22,7 +22,7 @@ namespace dp {
             const T * _OBJ
         ) const
         {
-            ::free( *_OBJ );
+            ::dpFree( *_OBJ );
         }
     };
 
@@ -34,7 +34,7 @@ namespace dp {
             , const T & _KEY2
         ) const
         {
-            return ::less(
+            return ::dpLess(
                 *_KEY1
                 , *_KEY2
             );

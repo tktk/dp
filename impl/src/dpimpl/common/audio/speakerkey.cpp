@@ -4,7 +4,7 @@
 #include "dpimpl/common/audio/speakerkey.h"
 
 template<>
-void free(
+void dpFree(
     const dp::SpeakerKey &  _KEY
 )
 {

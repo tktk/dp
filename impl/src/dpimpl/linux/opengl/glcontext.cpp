@@ -16,7 +16,7 @@
 #include <utility>
 
 template<>
-void free(
+void dpFree(
     const XVisualInfo & _INFO
 )
 {
@@ -28,7 +28,7 @@ namespace {
 }
 
 template<>
-void free(
+void dpFree(
     const dp::GLXContextEntity &    _CONTEXT
 )
 {

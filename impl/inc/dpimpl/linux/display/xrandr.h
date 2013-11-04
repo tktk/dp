@@ -13,7 +13,7 @@ typedef int Bool;
 #include "dp/common/memory.h"
 
 template<>
-inline void free(
+inline void dpFree(
     const XRRScreenResources &  _RESOURCES
 )
 {
@@ -21,7 +21,7 @@ inline void free(
 }
 
 template<>
-inline void free(
+inline void dpFree(
     const XRRCrtcInfo & _INFO
 )
 {
@@ -29,7 +29,7 @@ inline void free(
 }
 
 template<>
-inline void free(
+inline void dpFree(
     const XRROutputInfo &   _INFO
 )
 {

@@ -28,7 +28,7 @@ namespace {
 }
 
 template<>
-void free(
+void dpFree(
     const dp::AudioPlayerInfo & _INFO
 )
 {

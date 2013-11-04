@@ -5,7 +5,7 @@
 #include "dp/common/primitives.h"
 
 template<>
-void free(
+void dpFree(
     const dp::DisplayMode & _MODE
 )
 {

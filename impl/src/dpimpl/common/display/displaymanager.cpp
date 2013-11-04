@@ -10,7 +10,7 @@
 #include <utility>
 
 template<>
-void free(
+void dpFree(
     const dp::DisplayManager &  _MANAGER
 )
 {
@@ -18,7 +18,7 @@ void free(
 }
 
 template<>
-void free(
+void dpFree(
     const dp::DisplayManagerImpl &  _IMPL
 )
 {

@@ -4,7 +4,7 @@
 #include "dpimpl/common/input/gamepadkey.h"
 
 template<>
-void free(
+void dpFree(
     const dp::GamePadKey &  _KEY
 )
 {

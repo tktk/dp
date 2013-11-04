@@ -6,7 +6,7 @@
 #include <unistd.h>
 
 template<>
-void free(
+void dpFree(
     const FILE &    _FILE
 )
 {

@@ -23,7 +23,7 @@ namespace {
 }
 
 template<>
-dp::Bool less(
+dp::Bool dpLess(
     const dp::GamePadKey &      _KEY1
     , const dp::GamePadKey &    _KEY2
 )

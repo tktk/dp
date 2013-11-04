@@ -38,7 +38,7 @@ namespace {
 }
 
 template<>
-void free(
+void dpFree(
     const dp::FileRW &  _FILE
 )
 {

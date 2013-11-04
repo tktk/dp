@@ -55,7 +55,7 @@ namespace {
 }
 
 template<>
-void free(
+void dpFree(
     const dp::Window &  _WINDOW
 )
 {
@@ -63,7 +63,7 @@ void free(
 }
 
 template<>
-void free(
+void dpFree(
     const dp::WindowImpl &  _IMPL
 )
 {

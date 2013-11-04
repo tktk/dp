@@ -4,7 +4,7 @@
 #include "dpimpl/common/display/displaymodekey.h"
 
 template<>
-void free(
+void dpFree(
     const dp::DisplayModeKey &  _KEY
 )
 {

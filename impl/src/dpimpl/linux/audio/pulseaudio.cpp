@@ -11,7 +11,7 @@
 #include <utility>
 
 template<>
-void free(
+void dpFree(
     const pa_threaded_mainloop &    _MAINLOOP
 )
 {
@@ -23,7 +23,7 @@ void free(
 }
 
 template<>
-void free(
+void dpFree(
     const pa_mainloop_api & _API
 )
 {
@@ -36,7 +36,7 @@ void free(
 }
 
 template<>
-void free(
+void dpFree(
     const pa_context &  _CONTEXT
 )
 {
@@ -46,7 +46,7 @@ void free(
 }
 
 template<>
-void free(
+void dpFree(
     const pa_operation &    _OPERATION
 )
 {
@@ -54,7 +54,7 @@ void free(
 }
 
 template<>
-void free(
+void dpFree(
     const pa_stream &   _STREAM
 )
 {

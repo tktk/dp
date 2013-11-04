@@ -4,7 +4,7 @@
 #include "dpimpl/common/opengl/glcontext.h"
 
 template<>
-void free(
+void dpFree(
     const dp::GLContext &   _GL_CONTEXT
 )
 {

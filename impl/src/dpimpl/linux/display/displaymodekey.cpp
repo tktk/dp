@@ -86,7 +86,7 @@ namespace {
 }
 
 template<>
-dp::Bool less(
+dp::Bool dpLess(
     const dp::DisplayModeKey &      _KEY1
     , const dp::DisplayModeKey &    _KEY2
 )

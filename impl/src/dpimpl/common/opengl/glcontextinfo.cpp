@@ -69,7 +69,7 @@ namespace {
 }
 
 template<>
-void free(
+void dpFree(
     const dp::GLContextInfo &   _INFO
 )
 {

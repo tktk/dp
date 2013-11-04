@@ -18,7 +18,7 @@
 #include <cstring>
 
 template<>
-void free(
+void dpFree(
     const udev &    _UDEV
 )
 {
@@ -26,7 +26,7 @@ void free(
 }
 
 template<>
-void free(
+void dpFree(
     const udev_monitor &    _MONITOR
 )
 {
@@ -34,7 +34,7 @@ void free(
 }
 
 template<>
-void free(
+void dpFree(
     const udev_device & _DEVICE
 )
 {
@@ -42,7 +42,7 @@ void free(
 }
 
 template<>
-void free(
+void dpFree(
     const udev_enumerate &  _ENUMERATE
 )
 {

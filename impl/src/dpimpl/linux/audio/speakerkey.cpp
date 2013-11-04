@@ -25,7 +25,7 @@ namespace {
 }
 
 template<>
-dp::Bool less(
+dp::Bool dpLess(
     const dp::SpeakerKey &      _KEY1
     , const dp::SpeakerKey &    _KEY2
 )

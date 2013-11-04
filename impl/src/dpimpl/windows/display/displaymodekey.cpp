@@ -5,7 +5,7 @@
 #include "dp/common/primitives.h"
 
 template<>
-dp::Bool less(
+dp::Bool dpLess(
     const dp::DisplayModeKey &
     , const dp::DisplayModeKey &
 )

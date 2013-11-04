@@ -8,7 +8,7 @@
 #include <new>
 
 template<>
-void free(
+void dpFree(
     const dp::FileR &   _FILE
 )
 {

@@ -13,7 +13,7 @@ typedef int Bool;
 #include "dp/util/import.h"
 
 template<>
-inline void free(
+inline void dpFree(
     const ::Display &   _DISPLAY
 )
 {

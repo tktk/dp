@@ -12,7 +12,7 @@
         struct _struct; \
     }   \
     template<>  \
-    DPEXPORT void free(  \
+    DPEXPORT void dpFree(   \
         const _namespace::_struct & \
     );   \
 
@@ -25,7 +25,7 @@
         , _struct   \
     )   \
     template<>  \
-    DPEXPORT dp::Bool less(  \
+    DPEXPORT dp::Bool dpLess(  \
         const _namespace::_struct & \
         , const _namespace::_struct &   \
     );  \

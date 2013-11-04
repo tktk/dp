@@ -9,7 +9,7 @@
 #include <new>
 
 template<>
-void free(
+void dpFree(
     const dp::GamePad & _GAME_PAD
 )
 {
@@ -17,7 +17,7 @@ void free(
 }
 
 template<>
-void free(
+void dpFree(
     const dp::GamePadImpl & _IMPL
 )
 {

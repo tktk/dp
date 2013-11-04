@@ -10,7 +10,7 @@
 #include <new>
 
 template<>
-void free(
+void dpFree(
     const dp::AudioPlayer & _AUDIO_PLAYER
 )
 {
@@ -18,7 +18,7 @@ void free(
 }
 
 template<>
-void free(
+void dpFree(
     const dp::AudioPlayerImpl & _IMPL
 )
 {
