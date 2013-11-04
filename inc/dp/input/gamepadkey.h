@@ -6,8 +6,6 @@
 #include "dp/util/import.h"
 #include "dp/util/struct.h"
 
-#include <memory>
-
 DPKEYSTRUCT( dp, GamePadKey )
 
 namespace dp {
@@ -22,9 +20,9 @@ namespace dp {
 
     typedef Unique< GamePadKey >::type GamePadKeyUnique;
 
-    typedef std::shared_ptr< GamePadKey > GamePadKeyShared;
+    typedef Shared< GamePadKey >::type GamePadKeyShared;
 
-    typedef std::weak_ptr< GamePadKey > GamePadKeyWeak;
+    typedef Weak< GamePadKey >::type GamePadKeyWeak;
 }
 
 #endif  // DP_INPUT_GAMEPADKEY_H
