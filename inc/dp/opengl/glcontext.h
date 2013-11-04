@@ -7,8 +7,6 @@
 #include "dp/util/import.h"
 #include "dp/util/struct.h"
 
-#include <memory>
-
 DPSTRUCT( dp, GLContext )
 
 DPSTRUCT( dp, GLContextInfo )
@@ -241,15 +239,15 @@ namespace dp {
 
     typedef Unique< GLContext >::type GLContextUnique;
 
-    typedef std::shared_ptr< GLContext > GLContextShared;
+    typedef Shared< GLContext >::type GLContextShared;
 
-    typedef std::weak_ptr< GLContext > GLContextWeak;
+    typedef Weak< GLContext >::type GLContextWeak;
 
     typedef Unique< GLContextInfo >::type GLContextInfoUnique;
 
-    typedef std::shared_ptr< GLContextInfo > GLContextInfoShared;
+    typedef Shared< GLContextInfo >::type GLContextInfoShared;
 
-    typedef std::weak_ptr< GLContextInfo > GLContextInfoWeak;
+    typedef Weak< GLContextInfo >::type GLContextInfoWeak;
 }
 
 #endif  // DP_OPENGL_GLCONTEXT_H
