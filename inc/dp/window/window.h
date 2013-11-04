@@ -9,7 +9,6 @@
 #include "dp/util/struct.h"
 
 #include <functional>
-#include <memory>
 
 DPSTRUCT( dp, Window )
 
@@ -238,15 +237,15 @@ namespace dp {
 
     typedef Unique< Window >::type WindowUnique;
 
-    typedef std::shared_ptr< Window > WindowShared;
+    typedef Shared< Window >::type WindowShared;
 
-    typedef std::weak_ptr< Window > WindowWeak;
+    typedef Weak< Window >::type WindowWeak;
 
     typedef Unique< WindowInfo >::type WindowInfoUnique;
 
-    typedef std::shared_ptr< WindowInfo > WindowInfoShared;
+    typedef Shared< WindowInfo >::type WindowInfoShared;
 
-    typedef std::weak_ptr< WindowInfo > WindowInfoWeak;
+    typedef Weak< WindowInfo >::type WindowInfoWeak;
 }
 
 #endif  // DP_WINDOW_WINDOW_H
