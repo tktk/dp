@@ -8,7 +8,6 @@
 #include "dp/util/struct.h"
 
 #include <functional>
-#include <memory>
 
 DPSTRUCT( dp, SpeakerManager )
 
@@ -45,15 +44,15 @@ namespace dp {
 
     typedef Unique< SpeakerManager >::type SpeakerManagerUnique;
 
-    typedef std::shared_ptr< SpeakerManager > SpeakerManagerShared;
+    typedef Shared< SpeakerManager >::type SpeakerManagerShared;
 
-    typedef std::weak_ptr< SpeakerManager > SpeakerManagerWeak;
+    typedef Weak< SpeakerManager >::type SpeakerManagerWeak;
 
     typedef Unique< SpeakerManagerInfo >::type SpeakerManagerInfoUnique;
 
-    typedef std::shared_ptr< SpeakerManagerInfo > SpeakerManagerInfoShared;
+    typedef Shared< SpeakerManagerInfo >::type SpeakerManagerInfoShared;
 
-    typedef std::weak_ptr< SpeakerManagerInfo > SpeakerManagerInfoWeak;
+    typedef Weak< SpeakerManagerInfo >::type SpeakerManagerInfoWeak;
 }
 
 #endif  // DP_AUDIO_SPEAKERMANAGER_H
