@@ -8,7 +8,6 @@
 #include "dp/util/struct.h"
 
 #include <functional>
-#include <memory>
 
 DPSTRUCT( dp, GamePadManager )
 
@@ -45,15 +44,15 @@ namespace dp {
 
     typedef Unique< GamePadManager >::type GamePadManagerUnique;
 
-    typedef std::shared_ptr< GamePadManager > GamePadManagerShared;
+    typedef Shared< GamePadManager >::type GamePadManagerShared;
 
-    typedef std::weak_ptr< GamePadManager > GamePadManagerWeak;
+    typedef Weak< GamePadManager >::type GamePadManagerWeak;
 
     typedef Unique< GamePadManagerInfo >::type GamePadManagerInfoUnique;
 
-    typedef std::shared_ptr< GamePadManagerInfo > GamePadManagerInfoShared;
+    typedef Shared< GamePadManagerInfo >::type GamePadManagerInfoShared;
 
-    typedef std::weak_ptr< GamePadManagerInfo > GamePadManagerInfoWeak;
+    typedef Weak< GamePadManagerInfo >::type GamePadManagerInfoWeak;
 }
 
 #endif  // DP_INPUT_GAMEPADMANAGER_H
