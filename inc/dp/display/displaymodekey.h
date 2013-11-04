@@ -7,7 +7,6 @@
 #include "dp/util/import.h"
 #include "dp/util/struct.h"
 
-#include <memory>
 #include <vector>
 
 DPKEYSTRUCT( dp, DisplayModeKey )
@@ -24,9 +23,9 @@ namespace dp {
 
     typedef Unique< DisplayModeKey >::type DisplayModeKeyUnique;
 
-    typedef std::shared_ptr< DisplayModeKey > DisplayModeKeyShared;
+    typedef Shared< DisplayModeKey >::type DisplayModeKeyShared;
 
-    typedef std::weak_ptr< DisplayModeKey > DisplayModeKeyWeak;
+    typedef Weak< DisplayModeKey >::type DisplayModeKeyWeak;
 
     typedef std::vector< DisplayModeKeyUnique > DisplayModeKeyUniques;
 
