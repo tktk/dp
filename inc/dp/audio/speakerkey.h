@@ -6,8 +6,6 @@
 #include "dp/util/import.h"
 #include "dp/util/struct.h"
 
-#include <memory>
-
 DPKEYSTRUCT( dp, SpeakerKey )
 
 namespace dp {
@@ -22,9 +20,9 @@ namespace dp {
 
     typedef Unique< SpeakerKey >::type SpeakerKeyUnique;
 
-    typedef std::shared_ptr< SpeakerKey > SpeakerKeyShared;
+    typedef Shared< SpeakerKey >::type SpeakerKeyShared;
 
-    typedef std::weak_ptr< SpeakerKey > SpeakerKeyWeak;
+    typedef Weak< SpeakerKey >::type SpeakerKeyWeak;
 }
 
 #endif  // DP_AUDIO_SPEAKERKEY_H
