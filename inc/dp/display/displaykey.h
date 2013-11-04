@@ -6,8 +6,6 @@
 #include "dp/util/import.h"
 #include "dp/util/struct.h"
 
-#include <memory>
-
 DPKEYSTRUCT( dp, DisplayKey )
 
 namespace dp {
@@ -22,9 +20,9 @@ namespace dp {
 
     typedef Unique< DisplayKey >::type DisplayKeyUnique;
 
-    typedef std::shared_ptr< DisplayKey > DisplayKeyShared;
+    typedef Shared< DisplayKey >::type DisplayKeyShared;
 
-    typedef std::weak_ptr< DisplayKey > DisplayKeyWeak;
+    typedef Weak< DisplayKey >::type DisplayKeyWeak;
 }
 
 #endif  // DP_DISPLAY_DISPLAYKEY_H
