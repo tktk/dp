@@ -7,8 +7,6 @@
 #include "dp/util/import.h"
 #include "dp/util/struct.h"
 
-#include <memory>
-
 DPSTRUCT( dp, DisplayMode )
 
 namespace dp {
@@ -30,9 +28,9 @@ namespace dp {
 
     typedef Unique< DisplayMode >::type DisplayModeUnique;
 
-    typedef std::shared_ptr< DisplayMode > DisplayModeShared;
+    typedef Shared< DisplayMode >::type DisplayModeShared;
 
-    typedef std::weak_ptr< DisplayMode > DisplayModeWeak;
+    typedef Weak< DisplayMode >::type DisplayModeWeak;
 }
 
 #endif  // DP_DISPLAY_DISPLAYMODE_H
