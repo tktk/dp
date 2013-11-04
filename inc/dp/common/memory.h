@@ -27,22 +27,34 @@ namespace dp {
     }
 
     template< typename T >
-    std::shared_ptr< typename std::remove_pointer< T >::type > shared(
+    struct Shared
+    {
+        typedef std::shared_ptr< T > type;
+    };
+
+    template< typename T >
+    typename Shared< typename std::remove_pointer< T >::type >::type shared(
         T   _ptr
     )
     {
-        return std::shared_ptr< typename std::remove_pointer< T >::type >(
+        return typename Shared< typename std::remove_pointer< T >::type >::type(
             _ptr
             , Free< typename std::remove_pointer< T >::type >()
         );
     }
 
     template< typename T >
-    std::weak_ptr< typename T::element_type > weak(
+    struct Weak
+    {
+        typedef std::weak_ptr< T > type;
+    };
+
+    template< typename T >
+    typename Weak< typename T::element_type >::type weak(
         T   _shared
     )
     {
-        return std::weak_ptr< typename T::element_type >(
+        return typename Weak< typename T::element_type >::type(
             _shared
         );
     }
